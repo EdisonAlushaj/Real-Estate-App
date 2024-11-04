@@ -13,12 +13,6 @@ namespace Domain.Configurations
     {
         public void Configure(EntityTypeBuilder<Shtepia> builder)
         {
-            builder.HasKey(c => c.ShtepiaID);
-            builder.Property(e => e.Emri).IsRequired().HasMaxLength(100);
-            builder.Property(e => e.Adresa).IsRequired().HasMaxLength(100);
-            builder.Property(e => e.Price).IsRequired();
-            builder.Property(e => e.Description).IsRequired().HasMaxLength(1000);
-            builder.Property(e => e.Status).IsRequired().HasMaxLength(100);
             builder.Property(e => e.size).IsRequired();
             builder.Property(e => e.nrFloors).IsRequired();
             builder.Property(e => e.kaGarazhd).IsRequired();

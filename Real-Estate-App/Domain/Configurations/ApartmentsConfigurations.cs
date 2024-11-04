@@ -13,12 +13,6 @@ namespace Domain.Configurations
     {
         public void Configure(EntityTypeBuilder<Apartment> builder)
         {
-            builder.HasKey(c => c.ApartmentID);
-            builder.Property(e => e.Emri).IsRequired().HasMaxLength(100);
-            builder.Property(e => e.Adresa).IsRequired().HasMaxLength(100);
-            builder.Property(e => e.Price).IsRequired();
-            builder.Property(e => e.Description).IsRequired().HasMaxLength(1000);
-            builder.Property(e => e.Status).IsRequired().HasMaxLength(100);
             builder.Property(e => e.floor).IsRequired();
             builder.Property(e => e.nrDhomave).IsRequired();
             builder.Property(e => e.kaAnshensor).IsRequired();

@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Shtepia
+    public class Shtepia : Prona
     {
-        public int ShtepiaID { get; set; }
-        public string Emri { get; set; }
-        public string Adresa { get; set; }
-        public double Price { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
         public double size { get; set; }
         public int nrFloors { get; set; }
         public bool kaGarazhd { get; set; }
