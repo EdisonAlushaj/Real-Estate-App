@@ -1,0 +1,1 @@
+export const ProjectAPI = 'https://localhost:7255/api/Projects';
