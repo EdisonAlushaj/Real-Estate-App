@@ -1,14 +1,11 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -19,20 +16,19 @@ namespace Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Important: Call the base method to apply Identity configurations
+            base.OnModelCreating(modelBuilder);
+
+            // Custom table mappings
             modelBuilder.Entity<Prona>().ToTable("Pronas");
             modelBuilder.Entity<Apartment>().ToTable("Apartments");
             modelBuilder.Entity<Toka>().ToTable("Tokat");
             modelBuilder.Entity<Shtepia>().ToTable("Shtepiat");
 
-            // Configure TPT inheritance
-            modelBuilder.Entity<Apartment>()
-                .HasBaseType<Prona>();
-
-            modelBuilder.Entity<Toka>()
-                .HasBaseType<Prona>();
-
-            modelBuilder.Entity<Shtepia>()
-                .HasBaseType<Prona>();
+            // Configure inheritance strategy if required
+            modelBuilder.Entity<Apartment>().HasBaseType<Prona>();
+            modelBuilder.Entity<Toka>().HasBaseType<Prona>();
+            modelBuilder.Entity<Shtepia>().HasBaseType<Prona>();
         }
     }
 }
