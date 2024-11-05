@@ -14,6 +14,7 @@ namespace Infrastructure.Data
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Shtepia> Shtepiat { get; set; }
         public DbSet<Toka> Tokat { get; set; }
+        public DbSet<Sell> Sells { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,7 +28,7 @@ namespace Infrastructure.Data
 
             builder.ApplyConfiguration(new ShtepiaConfigurations());
 
-            //builder.ApplyConfiguration(new SellConfigurations());
+            builder.ApplyConfiguration(new SellConfigurations());
         }
     }
 }

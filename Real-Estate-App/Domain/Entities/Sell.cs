@@ -15,8 +15,10 @@ namespace Domain.Entities
         public double Commision { get; set; }
         public string PaymentMethod { get; set; }
 
+        public string UserID { get; set; }
+        public UserRole Users { get; set; }
 
-        public int PropertyID { get; set; }
-        public Property Property { get; set; }
+        public int PronaID { get; set; }
+        public Prona Pronat { get; set; }
     }
 }
