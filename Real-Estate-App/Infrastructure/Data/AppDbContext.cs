@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Configurations;
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,21 +15,19 @@ namespace Infrastructure.Data
         public DbSet<Shtepia> Shtepiat { get; set; }
         public DbSet<Toka> Tokat { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            // Important: Call the base method to apply Identity configurations
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(builder);
 
-            // Custom table mappings
-            modelBuilder.Entity<Prona>().ToTable("Pronas");
-            modelBuilder.Entity<Apartment>().ToTable("Apartments");
-            modelBuilder.Entity<Toka>().ToTable("Tokat");
-            modelBuilder.Entity<Shtepia>().ToTable("Shtepiat");
+            builder.ApplyConfiguration(new PronaConfigurations());
 
-            // Configure inheritance strategy if required
-            modelBuilder.Entity<Apartment>().HasBaseType<Prona>();
-            modelBuilder.Entity<Toka>().HasBaseType<Prona>();
-            modelBuilder.Entity<Shtepia>().HasBaseType<Prona>();
+            builder.ApplyConfiguration(new ApartmentsConfigurations());
+
+            builder.ApplyConfiguration(new TokaConfigurations());
+
+            builder.ApplyConfiguration(new ShtepiaConfigurations());
+
+            //builder.ApplyConfiguration(new SellConfigurations());
         }
     }
 }
