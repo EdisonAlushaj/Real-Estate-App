@@ -4080,19 +4080,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Elez Kadrijaj\\.nuget\\packages\\": {}
+    "C:\\Users\\ediso\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\Elez Kadrijaj\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\obj\\",
+      "projectPath": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\ediso\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Elez Kadrijaj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ediso\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4107,8 +4107,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Application\\Application.csproj": {
-              "projectPath": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Application\\Application.csproj"
+            "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Application\\Application.csproj": {
+              "projectPath": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Application\\Application.csproj"
             }
           }
         }
@@ -4159,7 +4159,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

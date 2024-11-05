@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2480EE97-3B56-4417-8E25-B82A6F5F1E2E}|WebUI\\WebUI.csproj|c:\\users\\ediso\\onedrive\\desktop\\dizajni i sistemit t\u00EB softuerit\\real-estate-app\\real-estate-app\\webui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2480EE97-3B56-4417-8E25-B82A6F5F1E2E}|WebUI\\WebUI.csproj|solutionrelative:webui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|c:\\users\\ediso\\onedrive\\desktop\\dizajni i sistemit t\u00EB softuerit\\real-estate-app\\real-estate-app\\webui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|solutionrelative:webui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{213D6A5B-9A72-4C26-9637-19E1126BA7E3}|Infrastructure\\Infrastructure.csproj|c:\\users\\ediso\\onedrive\\desktop\\dizajni i sistemit t\u00EB softuerit\\real-estate-app\\real-estate-app\\infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{213D6A5B-9A72-4C26-9637-19E1126BA7E3}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|c:\\users\\ediso\\onedrive\\desktop\\dizajni i sistemit t\u00EB softuerit\\real-estate-app\\real-estate-app\\webui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|solutionrelative:webui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2480EE97-3B56-4417-8E25-B82A6F5F1E2E}|WebUI\\WebUI.csproj|c:\\users\\ediso\\onedrive\\desktop\\dizajni i sistemit t\u00EB softuerit\\real-estate-app\\real-estate-app\\webui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{2480EE97-3B56-4417-8E25-B82A6F5F1E2E}|WebUI\\WebUI.csproj|solutionrelative:webui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\ediso\\onedrive\\desktop\\dizajni i sistemit t\u00EB softuerit\\real-estate-app\\real-estate-app\\domain\\configurations\\sellconfigurations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\configurations\\sellconfigurations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\ediso\\onedrive\\desktop\\dizajni i sistemit t\u00EB softuerit\\real-estate-app\\real-estate-app\\domain\\entities\\sell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\sell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\ediso\\onedrive\\desktop\\dizajni i sistemit t\u00EB softuerit\\real-estate-app\\real-estate-app\\domain\\configurations\\pronaconfigurations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\configurations\\pronaconfigurations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 70,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -31,43 +39,77 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Infrastructure\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T23:31:38.961Z"
-            },
+            }
+          ]
+        },
+        {
+          "DockedWidth": 70,
+          "SelectedChildIndex": 0,
+          "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\WebUI\\Program.cs",
-              "RelativeDocumentMoniker": "WebUI\\Program.cs",
-              "ToolTip": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\WebUI\\Program.cs",
-              "RelativeToolTip": "WebUI\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T23:26:31.165Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\WebUI\\appsettings.json",
               "RelativeDocumentMoniker": "WebUI\\appsettings.json",
               "ToolTip": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\WebUI\\appsettings.json",
               "RelativeToolTip": "WebUI\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAADAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-29T23:25:51.58Z"
+              "WhenOpened": "2024-11-05T09:44:15.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\WebUI\\Program.cs",
+              "RelativeDocumentMoniker": "WebUI\\Program.cs",
+              "ToolTip": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\WebUI\\Program.cs",
+              "RelativeToolTip": "WebUI\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T09:39:22.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SellConfigurations.cs",
+              "DocumentMoniker": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Configurations\\SellConfigurations.cs",
+              "RelativeDocumentMoniker": "Domain\\Configurations\\SellConfigurations.cs",
+              "ToolTip": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Configurations\\SellConfigurations.cs",
+              "RelativeToolTip": "Domain\\Configurations\\SellConfigurations.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-04T23:55:50.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PronaConfigurations.cs",
+              "DocumentMoniker": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Configurations\\PronaConfigurations.cs",
+              "RelativeDocumentMoniker": "Domain\\Configurations\\PronaConfigurations.cs",
+              "ToolTip": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Configurations\\PronaConfigurations.cs",
+              "RelativeToolTip": "Domain\\Configurations\\PronaConfigurations.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-04T23:42:36.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Sell.cs",
+              "DocumentMoniker": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\Sell.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Sell.cs",
+              "ToolTip": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit t\u00EB Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\Sell.cs",
+              "RelativeToolTip": "Domain\\Entities\\Sell.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-04T23:34:18.721Z",
+              "EditorCaption": ""
             }
           ]
         }
