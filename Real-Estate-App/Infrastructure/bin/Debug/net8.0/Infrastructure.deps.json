@@ -991,7 +991,8 @@
       "Domain/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.10",
-          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.10"
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.10",
+          "Microsoft.Extensions.Identity.Stores": "8.0.10"
         },
         "runtime": {
           "Domain.dll": {
