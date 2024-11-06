@@ -18,11 +18,16 @@ namespace Domain.Configurations
             builder.Property(e => e.SalePrice).IsRequired();
             builder.Property(e => e.Commision).IsRequired();
             builder.Property(e => e.PaymentMethod).IsRequired().HasMaxLength(100);
-            
-            //builder.HasMany(c => c.Property)
-            //    .WithMany()
-            //    .HasForeignKey(c => c.PropertyID)
-            //    .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(m => m.Users)
+                   .WithMany()
+                   .HasForeignKey(m => m.UserID)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(m => m.Pronat)
+                   .WithMany()
+                   .HasForeignKey(m => m.PronaID)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
