@@ -1,143 +1,134 @@
-import coverImg from '../assets/cover.png';
-import './home.css';
+import coverImg from '../assets/cover4.jpg';
+import coverImg2 from '../assets/cover5.jpg';
+import bottomCover from '../assets/aboutImg.jpg';
+import { NavLink } from "react-router-dom";
+import partner1 from '../assets/Partneret/Albaelktrika.png'
+import partner2 from '../assets/Partneret/alxedrix-logo.png'
+import partner3 from '../assets/Partneret/ASGETO.png'
+import partner4 from '../assets/Partneret/bechtel-enka-logo.png'
+import partner5 from '../assets/Partneret/emona.jpg'
+import partner6 from '../assets/Partneret/Jusaj.png'
+import partner7 from '../assets/Partneret/siemens-logo-big.png'
+import icon1 from '../assets/Icon/truck_6424440.png'
+import icon2 from '../assets/Icon/insurance-policy_12477023.png'
+import icon3 from '../assets/Icon/insurance-policy_12477023.png'
+import icon4 from '../assets/Icon/banking-service_15546762.png'
+import icon5 from '../assets/Icon/package_969259.png'
+import './Home.css'
 
 function Home() {
     return (
         <>
-            <div className="d-flex flex-column align-items-center justify-content-center" style={{ zIndex: '1', position: 'relative', backgroundColor: '' }}>
-                <div className='position-relative' style={{ width: '100%', height: '45em' }}>
-                    <div className="position-absolute text-start" style={{ zIndex: 1, top: '50%', transform: 'translateY(-50%)', color: '#ffffff', marginLeft: '10em' }}>
-                        <h1 style={{ fontSize: '4em', width: '8em' }}>Welcome to Water Sewer</h1>
-                        <p className="lead">Providing quality water and sewer services</p>
-                        <p style={{ width: '35em' }}>Sint anim aliqua et elit quis adipisicing est consequat cillum fugiat id adipisicing. Ut sit aliquip dolore eu minim. Quis nulla tempor incididunt nulla.</p>
+            <div className="d-flex flex-column align-items-center justify-content-center home-container" style={{ zIndex: '1', position: 'relative', backgroundColor: '' }}>
+                <div className='cover position-relative' style={{ width: '100%', height: '40em' }}>
+                    {/* Triangle overlay */}
+                    <div className="triangle-overlay-1" style={{}}></div>
+                    
+                    <div className="cover-text-1 position-absolute text-start" style={{  }}>
+                        <h1 style={{}}>ABI-G</h1>
+                        <h4 style={{  }}>Shpedicion Ndërkombëtar</h4>
+                        <h4 style={{  }}>International Spedicion</h4>
+                        <p style={{  }}>Kompani e suksesshme në logjistikë dhe transport mallrash me një ekip të përkushtuar dhe një rrjet të gjerë, ne sigurohemi që çdo ngarkesë të arrijë në destinacionin e saj me siguri dhe në kohë.</p>
+                        <NavLink to="/app/about" style={{ color: '#19282F', textDecoration: 'none' }}>
+                            <button style={{ padding: '0.5em 1em', backgroundColor: '#ffbb27', color: '#19282F', border: 'none', borderRadius: '5px' }}>LEXONI MË SHUMË</button>
+                        </NavLink>
                     </div>
-                    {/* Opsionale: Video ne background ne vend te Images */}
-                    <img src={coverImg} alt="Cover Image" className="img-fluid w-100" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-            </div>
-
-            <div className='d-flex flex-row justify-content-center align-items-center' style={{height: '40em'}}>
-                <div className='d-flex flex-row justify-content-center align-items-center w-75 gap-5' >
-                    <div className='d-flex flex-column' style={{ width: '50%' }}>
-                        <div style={{}}>
-                            <h1>Dummy Big Text Hello There</h1>
-
-                            <img src={coverImg} alt="" className="img-fluid w-100" style={{ width: '100%', height: '100%' }} />
-                        </div>
-                    </div>
-                    <div className='d-flex flex-column' style={{ width: '50%' }}>
-                        <div style={{}}>
-                            <p><b>Id exercitation nisi velit adipisicing labore velit non reprehenderit. Qui id occaecat irure eiusmod duis.</b></p>
-
-                            <p>Dolore commodo fugiat laborum veniam eiusmod sint amet magna. Et enim duis aute duis cillum adipisicing ea occaecat aliqua eiusmod ad tempor cillum ipsum. Commodo ea dolore ullamco anim velit fugiat officia minim Lorem labore adipisicing commodo exercitation sunt.</p>
-
-                            <img src={coverImg} alt="" className="img-fluid w-100" style={{ width: '100%', height: '100%' }} />
-                        </div>
+                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                        <img src={coverImg} alt="Cover Image" className="img-fluid w-100" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(211, 236, 167, 0.3)', // #D3ECA7 with 40% opacity
+                            zIndex: 1
+                        }}></div>
                     </div>
                 </div>
             </div>
 
-            <div className='d-flex flex-column align-items-center justify-content-center' style={{ height: '20em' }}>
-                <div className='w-75'>
-                    <p style={{ fontSize: '3em' }}>Dummy Big Text</p>
+            <div className='home-text d-flex flex-column justify-content-center align-items-center' style={{ }}>
+                <h1>Fuqizojmë Biznesin Tuaj</h1>
+                <p style={{fontSize: '1.1em', marginBlock: ''}}><b>Suksesi Ndërmjet Çdo Hapi Përpara</b></p>
+                <p id='home-p' style={{}}>Zgjidhjet tona shtyjnë biznesin tuaj përpara, duke ju mbajtur konkurrues në një treg që ndryshon vazhdimisht. Ne ofrojmë shërbime inovative dhe të besueshme që përputhen me objektivat tuaja. Suksesi juaj është prioriteti ynë.</p>
+            </div>
 
-                    <p>Anim deserunt velit aliquip cupidatat anim aliquip ea. Deserunt exercitation do duis id consequat in velit ullamco duis esse aliqua. Cillum velit magna amet sit est ea.</p>
+            <div className='about-text w-100 justify-content-center align-items-center' style={{  }}>
+                <div className='at-1 d-flex flex-column justify-content-center align-items-center'>
+                    <div className='at-2 d-flex flex-column justify-content-center ' style={{ }}>
+                        <h1>Pse Të Na Zgjidhni</h1>
 
+                        <p>Abi-G International Forwarding Spedition është një kompani e përparuar në logjistikë dhe transport mallrash.</p>
+
+                        <div className='d-flex flex-column justify-content-center align-items-start w-100'>
+                            <div className='d-flex flex-row justify-content-start align-items-start' >
+                                <div className='about-items d-flex flex-column ' style={{  marginRight: '2em' }}>
+                                    <img src={icon1} alt="" style={{ width: '25px', height: '25px' }} />
+                                    <p><b>Transportin Organizim</b></p>
+                                    <p>Ne organizojmë dhe menaxhojmë me përpikëri të gjitha aspektet e udhëtimit të ngarkesës suaj.</p>
+                                </div>
+                                <div className='about-items d-flex flex-column justify-content-center ' style={{  }}>
+                                    <img src={icon3} alt="" style={{ width: '25px', height: '25px' }} />
+                                    <p><b>Logistiken e Mallit</b></p>
+                                    <p>Ne ofrojmë zgjidhje të avancuara për logjistikën e mallrave.</p>
+                                </div>
+                            </div>
+
+                            <div className='d-flex flex-row justify-content-start align-items-start' >
+                                <div className='about-items d-flex flex-column justify-content-center ' style={{ marginRight: '2em' }}>
+                                    <img src={icon2} alt="" style={{ width: '25px', height: '25px' }} />
+                                    <p><b>⁠Zhdoganimin e Mallit</b></p>
+                                    <p>Ne ofrojmë shërbime profesionale për zhdoganimin e mallrave.</p>
+                                </div>
+                                <div className='about-items d-flex flex-column justify-content-center ' style={{  }}>
+                                    <img src={icon5} alt="" style={{ width: '25px', height: '25px' }} />
+                                    <p><b>Pagesat e Mallit</b></p>
+                                    <p>Ne ofrojmë mënyra të sigurta dhe të përshtatshme për pagesat e mallrave</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="d-flex flex-row align-items-center justify-content-start w-75" style={{ marginTop: '2em', gap: '13em' }}>
-                    <div className="p-2">
-                        <h4>111+</h4>
-                        <p>To provide ...</p>
-                    </div>
-                    <div className="p-2">
-                        <h4>222+</h4>
-                        <p>To be the ...</p>
-                    </div>
-                    <div className="p-2">
-                        <h4>333+</h4>
-                        <p>We value ...</p>
-                    </div>
-                    <div className="p-2">
-                        <h4>444+</h4>
-                        <p>Reach out ...</p>
+                <div className='at-3 d-flex flex-column justify-content-center align-items-center'>
+                    <img src={coverImg2} alt="" style={{  }} />
+                </div>
+            </div>
+
+            <div className='about-text w-100 justify-content-center align-items-center' style={{  }}>
+                <div className='at-4 d-flex flex-column justify-content-center align-items-center'>
+                    <img src={coverImg} alt="" style={{  }} />
+                </div>
+
+                <div className='at-5 d-flex flex-column justify-content-center align-items-end'>
+                    <div className='d-flex flex-column justify-content-center gap-4' style={{  }}>
+                        <h1>Ne ju ndihmojmë të bëni...</h1>
+
+                        <p style={{  }}>Qoftë për të optimizuar logjistikën tuaj, për të siguruar transport efikas, apo për të naviguar nëpër sfidat e zhdoganimit, ne jemi këtu për të mbështetur biznesin tuaj në çdo hap të rrugës. Me vite përvoje dhe përkushtim ndaj ekselencës, ekipi ynë është i dedikuar për të ofruar zgjidhje që përmbushin nevojat tuaja specifike.</p>
+
+                        <p style={{  }}>Duke u kujdesur për dërgesat me precizion dhe duke siguruar dorëzime në kohë, ne përqendrohemi në ofrimin e shërbimeve të besueshme dhe të personalizuara që nxisin suksesin tuaj. Na besoni për të menaxhuar logjistikën tuaj me saktësi, në mënyrë që ju të mund të fokusoheni në atë që ka më shumë rëndësi—rritjen e biznesit tuaj.</p>
                     </div>
                 </div>
             </div>
 
-
-
-            <div className="d-flex flex-column align-items-center justify-content-center" style={{ zIndex: '1', position: 'relative', backgroundColor: '' }}>
-                <div className='position-relative' style={{ width: '100%', height: '25em' }}>
-                    <div className="position-absolute text-center" style={{ width: '100%', zIndex: 1, top: '50%', transform: 'translateY(-50%)', color: '#ffffff' }}>
-                        <div className='d-flex flex-column align-items-center justify-content-center'>
-                            <h1 style={{ fontSize: '3.5em', width: '45%' }}>Welcome to Water Sewer</h1>
-                            <p style={{ width: '50%' }}>Sint anim aliqua et elit quis adipisicing est consequat cillum fugiat id adipisicing. Ut sit aliquip dolore eu minim. Quis nulla tempor incididunt nulla.</p>
-                            <button style={{ padding: '10px 20px', fontSize: '1.2em', color: '#fff', backgroundColor: '#007bff', border: 'none', borderRadius: '5px', cursor: 'pointer', transition: 'background-color 0.3s ease' }}
-                                onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
-                                onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}>
-                                Button
-                            </button>
-                        </div>
-                    </div>
-                    {/* 
-            background-position: center;
-            background-size: cover;
-            background-attachment: fixed;
-            background-repeat: no-repeat; */}
-                    <img src={coverImg} alt="Cover Image" className="img-fluid w-100" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
+            <div className='d-flex justify-content-center align-items-center w-100' style={{ height: '25em', marginTop: '3em' }}>
+                <img src={bottomCover} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
 
-            <div className='d-flex flex-column align-items-center justify-content-center' style={{ width: '100%', height: '45em' }}>
-                <p style={{ fontSize: '3.5em' }}>Our Featured Project</p>
+            <div className='partners d-flex flex-column justify-content-center align-items-center gap-4' style={{  }}>
+                <p style={{ fontSize: '3em' }}>Partnerët Tanë</p>
 
-                <div className="featured-projects-grid">
-                    <div className="project-card">
-                        <img src={coverImg} alt="Theater of Indonesia" className="project-image" />
-                        <div className="project-info">
-                            <h4>Theater of Indonesia</h4>
-                            <p>Public Building</p>
-                        </div>
-                    </div>
-                    <div className="project-card">
-                        <img src={coverImg} alt="Balaraja Apartment" className="project-image" />
-                        <div className="project-info">
-                            <h4>Balaraja Apartment</h4>
-                            <p>Apartment</p>
-                        </div>
-                    </div>
-                    <div className="project-card">
-                        <img src={coverImg} alt="The Puri Mall" className="project-image" />
-                        <div className="project-info">
-                            <h4>The Puri Mall</h4>
-                            <p>Commercial Building</p>
-                        </div>
-                    </div>
-                    <div className="project-card">
-                        <img src={coverImg} alt="Cisoka Motel" className="project-image" />
-                        <div className="project-info">
-                            <h4>Cisoka Motel</h4>
-                            <p>Public Building</p>
-                        </div>
-                    </div>
-                    <div className="project-card">
-                        <img src={coverImg} alt="Gatotkaca Office" className="project-image" />
-                        <div className="project-info">
-                            <h4>Gatotkaca Office</h4>
-                            <p>Office Tower</p>
-                        </div>
-                    </div>
-                    <div className="project-card">
-                        <img src={coverImg} alt="Depok Arts Building" className="project-image" />
-                        <div className="project-info">
-                            <h4>Depok Arts Building</h4>
-                            <p>Public Building</p>
-                        </div>
-                    </div>
+                <div className='d-flex justify-content-center align-items-center gap-4' style={{ flexWrap: 'wrap', width: '90%' }}>
+                    <img src={partner1} alt="" style={{ width: '9em', objectFit: 'contain' }} />
+                    <img src={partner2} alt="" style={{ width: '9em', objectFit: 'contain' }} />
+                    <img src={partner3} alt="" style={{ width: '9em', objectFit: 'contain' }} />
+                    <img src={partner4} alt="" style={{ width: '9em', objectFit: 'contain' }} />
+                    <img src={partner5} alt="" style={{ width: '9em', objectFit: 'contain' }} />
+                    <img src={partner6} alt="" style={{ width: '9em', objectFit: 'contain' }} />
+                    <img src={partner7} alt="" style={{ width: '9em', objectFit: 'contain' }} />
                 </div>
             </div>
-
         </>
     );
 }

@@ -1,9 +1,10 @@
 import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Outlet } from 'react-router-dom';
 import './App.css'
-import Header from './Header/header.jsx';
-import Footer from './Footer/footer.jsx'
+import Header from './Header/Header.jsx';
+import Footer from './Footer/Footer.jsx'
 import AppRoutes from './AppRoutes.jsx';
+import './assets/Fonts/Fonts.css';
 
 export const MainLayout = () => {
   return (
