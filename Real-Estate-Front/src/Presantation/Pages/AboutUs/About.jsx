@@ -1,10 +1,10 @@
-import coverImg from '../assets/cover4.jpg';
+import coverImg from '../../../../public/image/cover4.jpg';
 import { NavLink } from "react-router-dom";
-import image from '../assets/aboutImg.jpg'
-import certificate1 from '../assets/Certificate/202312301434-1.png'
-import certificate2 from '../assets/Certificate/202312301435-1-1.png'
-import certificate3 from '../assets/Certificate/202312301435-1.png'
-import certificate4 from '../assets/Certificate/202312301435-2-1.png'
+import image from '../../../../public/image/aboutImg.jpg'
+import certificate1 from '../../../../public/Certificate/202312301434-1.png'
+import certificate2 from '../../../../public/Certificate/202312301435-1-1.png'
+import certificate3 from '../../../../public/Certificate/202312301435-1.png'
+import certificate4 from '../../../../public/Certificate/202312301435-2-1.png'
 import './About.css';
 
 function About() {
