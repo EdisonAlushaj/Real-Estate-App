@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import AppRoutes from "../AppRoutes";
+import AppRoutes from "../../Pages/AppRoutes";
 import { NavLink } from "react-router-dom";
-import Logo from '../assets/Logo-transparent.png'
+import Logo from '../../../../public/image/Logo-transparent.png'
 import './Header.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
@@ -23,6 +23,7 @@ function Header() {
                             <li className="nav-item"><NavLink to="/app/about" style={{ color: '#19282F', textDecoration: 'none' }}><b>Rreth Nesh</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/service" style={{ color: '#19282F', textDecoration: 'none' }}><b>Shërbimet</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/contact" style={{ color: '#19282F', textDecoration: 'none' }}><b>Kontakti</b></NavLink></li>
+                            <li className="nav-item"><NavLink to="/app/contact" style={{ color: '#19282F', textDecoration: 'none' }}><b>Login</b></NavLink></li>
                         </ul>
                     </div>
                 </div>

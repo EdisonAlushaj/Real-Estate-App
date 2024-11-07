@@ -1,4 +1,4 @@
-import coverImg from '../assets/cover4.jpg';
+import coverImg from '../../../../public/image/cover4.jpg';
 import './Contact.css'
 
 function Contact() {

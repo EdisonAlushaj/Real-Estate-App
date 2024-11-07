@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { MainLayout } from "./App.jsx";
-import Home from './Home/Home.jsx';
+import Home from './Home/home.jsx';
 import About from './AboutUs/About.jsx'
-import Contact from './Contact/Contact.jsx'
+import Contact from './Contact/contact.jsx'
 import Service from './Service/Service.jsx'
 
 const AppRoutes = () => (

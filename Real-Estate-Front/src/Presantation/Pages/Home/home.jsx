@@ -1,19 +1,19 @@
-import coverImg from '../assets/cover4.jpg';
-import coverImg2 from '../assets/cover5.jpg';
-import bottomCover from '../assets/aboutImg.jpg';
+import coverImg from '../../../../public/image/cover4.jpg';
+import coverImg2 from '../../../../public/image/cover5.jpg';
+import bottomCover from '../../../../public/image/aboutImg.jpg';
 import { NavLink } from "react-router-dom";
-import partner1 from '../assets/Partneret/Albaelktrika.png'
-import partner2 from '../assets/Partneret/alxedrix-logo.png'
-import partner3 from '../assets/Partneret/ASGETO.png'
-import partner4 from '../assets/Partneret/bechtel-enka-logo.png'
-import partner5 from '../assets/Partneret/emona.jpg'
-import partner6 from '../assets/Partneret/Jusaj.png'
-import partner7 from '../assets/Partneret/siemens-logo-big.png'
-import icon1 from '../assets/Icon/truck_6424440.png'
-import icon2 from '../assets/Icon/insurance-policy_12477023.png'
-import icon3 from '../assets/Icon/insurance-policy_12477023.png'
-import icon4 from '../assets/Icon/banking-service_15546762.png'
-import icon5 from '../assets/Icon/package_969259.png'
+import partner1 from '../../../../public/Partneret/Albaelktrika.png'
+import partner2 from '../../../../public/Partneret/alxedrix-logo.png'
+import partner3 from '../../../../public/Partneret/ASGETO.png'
+import partner4 from '../../../../public/Partneret/bechtel-enka-logo.png'
+import partner5 from '../../../../public/Partneret/emona.jpg'
+import partner6 from '../../../../public/Partneret/Jusaj.png'
+import partner7 from '../../../../public/Partneret/siemens-logo-big.png'
+import icon1 from '../../../../public/Icon/truck_6424440.png'
+import icon2 from '../../../../public/Icon/insurance-policy_12477023.png'
+import icon3 from '../../../../public/Icon/insurance-policy_12477023.png'
+import icon4 from '../../../../public/Icon/banking-service_15546762.png'
+import icon5 from '../../../../public/Icon/package_969259.png'
 import './Home.css'
 
 function Home() {

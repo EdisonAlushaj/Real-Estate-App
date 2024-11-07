@@ -1,9 +1,10 @@
-import coverImg from '../assets/cover4.jpg';
-import icon1 from '../assets/Icon/truck_6424440.png'
-import icon2 from '../assets/Icon/insurance-policy_12477023.png'
-import icon3 from '../assets/Icon/insurance-policy_12477023.png'
-import icon4 from '../assets/Icon/banking-service_15546762.png'
-import icon5 from '../assets/Icon/package_969259.png'
+import React from 'react';
+import coverImg from '../../../../public/Image/cover4.jpg';
+import icon1 from '../../../../public/icon/truck_6424440.png';
+import icon2 from '../../../../public/icon/insurance-policy_12477023.png';
+import icon3 from '../../../../public/icon/insurance-policy_12477023.png';
+import icon4 from '../../../../public/icon/banking-service_15546762.png';
+import icon5 from '../../../../public/icon/package_969259.png';
 import './Service.css'
 
 function Service() {
