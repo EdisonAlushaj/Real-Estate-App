@@ -3,7 +3,7 @@ import { BrowserRouter, Outlet } from 'react-router-dom';
 import './App.css'
 import Header from '../Components/Header/Header.jsx';
 import Footer from '../Components/Footer/footer.jsx';
-import AppRoutes from './AppRoutes.jsx';
+import AppRoutes from '../Components/AppRoutes.jsx'
 import '../Components/Fonts.css';
 
 export const MainLayout = () => {
