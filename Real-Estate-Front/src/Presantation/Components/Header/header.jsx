@@ -23,6 +23,7 @@ function Header() {
                             <li className="nav-item"><NavLink to="/app/about" style={{ color: '#19282F', textDecoration: 'none' }}><b>Rreth Nesh</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/service" style={{ color: '#19282F', textDecoration: 'none' }}><b>Shërbimet</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/contact" style={{ color: '#19282F', textDecoration: 'none' }}><b>Kontakti</b></NavLink></li>
+                            <li className="nav-item"><NavLink to="/dashboard" style={{ color: '#19282F', textDecoration: 'none' }}><b>Dashboard</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/login" style={{ color: '#19282F', textDecoration: 'none' }}><b>Login</b></NavLink></li>
                         </ul>
                     </div>
