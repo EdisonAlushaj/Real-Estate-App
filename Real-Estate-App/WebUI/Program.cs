@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
 using System.Text;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +46,18 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Define and configure CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", // Consistent naming
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5173") // React app URL
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 // Configure Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -61,6 +71,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Apply the CORS policy
+app.UseCors("AllowSpecificOrigin"); // Use the exact policy name here
 
 app.UseHttpsRedirection();
 

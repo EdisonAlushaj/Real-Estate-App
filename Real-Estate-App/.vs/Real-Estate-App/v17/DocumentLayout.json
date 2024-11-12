@@ -3,40 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\webui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|solutionrelative:webui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\domain\\configurations\\sellconfigurations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\configurations\\sellconfigurations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{213D6A5B-9A72-4C26-9637-19E1126BA7E3}|Infrastructure\\Infrastructure.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{213D6A5B-9A72-4C26-9637-19E1126BA7E3}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{213D6A5B-9A72-4C26-9637-19E1126BA7E3}|Infrastructure\\Infrastructure.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\infrastructure\\migrations\\20241106133704_rentconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{213D6A5B-9A72-4C26-9637-19E1126BA7E3}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\migrations\\20241106133704_rentconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\domain\\configurations\\rentconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\configurations\\rentconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\domain\\entities\\userrole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\userrole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\webui\\webui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|solutionrelative:webui\\webui.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\domain\\entities\\register.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\register.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\domain\\entities\\rent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\rent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\webui\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63B3C72A-ACAB-44DF-A37E-444488AD867E}|WebUI\\WebUI.csproj|solutionrelative:webui\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\domain\\entities\\sell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\sell.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|c:\\users\\elez kadrijaj\\desktop\\real-estate-app\\real-estate-app\\domain\\entities\\assignroledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6D509318-2A49-4B2C-A695-FAC4DE793741}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\assignroledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -60,7 +40,7 @@
         },
         {
           "DockedWidth": 124,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -68,112 +48,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\WebUI\\appsettings.json",
-              "RelativeDocumentMoniker": "WebUI\\appsettings.json",
-              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\WebUI\\appsettings.json",
-              "RelativeToolTip": "WebUI\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-07T11:46:16.79Z",
+              "DocumentIndex": 1,
+              "Title": "Register.cs",
+              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\Register.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\Register.cs",
+              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\Register.cs",
+              "RelativeToolTip": "Domain\\Entities\\Register.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T17:36:57.624Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "20241106133704_RentConfiguration.cs",
-              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Migrations\\20241106133704_RentConfiguration.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Migrations\\20241106133704_RentConfiguration.cs",
-              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Migrations\\20241106133704_RentConfiguration.cs",
-              "RelativeToolTip": "Infrastructure\\Migrations\\20241106133704_RentConfiguration.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAvAAAAAAAAAA==",
+              "Title": "AssignRoleDto.cs",
+              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\AssignRoleDto.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\AssignRoleDto.cs",
+              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\AssignRoleDto.cs",
+              "RelativeToolTip": "Domain\\Entities\\AssignRoleDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T13:37:04.578Z"
+              "WhenOpened": "2024-11-12T17:23:06.079Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "UserRole.cs",
               "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\UserRole.cs",
               "RelativeDocumentMoniker": "Domain\\Entities\\UserRole.cs",
               "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\UserRole.cs",
               "RelativeToolTip": "Domain\\Entities\\UserRole.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T13:35:19.851Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "WebUI.csproj",
-              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\WebUI\\WebUI.csproj",
-              "RelativeDocumentMoniker": "WebUI\\WebUI.csproj",
-              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\WebUI\\WebUI.csproj",
-              "RelativeToolTip": "WebUI\\WebUI.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-11-06T13:34:22.935Z"
+              "WhenOpened": "2024-11-12T17:19:27.201Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Infrastructure\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Infrastructure\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\WebUI\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "WebUI\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\WebUI\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "WebUI\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAAAE8AAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T13:24:43.335Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Sell.cs",
-              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\Sell.cs",
-              "RelativeDocumentMoniker": "Domain\\Entities\\Sell.cs",
-              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\Sell.cs",
-              "RelativeToolTip": "Domain\\Entities\\Sell.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T13:23:48.991Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Rent.cs",
-              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\Rent.cs",
-              "RelativeDocumentMoniker": "Domain\\Entities\\Rent.cs",
-              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Entities\\Rent.cs",
-              "RelativeToolTip": "Domain\\Entities\\Rent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T13:22:49.056Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RentConfiguration.cs",
-              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Configurations\\RentConfiguration.cs",
-              "RelativeDocumentMoniker": "Domain\\Configurations\\RentConfiguration.cs",
-              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Configurations\\RentConfiguration.cs",
-              "RelativeToolTip": "Domain\\Configurations\\RentConfiguration.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAxwBwAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T13:20:01.855Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SellConfigurations.cs",
-              "DocumentMoniker": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Configurations\\SellConfigurations.cs",
-              "RelativeDocumentMoniker": "Domain\\Configurations\\SellConfigurations.cs",
-              "ToolTip": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Configurations\\SellConfigurations.cs",
-              "RelativeToolTip": "Domain\\Configurations\\SellConfigurations.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T13:18:30.642Z"
+              "WhenOpened": "2024-11-12T14:52:47.018Z",
+              "EditorCaption": ""
             }
           ]
         }
