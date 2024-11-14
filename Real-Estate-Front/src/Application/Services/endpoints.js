@@ -3,6 +3,8 @@ export const api = `${baseURL}/`;
 
 export const LoginEndPoint = `https://localhost:7140/api/Account/login`;
 export const RegisterEndPoint = `https://localhost:7140/api/Account/register`;
+export const ApartmentEndPoint = 'https://localhost:7140/api/Apartments';
+
 
 
 
