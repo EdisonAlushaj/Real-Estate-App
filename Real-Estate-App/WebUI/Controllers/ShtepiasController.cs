@@ -124,7 +124,7 @@ namespace WebUI.Controllers
                 _context.Shtepiat.Remove(shtepia);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok(await _context.Shtepiat.ToListAsync());
             }
             catch (Exception ex)
             {
