@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Accounts;
+using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.DTO;
 
 namespace WebUI.Controllers
 {
@@ -15,13 +17,15 @@ namespace WebUI.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly LoginFeatures _loginFeature;
         private readonly IConfiguration _configuration;
 
-        public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AccountController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, LoginFeatures loginFeature)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _loginFeature = loginFeature;
         }
 
         [HttpPost("register")]
@@ -42,39 +46,15 @@ namespace WebUI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login loginDTO)
         {
-            var user = await _userManager.FindByNameAsync(loginDTO.Username);
+            var result = await _loginFeature.AuthenticateUser(loginDTO);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDTO.Password))
+            if (!result.IsSuccess)
             {
-                return Unauthorized("Invalid credentials");
+                return Unauthorized(new { Message = result.ErrorMessage });
             }
 
-            // Get user roles
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            var authClaims = new List<Claim>
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id)
-                };
-
-            // Add roles to claims
-            authClaims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                expires: DateTime.Now.AddMinutes(double.Parse(_configuration["Jwt:ExpiryMinutes"]!)),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)),
-                    SecurityAlgorithms.HmacSha256)
-            );
-
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-            return Ok(new { token = tokenString });
+            return Ok(new { Token = result.Token });
         }
-
 
         [HttpPost("add-role")]
         public async Task<IActionResult> AddRole([FromBody] string role)

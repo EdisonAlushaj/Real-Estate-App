@@ -1,9 +1,12 @@
+using Application.Features.Accounts;
+using Application;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<TokenHelper>();
+builder.Services.AddScoped<LoginFeatures>();
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
