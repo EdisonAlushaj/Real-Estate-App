@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./dashboard.css";
 import ApartmentsCrud from "../../../Application/UseCase/ApartmentCrud";
 import TokaCrud from "../../../Application/UseCase/TokaCrud";
+import ShtepiaCrud from "../../../Application/UseCase/ShtepiaCrud";
 
 const Dashboard = () => {
     const [activeTable, setActiveTable] = useState(null);
@@ -35,8 +36,18 @@ const Dashboard = () => {
                                 className="sidebar-link"
                                 onClick={() => toggleTable("apartment")}
                             >
-                                <i className="lni lni-calendar"></i>
+                                <i className="bi bi-house"></i>
                                 <span className="fw-normal">Apartments</span>
+                            </NavLink>
+                        </li>
+                        <li className="sidebar-item">
+                            <NavLink
+                                to="#"
+                                className="sidebar-link"
+                                onClick={() => toggleTable("house")}
+                            >
+                                <i className="bi bi-house"></i>
+                                <span className="fw-normal">Shtepiat</span>
                             </NavLink>
                         </li>
                         <li className="sidebar-item">
@@ -45,7 +56,7 @@ const Dashboard = () => {
                                 className="sidebar-link"
                                 onClick={() => toggleTable("toka")}
                             >
-                                <i className="lni lni-calendar"></i>
+                                <i className="bi bi-tablet-landscape"></i>
                                 <span className="fw-normal">Tokat</span>
                             </NavLink>
                         </li>
@@ -64,6 +75,7 @@ const Dashboard = () => {
                         <div className="container-fluid">
                             {activeTable === "apartment" && <ApartmentsCrud />}
                             {activeTable === "toka" && <TokaCrud />}
+                            {activeTable === "house" && <ShtepiaCrud />}
                         </div>
                     </main>
                 </div>
