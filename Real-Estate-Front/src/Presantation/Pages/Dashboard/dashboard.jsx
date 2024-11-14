@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./dashboard.css";
+import ApartmentsCrud from "../../../Application/UseCase/ApartmentCrud";
+import TokaCrud from "../../../Application/UseCase/TokaCrud";
+import ShtepiaCrud from "../../../Application/UseCase/ShtepiaCrud";
 
 const Dashboard = () => {
     const [activeTable, setActiveTable] = useState(null);
@@ -28,14 +31,34 @@ const Dashboard = () => {
                     </div>
                     <ul className="sidebar-nav">
                         <li className="sidebar-item">
-                            {/* <NavLink
+                            <NavLink
                                 to="#"
                                 className="sidebar-link"
-                                onClick={() => toggleTable("project")}
+                                onClick={() => toggleTable("apartment")}
                             >
-                                <i className="lni lni-calendar"></i>
-                                <span className="fw-normal">Projects</span>
-                            </NavLink> */}
+                                <i className="bi bi-house"></i>
+                                <span className="fw-normal">Apartments</span>
+                            </NavLink>
+                        </li>
+                        <li className="sidebar-item">
+                            <NavLink
+                                to="#"
+                                className="sidebar-link"
+                                onClick={() => toggleTable("house")}
+                            >
+                                <i className="bi bi-house"></i>
+                                <span className="fw-normal">Shtepiat</span>
+                            </NavLink>
+                        </li>
+                        <li className="sidebar-item">
+                            <NavLink
+                                to="#"
+                                className="sidebar-link"
+                                onClick={() => toggleTable("toka")}
+                            >
+                                <i className="bi bi-tablet-landscape"></i>
+                                <span className="fw-normal">Tokat</span>
+                            </NavLink>
                         </li>
                     </ul>
                     <div className="sidebar-footer">
@@ -50,7 +73,9 @@ const Dashboard = () => {
                     <main className="content px-3 py-4">
                         <h1 className="fw-bold mb-3 text-center">Dashboard</h1>
                         <div className="container-fluid">
-                            {/* {activeTable === "project" && <ProjectCrud />} */}
+                            {activeTable === "apartment" && <ApartmentsCrud />}
+                            {activeTable === "toka" && <TokaCrud />}
+                            {activeTable === "house" && <ShtepiaCrud />}
                         </div>
                     </main>
                 </div>

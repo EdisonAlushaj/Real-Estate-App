@@ -124,7 +124,7 @@ namespace WebUI.Controllers
                 _context.Tokat.Remove(toka);
                 await _context.SaveChangesAsync();
 
-                return NoContent();
+                return Ok(await _context.Tokat.ToListAsync());
             }
             catch (Exception ex)
             {

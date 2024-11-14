@@ -7,9 +7,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ApartmentEndPoint } from '../Services/endpoints';
+import { TokaEndPoint } from '../Services/endpoints';
 
-const ApartmentsCrud = () => {
+const TokaCrud = () => {
     const [show, setShow] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
 
@@ -24,9 +24,10 @@ const ApartmentsCrud = () => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
-    const [floor, setFloor] = useState('');
-    const [nrDhomave, setNrDhomave] = useState('');
-    const [kaAnshensor, setKaAnshensor] = useState(false);
+    const [landType, setLandType] = useState('');
+    const [zona, setZona] = useState('');
+    const [topografiaTokes, setTopografiaTokes] = useState('');
+    const [waterSource, setWaterSource] = useState(false);
 
     const [editId, setEditId] = useState('');
     const [editEmri, setEditEmri] = useState('');
@@ -34,9 +35,10 @@ const ApartmentsCrud = () => {
     const [editPrice, setEditPrice] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editStatus, setEditStatus] = useState('');
-    const [editFloor, setEditFloor] = useState('');
-    const [editNrDhomave, setEditNrDhomave] = useState('');
-    const [editKaAnshensor, setEditKaAnshensor] = useState(false);
+    const [editLandType, setEditLandType] = useState('');
+    const [editZona, setEditZona] = useState('');
+    const [editTopografiaTokes, setEditTopografiaTokes] = useState('');
+    const [editWaterSource, setEditWaterSource] = useState(false);
 
     const [data, setData] = useState([]);
 
@@ -45,7 +47,7 @@ const ApartmentsCrud = () => {
     }, []);
 
     const getData = () => {
-        axios.get(ApartmentEndPoint)
+        axios.get(TokaEndPoint)
             .then((response) => {
                 console.log(response);
                 setData(response.data);
@@ -55,35 +57,37 @@ const ApartmentsCrud = () => {
             });
     };
 
-    async function editFitnesEquipment(apartment) {
+    async function editToka(toka) {
         handleShow();
 
-        setEditEmri(apartment.emri);
-        setEditAdresa(apartment.adresa);
-        setEditPrice(apartment.price);
-        setEditDescription(apartment.description);
-        setEditStatus(apartment.status);
-        setEditFloor(apartment.floor);
-        setEditNrDhomave(apartment.nrDhomave);
-        setEditKaAnshensor(apartment.kaAnshensor);
-        setEditId(apartment.pronaID);
+        setEditEmri(toka.emri);
+        setEditAdresa(toka.adresa);
+        setEditPrice(toka.price);
+        setEditDescription(toka.description);
+        setEditStatus(toka.status);
+        setEditLandType(toka.landType);
+        setEditZona(toka.zona);
+        setEditTopografiaTokes(toka.topografiaTokes);
+        setEditWaterSource(toka.waterSource);
+        setEditId(toka.pronaID);
     }
 
     async function update(event) {
         event.preventDefault();
         try {
-            await axios.put(`${ApartmentEndPoint}/${editId}`, {
+            await axios.put(`${TokaEndPoint}/${editId}`, {
                 pronaID: editId,
                 emri: editEmri,
                 adresa: editAdresa,
                 price: editPrice,
                 description: editDescription,
                 status: editStatus,
-                floor: editFloor,
-                nrDhomave: editNrDhomave,
-                kaAnshensor: editKaAnshensor,
+                landType: editLandType,
+                zona: editZona,
+                topografiaTokes: editTopografiaTokes,
+                waterSource: editWaterSource
             });
-            toast.success('Apartment updated successfully');
+            toast.success('Toka updated successfully');
             handleClose();
             getData();
             clear();
@@ -91,11 +95,10 @@ const ApartmentsCrud = () => {
             console.error("Error updating apartment:", error);
         }
     }
-    
 
     const handelDelete = (id) => {
         if (window.confirm("Are you sure to delete this Apartment?")) {
-            axios.delete(`${ApartmentEndPoint}/${id}`)
+            axios.delete(`${TokaEndPoint}/${id}`)
                 .then((result) => {
                     if (result.status === 200) {
                         toast.success('Apartment has been deleted');
@@ -107,8 +110,8 @@ const ApartmentsCrud = () => {
                 });
         }
     };
-    
-    
+
+
 
     const handleSave = () => {
         const data = {
@@ -117,12 +120,13 @@ const ApartmentsCrud = () => {
             price,
             description,
             status,
-            floor,
-            nrDhomave,
-            kaAnshensor,
+            landType,
+            zona,
+            topografiaTokes,
+            waterSource
         };
 
-        axios.post(ApartmentEndPoint, data)
+        axios.post(TokaEndPoint, data)
             .then(() => {
                 getData();
                 clear();
@@ -140,18 +144,20 @@ const ApartmentsCrud = () => {
         setPrice('');
         setDescription('');
         setStatus('');
-        setFloor('');
-        setNrDhomave('');
-        setKaAnshensor(false);
+        setLandType('');
+        setZona('');
+        setTopografiaTokes('');
+        setWaterSource(false);
 
         setEditEmri('');
         setEditAdresa('');
         setEditPrice('');
         setEditDescription('');
         setEditStatus('');
-        setEditFloor('');
-        setEditNrDhomave('');
-        setEditKaAnshensor(false);
+        setEditLandType('');
+        setEditZona('');
+        setEditTopografiaTokes('');
+        setEditWaterSource(false);
 
         setEditId('');
     };
@@ -160,36 +166,41 @@ const ApartmentsCrud = () => {
         <Fragment>
             <ToastContainer position="top-right" autoClose={5000} />
             <div className="d-flex justify-content-between align-items-center">
-                <h2>Apartments</h2>
-                <Button variant="primary" onClick={handleShowAdd}>Add Apartment</Button>
+                <h2>Lands</h2>
+                <Button variant="primary" onClick={handleShowAdd}>Add Land</Button>
             </div>
 
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Address</th>
+                        <th>Prona ID</th>
+                        <th>Emri</th>
+                        <th>Adresa</th>
                         <th>Price</th>
-                        <th>Floor</th>
-                        <th>Rooms</th>
-                        <th>Elevator</th>
-                        <th>Actions</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Land Type</th>
+                        <th>Zona</th>
+                        <th>Topografia Tokes</th>
+                        <th>Water Source</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((apartment) => (
-                        <tr key={apartment.pronaID}>
-                            <td>{apartment.pronaID}</td>
-                            <td>{apartment.emri}</td>
-                            <td>{apartment.adresa}</td>
-                            <td>{apartment.price}</td>
-                            <td>{apartment.floor}</td>
-                            <td>{apartment.nrDhomave}</td>
-                            <td>{apartment.kaAnshensor ? "Yes" : "No"}</td>
+                    {data.map((toka) => (
+                        <tr key={toka.pronaID}>
+                            <td>{toka.pronaID}</td>
+                            <td>{toka.emri}</td>
+                            <td>{toka.adresa}</td>
+                            <td>{toka.price}</td>
+                            <td>{toka.description}</td>
+                            <td>{toka.status}</td>
+                            <td>{toka.landType}</td>
+                            <td>{toka.zona}</td>
+                            <td>{toka.topografiaTokes}</td>
+                            <td>{toka.waterSource ? "Yes" : "No"}</td>
                             <td>
-                                <Button variant="warning" onClick={() => editFitnesEquipment(apartment)}>Edit</Button>{' '}
-                                <Button variant="danger" onClick={() => handelDelete(apartment.pronaID)}>Delete</Button>
+                            <Button variant="warning" onClick={() => editToka(toka)}>Edit</Button>{' '}
+                            <Button variant="danger" onClick={() => handelDelete(toka.pronaID)}>Delete</Button>
                             </td>
                         </tr>
                     ))}
@@ -199,7 +210,7 @@ const ApartmentsCrud = () => {
             {/* Add Apartment Modal */}
             <Modal show={showAdd} onHide={handleCloseAdd}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Apartment</Modal.Title>
+                    <Modal.Title>Add Land</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
@@ -215,16 +226,24 @@ const ApartmentsCrud = () => {
                             <input type="number" placeholder="Price" className="form-control" value={price} onChange={(e) => setPrice(e.target.value)} />
                         </Col>
                         <Col>
-                            <input type="number" placeholder="Floor" className="form-control" value={floor} onChange={(e) => setFloor(e.target.value)} />
+                            <input type="text" placeholder="Description" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <input type="number" placeholder="Rooms" className="form-control" value={nrDhomave} onChange={(e) => setNrDhomave(e.target.value)} />
+                            <input type="text" placeholder="Land Type" className="form-control" value={landType} onChange={(e) => setLandType(e.target.value)} />
                         </Col>
                         <Col>
-                            <input type="checkbox" checked={kaAnshensor} onChange={(e) => setKaAnshensor(e.target.checked)} />
-                            Has Elevator
+                            <input type="text" placeholder="Zona" className="form-control" value={zona} onChange={(e) => setZona(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="text" placeholder="Topografia Tokes" className="form-control" value={topografiaTokes} onChange={(e) => setTopografiaTokes(e.target.value)} />
+                        </Col>
+                        <Col>
+                            <input type="checkbox" checked={waterSource} onChange={(e) => setWaterSource(e.target.checked)} />
+                            Has WaterSource
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -237,10 +256,10 @@ const ApartmentsCrud = () => {
             {/* Edit Apartment Modal */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Apartment</Modal.Title>
+                    <Modal.Title>Edit Land</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row>
+                <Row>
                         <Col>
                             <input type="text" placeholder="Name" className="form-control" value={editEmri} onChange={(e) => setEditEmri(e.target.value)} />
                         </Col>
@@ -253,16 +272,24 @@ const ApartmentsCrud = () => {
                             <input type="number" placeholder="Price" className="form-control" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} />
                         </Col>
                         <Col>
-                            <input type="number" placeholder="Floor" className="form-control" value={editFloor} onChange={(e) => setEditFloor(e.target.value)} />
+                            <input type="text" placeholder="Description" className="form-control" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <input type="number" placeholder="Rooms" className="form-control" value={editNrDhomave} onChange={(e) => setEditNrDhomave(e.target.value)} />
+                            <input type="text" placeholder="Land Type" className="form-control" value={editLandType} onChange={(e) => setEditLandType(e.target.value)} />
                         </Col>
                         <Col>
-                            <input type="checkbox" checked={editKaAnshensor} onChange={(e) => setEditKaAnshensor(e.target.checked)} />
-                            Has Elevator
+                            <input type="text" placeholder="Zona" className="form-control" value={editZona} onChange={(e) => setEditZona(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="text" placeholder="Topografia Tokes" className="form-control" value={editTopografiaTokes} onChange={(e) => setEditTopografiaTokes(e.target.value)} />
+                        </Col>
+                        <Col>
+                            <input type="checkbox" checked={editWaterSource} onChange={(e) => setEditWaterSource(e.target.checked)} />
+                            Has WaterSource
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -275,4 +302,4 @@ const ApartmentsCrud = () => {
     );
 };
 
-export default ApartmentsCrud;
+export default TokaCrud;

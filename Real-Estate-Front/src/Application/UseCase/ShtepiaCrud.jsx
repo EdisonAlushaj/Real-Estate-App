@@ -7,9 +7,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ApartmentEndPoint } from '../Services/endpoints';
+import { ShtepiaEndPoint } from '../Services/endpoints';
 
-const ApartmentsCrud = () => {
+const ShtepiaCrud = () => {
     const [show, setShow] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
 
@@ -18,15 +18,16 @@ const ApartmentsCrud = () => {
     const handleCloseAdd = () => setShowAdd(false);
     const handleShowAdd = () => setShowAdd(true);
 
-    const [pronaID, setId] = useState('');
+    const [pronaID, setPronaID] = useState('');
     const [emri, setEmri] = useState('');
     const [adresa, setAdresa] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
-    const [floor, setFloor] = useState('');
-    const [nrDhomave, setNrDhomave] = useState('');
-    const [kaAnshensor, setKaAnshensor] = useState(false);
+    const [size, setSize] = useState('');
+    const [nrFloors, setNrFloors] = useState('');
+    const [kaGarazhd, setKaGarazhd] = useState(false);
+    const [kaPool, setKaPool] = useState(false);
 
     const [editId, setEditId] = useState('');
     const [editEmri, setEditEmri] = useState('');
@@ -34,9 +35,10 @@ const ApartmentsCrud = () => {
     const [editPrice, setEditPrice] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editStatus, setEditStatus] = useState('');
-    const [editFloor, setEditFloor] = useState('');
-    const [editNrDhomave, setEditNrDhomave] = useState('');
-    const [editKaAnshensor, setEditKaAnshensor] = useState(false);
+    const [editSize, setEditSize] = useState('');
+    const [editNrFloors, setEditNrFloors] = useState('');
+    const [editKaGarazhd, setEditKaGarazhd] = useState(false);
+    const [editKaPool, setEditKaPool] = useState(false);
 
     const [data, setData] = useState([]);
 
@@ -45,7 +47,7 @@ const ApartmentsCrud = () => {
     }, []);
 
     const getData = () => {
-        axios.get(ApartmentEndPoint)
+        axios.get(ShtepiaEndPoint)
             .then((response) => {
                 console.log(response);
                 setData(response.data);
@@ -55,50 +57,50 @@ const ApartmentsCrud = () => {
             });
     };
 
-    async function editFitnesEquipment(apartment) {
+    async function editHouse(toka) {
         handleShow();
-
-        setEditEmri(apartment.emri);
-        setEditAdresa(apartment.adresa);
-        setEditPrice(apartment.price);
-        setEditDescription(apartment.description);
-        setEditStatus(apartment.status);
-        setEditFloor(apartment.floor);
-        setEditNrDhomave(apartment.nrDhomave);
-        setEditKaAnshensor(apartment.kaAnshensor);
-        setEditId(apartment.pronaID);
+        setEditEmri(toka.emri);
+        setEditAdresa(toka.adresa);
+        setEditPrice(toka.price);
+        setEditDescription(toka.description);
+        setEditStatus(toka.status);
+        setEditSize(toka.size);
+        setEditNrFloors(toka.nrFloors);
+        setEditKaGarazhd(toka.kaGarazhd);
+        setEditKaPool(toka.kaPool);
+        setEditId(toka.pronaID);
     }
 
     async function update(event) {
         event.preventDefault();
         try {
-            await axios.put(`${ApartmentEndPoint}/${editId}`, {
+            await axios.put(`${ShtepiaEndPoint}/${editId}`, {
                 pronaID: editId,
                 emri: editEmri,
                 adresa: editAdresa,
                 price: editPrice,
                 description: editDescription,
                 status: editStatus,
-                floor: editFloor,
-                nrDhomave: editNrDhomave,
-                kaAnshensor: editKaAnshensor,
+                size: editSize,
+                nrFloors: editNrFloors,
+                kaGarazhd: editKaGarazhd,
+                kaPool: editKaPool
             });
-            toast.success('Apartment updated successfully');
+            toast.success('House updated successfully');
             handleClose();
             getData();
             clear();
         } catch (error) {
-            console.error("Error updating apartment:", error);
+            console.error("Error updating land:", error);
         }
     }
-    
 
     const handelDelete = (id) => {
-        if (window.confirm("Are you sure to delete this Apartment?")) {
-            axios.delete(`${ApartmentEndPoint}/${id}`)
+        if (window.confirm("Are you sure to delete this house?")) {
+            axios.delete(`${ShtepiaEndPoint}/${id}`)
                 .then((result) => {
                     if (result.status === 200) {
-                        toast.success('Apartment has been deleted');
+                        toast.success('House has been deleted');
                         getData();
                     }
                 })
@@ -107,8 +109,6 @@ const ApartmentsCrud = () => {
                 });
         }
     };
-    
-    
 
     const handleSave = () => {
         const data = {
@@ -117,16 +117,17 @@ const ApartmentsCrud = () => {
             price,
             description,
             status,
-            floor,
-            nrDhomave,
-            kaAnshensor,
+            size,
+            nrFloors,
+            kaGarazhd,
+            kaPool
         };
 
-        axios.post(ApartmentEndPoint, data)
+        axios.post(ShtepiaEndPoint, data)
             .then(() => {
                 getData();
                 clear();
-                toast.success('Apartment has been added.');
+                toast.success('House has been added.');
                 handleCloseAdd();
             })
             .catch((error) => {
@@ -137,21 +138,23 @@ const ApartmentsCrud = () => {
     const clear = () => {
         setEmri('');
         setAdresa('');
-        setPrice('');
+        setPrice();
         setDescription('');
         setStatus('');
-        setFloor('');
-        setNrDhomave('');
-        setKaAnshensor(false);
+        setSize();
+        setNrFloors();
+        setKaGarazhd(false);
+        setKaPool(false);
 
         setEditEmri('');
         setEditAdresa('');
-        setEditPrice('');
+        setEditPrice();
         setEditDescription('');
         setEditStatus('');
-        setEditFloor('');
-        setEditNrDhomave('');
-        setEditKaAnshensor(false);
+        setEditSize();
+        setEditNrFloors();
+        setEditKaGarazhd(false);
+        setEditKaPool(false);
 
         setEditId('');
     };
@@ -160,46 +163,51 @@ const ApartmentsCrud = () => {
         <Fragment>
             <ToastContainer position="top-right" autoClose={5000} />
             <div className="d-flex justify-content-between align-items-center">
-                <h2>Apartments</h2>
-                <Button variant="primary" onClick={handleShowAdd}>Add Apartment</Button>
+                <h2>House</h2>
+                <Button variant="primary" onClick={handleShowAdd}>Add House</Button>
             </div>
 
             <Table striped bordered hover className="mt-3">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Address</th>
+                        <th>Prona ID</th>
+                        <th>Emri</th>
+                        <th>Adresa</th>
                         <th>Price</th>
-                        <th>Floor</th>
-                        <th>Rooms</th>
-                        <th>Elevator</th>
-                        <th>Actions</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Size</th>
+                        <th>Nr Floors</th>
+                        <th>Garage</th>
+                        <th>Pool</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((apartment) => (
-                        <tr key={apartment.pronaID}>
-                            <td>{apartment.pronaID}</td>
-                            <td>{apartment.emri}</td>
-                            <td>{apartment.adresa}</td>
-                            <td>{apartment.price}</td>
-                            <td>{apartment.floor}</td>
-                            <td>{apartment.nrDhomave}</td>
-                            <td>{apartment.kaAnshensor ? "Yes" : "No"}</td>
+                    {data.map((house) => (
+                        <tr key={house.pronaID}>
+                            <td>{house.pronaID}</td>
+                            <td>{house.emri}</td>
+                            <td>{house.adresa}</td>
+                            <td>{house.price}</td>
+                            <td>{house.description}</td>
+                            <td>{house.status}</td>
+                            <td>{house.size}</td>
+                            <td>{house.nrFloors}</td>
+                            <td>{house.kaGarazhd ? "Yes" : "No"}</td>
+                            <td>{house.kaPool ? "Yes" : "No"}</td>
                             <td>
-                                <Button variant="warning" onClick={() => editFitnesEquipment(apartment)}>Edit</Button>{' '}
-                                <Button variant="danger" onClick={() => handelDelete(apartment.pronaID)}>Delete</Button>
+                                <Button variant="warning" onClick={() => editHouse(house)}>Edit</Button>{' '}
+                                <Button variant="danger" onClick={() => handelDelete(house.pronaID)}>Delete</Button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
 
-            {/* Add Apartment Modal */}
+            {/* Add Land Modal */}
             <Modal show={showAdd} onHide={handleCloseAdd}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Apartment</Modal.Title>
+                    <Modal.Title>Add House</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
@@ -215,16 +223,28 @@ const ApartmentsCrud = () => {
                             <input type="number" placeholder="Price" className="form-control" value={price} onChange={(e) => setPrice(e.target.value)} />
                         </Col>
                         <Col>
-                            <input type="number" placeholder="Floor" className="form-control" value={floor} onChange={(e) => setFloor(e.target.value)} />
+                            <input type="text" placeholder="Description" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <input type="number" placeholder="Rooms" className="form-control" value={nrDhomave} onChange={(e) => setNrDhomave(e.target.value)} />
+                            <input type="number" placeholder="Size" className="form-control" value={size} onChange={(e) => setSize(e.target.value)} />
                         </Col>
                         <Col>
-                            <input type="checkbox" checked={kaAnshensor} onChange={(e) => setKaAnshensor(e.target.checked)} />
-                            Has Elevator
+                            <input type="number" placeholder="Nr Floors" className="form-control" value={nrFloors} onChange={(e) => setNrFloors(e.target.value)} />
+                        </Col>
+                        <Col>
+                            <input type="text" placeholder="Status" className="form-control" value={status} onChange={(e) => setStatus(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="checkbox" checked={kaGarazhd} onChange={(e) => setKaGarazhd(e.target.checked)} />
+                            Has Garage
+                        </Col>
+                        <Col>
+                            <input type="checkbox" checked={kaPool} onChange={(e) => setKaPool(e.target.checked)} />
+                            Has Pool
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -234,10 +254,10 @@ const ApartmentsCrud = () => {
                 </Modal.Footer>
             </Modal>
 
-            {/* Edit Apartment Modal */}
+            {/* Edit Land Modal */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Apartment</Modal.Title>
+                    <Modal.Title>Edit House</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
@@ -253,16 +273,28 @@ const ApartmentsCrud = () => {
                             <input type="number" placeholder="Price" className="form-control" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} />
                         </Col>
                         <Col>
-                            <input type="number" placeholder="Floor" className="form-control" value={editFloor} onChange={(e) => setEditFloor(e.target.value)} />
+                            <input type="text" placeholder="Description" className="form-control" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <input type="number" placeholder="Rooms" className="form-control" value={editNrDhomave} onChange={(e) => setEditNrDhomave(e.target.value)} />
+                            <input type="number" placeholder="Size" className="form-control" value={editSize} onChange={(e) => setEditSize(e.target.value)} />
                         </Col>
                         <Col>
-                            <input type="checkbox" checked={editKaAnshensor} onChange={(e) => setEditKaAnshensor(e.target.checked)} />
-                            Has Elevator
+                            <input type="number" placeholder="Nr Floors" className="form-control" value={editNrFloors} onChange={(e) => setEditNrFloors(e.target.value)} />
+                        </Col>
+                        <Col>
+                            <input type="text" placeholder="Status" className="form-control" value={editStatus} onChange={(e) => setEditStatus(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="checkbox" checked={editKaGarazhd} onChange={(e) => setEditKaGarazhd(e.target.checked)} />
+                            Has Garage
+                        </Col>
+                        <Col>
+                            <input type="checkbox" checked={editKaPool} onChange={(e) => setEditKaPool(e.target.checked)} />
+                            Has Pool
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -275,4 +307,4 @@ const ApartmentsCrud = () => {
     );
 };
 
-export default ApartmentsCrud;
+export default ShtepiaCrud;
