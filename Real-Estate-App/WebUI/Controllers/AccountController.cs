@@ -28,6 +28,27 @@ namespace WebUI.Controllers
             _loginFeature = loginFeature;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = _userManager.Users.ToList();
+
+            if (!users.Any())
+            {
+                return NotFound("No users found.");
+            }
+
+            // Transform the users into a DTO if needed
+            var userDtos = users.Select(user => new
+            {
+                user.Id,
+                user.UserName,
+                user.Email
+            }).ToList();
+
+            return Ok(userDtos);
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
