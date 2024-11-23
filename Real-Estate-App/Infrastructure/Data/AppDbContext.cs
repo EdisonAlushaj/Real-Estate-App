@@ -16,6 +16,7 @@ namespace Infrastructure.Data
         public DbSet<Toka> Tokat { get; set; }
         public DbSet<Sell> Sells { get; set; }
         public DbSet<Rent> Rents { get; set; }
+        public DbSet<Documents> Documents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,6 +33,8 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new SellConfigurations());
 
             builder.ApplyConfiguration(new RentConfiguration());
+
+            builder.ApplyConfiguration(new DocumentsConfigurations());
         }
     }
 }
