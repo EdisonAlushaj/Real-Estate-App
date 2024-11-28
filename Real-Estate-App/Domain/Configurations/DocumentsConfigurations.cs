@@ -22,7 +22,6 @@ namespace Domain.Configurations
                   .WithMany()
                   .HasForeignKey(m => m.PronaID)
                   .OnDelete(DeleteBehavior.Restrict);
-
         }
     }
 }

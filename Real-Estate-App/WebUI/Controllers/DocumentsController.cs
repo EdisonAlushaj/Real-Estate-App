@@ -22,6 +22,10 @@ namespace WebUI.Controllers
         {
             try
             {
+                var documents = await _context.Set<Documents>()
+                    .Include(s => s.Pronat)
+                    .ToListAsync();
+                    
                 return await _context.Documents.ToListAsync();
             }
             catch (Exception ex)
@@ -49,6 +53,40 @@ namespace WebUI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database.");
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Documents>> PostDocuments(Documents document)
+        {
+            try
+            {
+                // Check if the PronaID exists
+                var existingProna = await _context.Pronas.FindAsync(document.PronaID);
+                if (existingProna == null)
+                {
+                    return BadRequest($"Prona with ID {document.PronaID} does not exist.");
+                }
+
+                var doc = new Documents
+                {
+                    DocumentId = document.DocumentId,
+                    Type = document.Type,
+                    CreatedData = document.CreatedData,
+                    ExpiorationDate = document.ExpiorationDate,
+                    PronaID = document.PronaID
+                };
+
+                // If valid, add the document
+                _context.Documents.Add(doc);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetDocuments", new { id = document.DocumentId }, document);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record.");
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutApartment(int id, Documents document)
         {
@@ -82,23 +120,6 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-
-        [HttpPost]
-        public async Task<ActionResult<Documents>> PostDocuments(Documents document)
-        {
-            try
-            {
-                _context.Documents.Add(document);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetDocuments", new { id = document.DocumentId }, document);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record.");
-            }
-        }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDocuments(int id)
         {
@@ -121,6 +142,7 @@ namespace WebUI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data.");
             }
         }
+
         private bool DocumentsExists(int id)
         {
             try
