@@ -14,7 +14,7 @@ namespace Domain.Entities
         public string PaymentMethod { get; set; }
 
         public string UserID { get; set; }
-        public UserRole Users { get; set; }
+        public ApplicationUser Users { get; set; }
 
         public int PronaID { get; set; }
         public Prona Pronat { get; set; }

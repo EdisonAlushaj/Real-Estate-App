@@ -47,19 +47,42 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSale(string userId, int pronaId, [FromBody] Sell sale)
         {
+            // Check if the model state is valid
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            // Find the user by userId
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+
+            // Find the property (Prona) by pronaId
+            var prona = await _context.Pronas.FindAsync(pronaId);
+            if (prona == null)
+            {
+                return NotFound(new { message = "Property not found" });
+            }
+
+            // Assign user and property to the sale
             sale.UserID = userId;
             sale.PronaID = pronaId;
+            sale.Users = user;  // Linking user
+            sale.Pronat = prona; // Linking property
 
-            _context.Set<Sell>().Add(sale);
+            // Add the sale to the context
+            _context.Sells.Add(sale);
+
+            // Save changes to the database
             await _context.SaveChangesAsync();
 
+            // Return a Created response with the newly created sale
             return CreatedAtAction(nameof(GetSaleById), new { id = sale.SellID }, sale);
         }
+
 
 
         [HttpPut("{id}")]

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class UserRole : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
-        public string Role { get; set; } = string.Empty;
+        public string UserName { get; set; }  // Add this property
     }
 }

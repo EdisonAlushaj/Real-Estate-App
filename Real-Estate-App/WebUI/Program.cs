@@ -18,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     b => b.MigrationsAssembly("Infrastructure")));
 
 // Configure Identity services
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 6;
     options.Password.RequireNonAlphanumeric = false;
@@ -29,8 +29,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<TokenHelper>();
-builder.Services.AddScoped<LoginFeatures>();
+
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
@@ -63,6 +62,9 @@ builder.Services.AddCors(options =>
                    .AllowAnyMethod();
         });
 });
+
+builder.Services.AddScoped<TokenHelper>();
+builder.Services.AddScoped<LoginFeatures>();
 
 // Configure Swagger
 builder.Services.AddEndpointsApiExplorer();
