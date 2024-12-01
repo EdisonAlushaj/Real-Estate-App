@@ -15,15 +15,15 @@ namespace Application
     public class TokenHelper
     {
         private readonly IConfiguration _configuration;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TokenHelper(IConfiguration configuration, UserManager<IdentityUser> userManager)
+        public TokenHelper(IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _configuration = configuration;
             _userManager = userManager;
         }
 
-        public async Task<string> GenerateTokenAsync(IdentityUser user)
+        public async Task<string> GenerateTokenAsync(ApplicationUser user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:ExpiryMinutes"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

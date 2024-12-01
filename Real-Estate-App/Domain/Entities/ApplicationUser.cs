@@ -9,6 +9,6 @@ namespace Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-        public string UserName { get; set; }  // Add this property
+
     }
 }

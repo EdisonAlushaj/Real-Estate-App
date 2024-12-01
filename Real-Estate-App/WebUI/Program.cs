@@ -30,7 +30,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 
-
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
