@@ -47,42 +47,56 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSale(string userId, int pronaId, [FromBody] Sell sale)
         {
-            // Check if the model state is valid
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                // Check if the model state is valid
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            // Find the user by userId
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
+                // Find the user by userId
+                var user = await _context.Users.FindAsync(userId);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                // Find the property (Prona) by pronaId
+                var prona = await _context.Pronas.FindAsync(pronaId);
+                if (prona == null)
+                {
+                    return NotFound(new { message = "Property not found" });
+                }
+
+                // Assign user and property to the sale
+                sale.UserID = userId;
+                sale.PronaID = pronaId;
+                sale.Users = user;  // Linking user
+                sale.Pronat = prona; // Linking property
+
+                // Add the sale to the context
+                _context.Sells.Add(sale);
+
+                // Save changes to the database
+                await _context.SaveChangesAsync();
+
+                // Return a Created response with the newly created sale
+                return CreatedAtAction(nameof(GetSaleById), new { id = sale.SellID }, sale);
+            }
+            catch (DbUpdateException dbEx)
             {
-                return NotFound(new { message = "User not found" });
+                // Handle database update exceptions
+                Console.WriteLine($"Database error: {dbEx.Message}");
+                return StatusCode(500, new { message = "An error occurred while saving to the database." });
             }
-
-            // Find the property (Prona) by pronaId
-            var prona = await _context.Pronas.FindAsync(pronaId);
-            if (prona == null)
+            catch (Exception ex)
             {
-                return NotFound(new { message = "Property not found" });
+                // Handle other general exceptions
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return StatusCode(500, new { message = "An unexpected error occurred. Please try again later." });
             }
-
-            // Assign user and property to the sale
-            sale.UserID = userId;
-            sale.PronaID = pronaId;
-            sale.Users = user;  // Linking user
-            sale.Pronat = prona; // Linking property
-
-            // Add the sale to the context
-            _context.Sells.Add(sale);
-
-            // Save changes to the database
-            await _context.SaveChangesAsync();
-
-            // Return a Created response with the newly created sale
-            return CreatedAtAction(nameof(GetSaleById), new { id = sale.SellID }, sale);
         }
-
 
 
         [HttpPut("{id}")]
