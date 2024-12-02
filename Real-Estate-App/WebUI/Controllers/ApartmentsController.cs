@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebUI.Controllers
 {
@@ -22,7 +23,7 @@ namespace WebUI.Controllers
         }
 
         // GET: api/Apartments
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Apartment>>> GetApartments()
         {
             try
@@ -36,7 +37,7 @@ namespace WebUI.Controllers
         }
 
         // GET: api/Apartments/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Apartment>> GetApartment(int id)
         {
             try
@@ -57,7 +58,7 @@ namespace WebUI.Controllers
         }
 
         // PUT: api/Apartments/5
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> PutApartment(int id, Apartment apartment)
         {
             if (id != apartment.PronaID)
@@ -91,7 +92,7 @@ namespace WebUI.Controllers
         }
 
         // POST: api/Apartments
-        [HttpPost]
+        [HttpPost, Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Apartment>> PostApartment(Apartment apartment)
         {
             try
@@ -108,7 +109,7 @@ namespace WebUI.Controllers
         }
 
         // DELETE: api/Apartments/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteApartment(int id)
         {
             try

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebUI.Controllers
 {
@@ -22,7 +23,7 @@ namespace WebUI.Controllers
         }
 
         // GET: api/Tokas
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Toka>>> GetTokat()
         {
             try
@@ -36,7 +37,7 @@ namespace WebUI.Controllers
         }
 
         // GET: api/Tokas/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Toka>> GetToka(int id)
         {
             try
@@ -58,7 +59,7 @@ namespace WebUI.Controllers
 
         // PUT: api/Tokas/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> PutToka(int id, Toka toka)
         {
             if (id != toka.PronaID)
@@ -93,7 +94,7 @@ namespace WebUI.Controllers
 
         // POST: api/Tokas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost, Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Toka>> PostToka(Toka toka)
         {
             try
@@ -110,7 +111,7 @@ namespace WebUI.Controllers
         }
 
         // DELETE: api/Tokas/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteToka(int id)
         {
             try

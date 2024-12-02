@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> GetAllSales()
         {
             var sales = await _context.Set<Rent>()
@@ -28,13 +29,13 @@ namespace WebUI.Controllers
             return Ok(sales);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetRentById(int id)
+        [HttpGet("{id}"), Authorize(Policy = "UserPolicy")]
+        public async Task<IActionResult> GetRentByUserId(string id)
         {
             var rent = await _context.Set<Rent>()
                 .Include(s => s.Users)
                 .Include(s => s.Pronat)
-                .FirstOrDefaultAsync(s => s.RentId == id);
+                .FirstOrDefaultAsync(s => s.UserID == id);
 
             if (rent == null)
             {
@@ -44,7 +45,7 @@ namespace WebUI.Controllers
             return Ok(rent);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> CreateSale(string userId, int pronaId, [FromBody] Rent rent)
         {
             // Check if the model state is valid
@@ -80,10 +81,10 @@ namespace WebUI.Controllers
             await _context.SaveChangesAsync();
 
             // Return a Created response with the newly created sale
-            return CreatedAtAction(nameof(GetRentById), new { id = rent.RentId }, rent);
+            return CreatedAtAction(nameof(GetRentByUserId), new { id = rent.RentId }, rent);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> UpdateSale(int id, [FromBody] Rent rent)
         {
             if (id != rent.RentId)
@@ -115,7 +116,7 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> DeleteRent(int id)
         {
             var rent = await _context.Set<Rent>().FindAsync(id);
