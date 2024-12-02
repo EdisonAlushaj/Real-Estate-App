@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebUI.Controllers
 {
@@ -22,7 +23,7 @@ namespace WebUI.Controllers
         }
 
         // GET: api/Shtepias
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Shtepia>>> GetShtepiat()
         {
             try
@@ -36,7 +37,7 @@ namespace WebUI.Controllers
         }
 
         // GET: api/Shtepias/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Shtepia>> GetShtepia(int id)
         {
             try
@@ -58,7 +59,7 @@ namespace WebUI.Controllers
 
         // PUT: api/Shtepias/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> PutShtepia(int id, Shtepia shtepia)
         {
             if (id != shtepia.PronaID)
@@ -93,7 +94,7 @@ namespace WebUI.Controllers
 
         // POST: api/Shtepias
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost, Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Shtepia>> PostShtepia(Shtepia shtepia)
         {
             try
@@ -110,7 +111,7 @@ namespace WebUI.Controllers
         }
 
         // DELETE: api/Shtepias/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteShtepia(int id)
         {
             try

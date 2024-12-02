@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> GetAllSales()
         {
             var sales = await _context.Set<Sell>()
@@ -28,13 +29,13 @@ namespace WebUI.Controllers
             return Ok(sales);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSaleById(int id)
+        [HttpGet("{id}"), Authorize(Policy = "UserPolicy")]
+        public async Task<IActionResult> GetSaleByUserId(string id)
         {
             var sale = await _context.Set<Sell>()
                 .Include(s => s.Users)
                 .Include(s => s.Pronat)
-                .FirstOrDefaultAsync(s => s.SellID == id);
+                .FirstOrDefaultAsync(s => s.UserID == id);
 
             if (sale == null)
             {
@@ -44,7 +45,7 @@ namespace WebUI.Controllers
             return Ok(sale);
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> CreateSale(string userId, int pronaId, [FromBody] Sell sale)
         {
             try
@@ -82,7 +83,7 @@ namespace WebUI.Controllers
                 await _context.SaveChangesAsync();
 
                 // Return a Created response with the newly created sale
-                return CreatedAtAction(nameof(GetSaleById), new { id = sale.SellID }, sale);
+                return CreatedAtAction(nameof(GetSaleByUserId), new { id = sale.SellID }, sale);
             }
             catch (DbUpdateException dbEx)
             {
@@ -99,7 +100,7 @@ namespace WebUI.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> UpdateSale(int id, [FromBody] Sell sale)
         {
             if (id != sale.SellID)
@@ -131,7 +132,7 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> DeleteSale(int id)
         {
             var sale = await _context.Set<Sell>().FindAsync(id);

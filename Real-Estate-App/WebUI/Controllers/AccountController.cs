@@ -38,12 +38,12 @@ namespace WebUI.Controllers
                 return NotFound("No users found.");
             }
 
-            // Transform the users into a DTO if needed
             var userDtos = users.Select(user => new
             {
                 user.Id,
                 user.UserName,
-                user.Email
+                user.Email,
+                user.Role
             }).ToList();
 
             return Ok(userDtos);
