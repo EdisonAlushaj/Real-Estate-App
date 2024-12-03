@@ -11,6 +11,8 @@ export const TokaEndPoint = 'https://localhost:7140/api/Tokas';
 
 export const ShtepiaEndPoint= 'https://localhost:7140/api/Shtepias';
 
+export const PronaEndPoint = 'https://localhost:7140/api/Prona';
+
 
 
 
