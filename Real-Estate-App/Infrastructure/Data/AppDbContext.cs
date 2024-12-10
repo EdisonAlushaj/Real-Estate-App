@@ -17,6 +17,7 @@ namespace Infrastructure.Data
         public DbSet<Sell> Sells { get; set; }
         public DbSet<Rent> Rents { get; set; }
         public DbSet<Documents> Documents { get; set; }
+        public DbSet<Kontrata> Kontrata { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,6 +36,8 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new RentConfiguration());
 
             builder.ApplyConfiguration(new DocumentsConfigurations());
+
+            builder.ApplyConfiguration(new kontrataConfigurations());
         }
     }
 }
