@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
+using Application.DTO;
 
 namespace WebUI.Controllers
 {
@@ -92,21 +93,51 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        // POST: api/Shtepias
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost, Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Shtepia>> PostShtepia(Shtepia shtepia)
+        public async Task<ActionResult<Shtepia>> PostShtepiat([FromForm] ShtepiaCreateDto shtepiaDto)
         {
             try
             {
+                string photoPath = null;
+
+                if (shtepiaDto.Photo != null)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images", "Shtepia-Img");
+                    Directory.CreateDirectory(uploadsFolder);
+
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(shtepiaDto.Photo.FileName)}";
+                    var filePath = Path.Combine(uploadsFolder, fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await shtepiaDto.Photo.CopyToAsync(fileStream);
+                    }
+
+                    photoPath = Path.Combine("Images", "Shtepia-Img", fileName);
+                }
+
+                var shtepia = new Shtepia
+                {
+                    Emri = shtepiaDto.Emri,
+                    Adresa = shtepiaDto.Adresa,
+                    Price = shtepiaDto.Price,
+                    Description = shtepiaDto.Description,
+                    Status = shtepiaDto.Status,
+                    Photo = photoPath,
+                    size = shtepiaDto.size,
+                    nrFloors = shtepiaDto.nrFloors,
+                    kaGarazhd = shtepiaDto.kaGarazhd,
+                    kaPool = shtepiaDto.kaPool
+                };
+
                 _context.Shtepiat.Add(shtepia);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetShtepia", new { id = shtepia.PronaID }, shtepia);
+                return CreatedAtAction("GetShtepiat", new { id = shtepia.PronaID }, shtepia);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
             }
         }
 

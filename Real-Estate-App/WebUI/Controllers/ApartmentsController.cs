@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
+using Application.DTO;
 
 namespace WebUI.Controllers
 {
@@ -22,7 +23,6 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-        // GET: api/Apartments
         [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Apartment>>> GetApartments()
         {
@@ -36,7 +36,6 @@ namespace WebUI.Controllers
             }
         }
 
-        // GET: api/Apartments/5
         [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Apartment>> GetApartment(int id)
         {
@@ -57,7 +56,6 @@ namespace WebUI.Controllers
             }
         }
 
-        // PUT: api/Apartments/5
         [HttpPut("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> PutApartment(int id, Apartment apartment)
         {
@@ -91,12 +89,42 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        // POST: api/Apartments
         [HttpPost, Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Apartment>> PostApartment(Apartment apartment)
+        public async Task<ActionResult<Apartment>> PostApartment([FromForm] ApartmentCreateDto apartmentDto)
         {
             try
             {
+                string photoPath = null;
+
+                if (apartmentDto.Photo != null)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images", "Apartment-Img");
+                    Directory.CreateDirectory(uploadsFolder);
+
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(apartmentDto.Photo.FileName)}";
+                    var filePath = Path.Combine(uploadsFolder, fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await apartmentDto.Photo.CopyToAsync(fileStream);
+                    }
+
+                    photoPath = Path.Combine("Images", "Apartment-Img", fileName);
+                }
+
+                var apartment = new Apartment
+                {
+                    Emri = apartmentDto.Emri,
+                    Adresa = apartmentDto.Adresa,
+                    Price = apartmentDto.Price,
+                    Description = apartmentDto.Description,
+                    Status = apartmentDto.Status,
+                    Photo = photoPath,
+                    floor = apartmentDto.floor,
+                    nrDhomave = apartmentDto.nrDhomave,
+                    kaAnshensor = apartmentDto.kaAnshensor
+                };
+
                 _context.Apartments.Add(apartment);
                 await _context.SaveChangesAsync();
 
@@ -104,11 +132,10 @@ namespace WebUI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
             }
         }
 
-        // DELETE: api/Apartments/5
         [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteApartment(int id)
         {
