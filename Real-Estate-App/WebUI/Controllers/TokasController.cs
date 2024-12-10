@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
+using Application.DTO;
 
 namespace WebUI.Controllers
 {
@@ -22,7 +23,6 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-        // GET: api/Tokas
         [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Toka>>> GetTokat()
         {
@@ -36,7 +36,6 @@ namespace WebUI.Controllers
             }
         }
 
-        // GET: api/Tokas/5
         [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Toka>> GetToka(int id)
         {
@@ -57,8 +56,6 @@ namespace WebUI.Controllers
             }
         }
 
-        // PUT: api/Tokas/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> PutToka(int id, Toka toka)
         {
@@ -92,13 +89,43 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        // POST: api/Tokas
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost, Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Toka>> PostToka(Toka toka)
+        public async Task<ActionResult<Toka>> PostToka([FromForm] TokaCreateDto tokaDto)
         {
             try
             {
+                string photoPath = null;
+
+                if (tokaDto.Photo != null)
+                {
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images", "Toka-Img");
+                    Directory.CreateDirectory(uploadsFolder);
+
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(tokaDto.Photo.FileName)}";
+                    var filePath = Path.Combine(uploadsFolder, fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await tokaDto.Photo.CopyToAsync(fileStream);
+                    }
+
+                    photoPath = Path.Combine("Images", "Toka-Img", fileName);
+                }
+
+                var toka = new Toka
+                {
+                    Emri = tokaDto.Emri,
+                    Adresa = tokaDto.Adresa,
+                    Price = tokaDto.Price,
+                    Description = tokaDto.Description,
+                    Status = tokaDto.Status,
+                    Photo = photoPath,
+                    LandType = tokaDto.LandType,
+                    Zona = tokaDto.Zona,
+                    TopografiaTokes = tokaDto.TopografiaTokes,
+                    WaterSource = tokaDto.WaterSource
+                };
+
                 _context.Tokat.Add(toka);
                 await _context.SaveChangesAsync();
 
@@ -106,11 +133,10 @@ namespace WebUI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
             }
         }
 
-        // DELETE: api/Tokas/5
         [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteToka(int id)
         {
