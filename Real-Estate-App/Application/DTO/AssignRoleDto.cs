@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Application.DTO
 {
-     public class AssignRoleDto
+    public class AssignRoleDto
     {
         public string Username { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;

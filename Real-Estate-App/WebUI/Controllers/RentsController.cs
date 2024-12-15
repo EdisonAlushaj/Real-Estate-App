@@ -48,39 +48,32 @@ namespace WebUI.Controllers
         [HttpPost, Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> CreateSale(string userId, int pronaId, [FromBody] Rent rent)
         {
-            // Check if the model state is valid
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Find the user by userId
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
             {
                 return NotFound(new { message = "User not found" });
             }
 
-            // Find the property (Prona) by pronaId
             var prona = await _context.Pronas.FindAsync(pronaId);
             if (prona == null)
             {
                 return NotFound(new { message = "Property not found" });
             }
 
-            // Assign user and property to the sale
             rent.UserID = userId;
             rent.PronaID = pronaId;
-            rent.Users = user;  // Linking user
-            rent.Pronat = prona; // Linking property
+            rent.Users = user;
+            rent.Pronat = prona;
 
-            // Add the sale to the context
             _context.Rents.Add(rent);
 
-            // Save changes to the database
             await _context.SaveChangesAsync();
 
-            // Return a Created response with the newly created sale
             return CreatedAtAction(nameof(GetRentByUserId), new { id = rent.RentId }, rent);
         }
 
