@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { TokaEndPoint } from '../Services/endpoints';
+import Cookies from '../Services/cookieUtils.jsx';
 
 const TokaCrud = () => {
     const [show, setShow] = useState(false);
@@ -41,13 +42,21 @@ const TokaCrud = () => {
     const [editWaterSource, setEditWaterSource] = useState(false);
 
     const [data, setData] = useState([]);
+    
+    const getToken = () => {
+        return Cookies.getTokenFromCookies();
+    }
 
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        axios.get(TokaEndPoint)
+        axios.get(TokaEndPoint, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+            },
+        })
             .then((response) => {
                 console.log(response);
                 setData(response.data);
@@ -86,6 +95,10 @@ const TokaCrud = () => {
                 zona: editZona,
                 topografiaTokes: editTopografiaTokes,
                 waterSource: editWaterSource
+            }, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
             });
             toast.success('Toka updated successfully');
             handleClose();
@@ -98,7 +111,11 @@ const TokaCrud = () => {
 
     const handelDelete = (id) => {
         if (window.confirm("Are you sure to delete this Apartment?")) {
-            axios.delete(`${TokaEndPoint}/${id}`)
+            axios.delete(`${TokaEndPoint}/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+            })
                 .then((result) => {
                     if (result.status === 200) {
                         toast.success('Apartment has been deleted');
@@ -110,8 +127,6 @@ const TokaCrud = () => {
                 });
         }
     };
-
-
 
     const handleSave = () => {
         const data = {
@@ -126,7 +141,11 @@ const TokaCrud = () => {
             waterSource
         };
 
-        axios.post(TokaEndPoint, data)
+        axios.post(TokaEndPoint, data, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+            },
+        })
             .then(() => {
                 getData();
                 clear();

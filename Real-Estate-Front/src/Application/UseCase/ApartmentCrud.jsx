@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ApartmentEndPoint } from '../Services/endpoints';
+import Cookies from '../Services/cookieUtils.jsx';
 
 const ApartmentsCrud = () => {
     const [show, setShow] = useState(false);
@@ -24,6 +25,7 @@ const ApartmentsCrud = () => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
+    const [photo, setPhoto] = useState('');
     const [floor, setFloor] = useState('');
     const [nrDhomave, setNrDhomave] = useState('');
     const [kaAnshensor, setKaAnshensor] = useState(false);
@@ -34,18 +36,27 @@ const ApartmentsCrud = () => {
     const [editPrice, setEditPrice] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editStatus, setEditStatus] = useState('');
+    const [editPhoto, setEditPhoto] = useState('');
     const [editFloor, setEditFloor] = useState('');
     const [editNrDhomave, setEditNrDhomave] = useState('');
     const [editKaAnshensor, setEditKaAnshensor] = useState(false);
 
     const [data, setData] = useState([]);
 
+    const getToken = () => {
+        return Cookies.getTokenFromCookies();
+    }
+
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        axios.get(ApartmentEndPoint)
+        axios.get(ApartmentEndPoint, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+            },
+        })
             .then((response) => {
                 console.log(response);
                 setData(response.data);
@@ -63,6 +74,7 @@ const ApartmentsCrud = () => {
         setEditPrice(apartment.price);
         setEditDescription(apartment.description);
         setEditStatus(apartment.status);
+        setEditPhoto(apartment.photo);
         setEditFloor(apartment.floor);
         setEditNrDhomave(apartment.nrDhomave);
         setEditKaAnshensor(apartment.kaAnshensor);
@@ -79,9 +91,14 @@ const ApartmentsCrud = () => {
                 price: editPrice,
                 description: editDescription,
                 status: editStatus,
+                photo: editPhoto,
                 floor: editFloor,
                 nrDhomave: editNrDhomave,
                 kaAnshensor: editKaAnshensor,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
             });
             toast.success('Apartment updated successfully');
             handleClose();
@@ -92,10 +109,13 @@ const ApartmentsCrud = () => {
         }
     }
     
-
     const handelDelete = (id) => {
         if (window.confirm("Are you sure to delete this Apartment?")) {
-            axios.delete(`${ApartmentEndPoint}/${id}`)
+            axios.delete(`${ApartmentEndPoint}/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+            })
                 .then((result) => {
                     if (result.status === 200) {
                         toast.success('Apartment has been deleted');
@@ -107,8 +127,6 @@ const ApartmentsCrud = () => {
                 });
         }
     };
-    
-    
 
     const handleSave = () => {
         const data = {
@@ -117,12 +135,17 @@ const ApartmentsCrud = () => {
             price,
             description,
             status,
+            photo,
             floor,
             nrDhomave,
             kaAnshensor,
         };
 
-        axios.post(ApartmentEndPoint, data)
+        axios.post(ApartmentEndPoint, data, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+            },
+        })
             .then(() => {
                 getData();
                 clear();
@@ -140,6 +163,7 @@ const ApartmentsCrud = () => {
         setPrice('');
         setDescription('');
         setStatus('');
+        setPhoto('');
         setFloor('');
         setNrDhomave('');
         setKaAnshensor(false);
@@ -149,6 +173,7 @@ const ApartmentsCrud = () => {
         setEditPrice('');
         setEditDescription('');
         setEditStatus('');
+        setEditPhoto('');
         setEditFloor('');
         setEditNrDhomave('');
         setEditKaAnshensor(false);
