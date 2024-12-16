@@ -54,6 +54,7 @@ function Login() {
  
       cookieUtils.setUserIdInCookies(userId);
       cookieUtils.setUserRoleInCookies(role);
+      cookieUtils.setTokenCookies(token);
  
       // Set the refresh token in cookies
       // const refreshToken = response.data.refreshToken;
