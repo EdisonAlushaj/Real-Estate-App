@@ -10,5 +10,8 @@ namespace Domain.Entities
     public class ApplicationUser : IdentityUser
     {
         public string Role { get; set; } = string.Empty;
+        public string RefreshToken { get; set; }
+        public DateTime TokenCreated { get; set; }
+        public DateTime TokenExpires { get; set; }
     }
 }
