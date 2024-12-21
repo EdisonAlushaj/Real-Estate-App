@@ -111,6 +111,24 @@ namespace WebUI.Controllers
             }
         }
 
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            try
+            {
+                if (Request.Cookies.ContainsKey("refreshToken"))
+                {
+                    Response.Cookies.Delete("refreshToken");
+                }
+
+                return Ok(new { message = "User logged out successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred during logout", error = ex.Message });
+            }
+        }
+
         [HttpPost("add-role"), Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AddRole([FromBody] string role)
         {
