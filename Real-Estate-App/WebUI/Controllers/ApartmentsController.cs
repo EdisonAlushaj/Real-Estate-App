@@ -9,6 +9,7 @@ using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Application.DTO;
+using Application.Features.Prona;
 
 namespace WebUI.Controllers
 {
@@ -37,7 +38,7 @@ namespace WebUI.Controllers
         }
 
         [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Apartment>> GetApartment(int id)
+        public async Task<ActionResult<Apartment>> GetApartmentById(int id)
         {
             try
             {
@@ -53,6 +54,30 @@ namespace WebUI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database.");
+            }
+        }
+
+        [HttpPost, Authorize(Policy = "AgentPolicy")]
+        public async Task<ActionResult<Apartment>> PostApartment([FromForm] ApartmentCreateDto apartmentDto)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var apartmentFeature = new ApartmentFeature(_context);
+                var documentFeature = new DocumentFeature(_context);
+
+                var apartment = await apartmentFeature.CreateApartmentAsync(apartmentDto);
+
+                await documentFeature.CreateDocumentForApartmentAsync(apartment.PronaID);
+
+                await transaction.CommitAsync();
+
+                return CreatedAtAction("GetApartmentById", new { id = apartment.PronaID }, apartment);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
             }
         }
 
@@ -87,53 +112,6 @@ namespace WebUI.Controllers
             }
 
             return NoContent();
-        }
-
-        [HttpPost, Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Apartment>> PostApartment([FromForm] ApartmentCreateDto apartmentDto)
-        {
-            try
-            {
-                string photoPath = null;
-
-                if (apartmentDto.Photo != null)
-                {
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images", "Apartment-Img");
-                    Directory.CreateDirectory(uploadsFolder);
-
-                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(apartmentDto.Photo.FileName)}";
-                    var filePath = Path.Combine(uploadsFolder, fileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await apartmentDto.Photo.CopyToAsync(fileStream);
-                    }
-
-                    photoPath = Path.Combine("Images", "Apartment-Img", fileName);
-                }
-
-                var apartment = new Apartment
-                {
-                    Emri = apartmentDto.Emri,
-                    Adresa = apartmentDto.Adresa,
-                    Price = apartmentDto.Price,
-                    Description = apartmentDto.Description,
-                    Status = apartmentDto.Status,
-                    Photo = photoPath,
-                    floor = apartmentDto.floor,
-                    nrDhomave = apartmentDto.nrDhomave,
-                    kaAnshensor = apartmentDto.kaAnshensor
-                };
-
-                _context.Apartments.Add(apartment);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetApartment", new { id = apartment.PronaID }, apartment);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
-            }
         }
 
         [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
