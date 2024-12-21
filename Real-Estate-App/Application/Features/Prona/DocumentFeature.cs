@@ -49,5 +49,21 @@ namespace Application.Features.Prona
 
             return document;
         }
+
+        public async Task<Documents> CreateDocumentForTokaAsync(int tokaId)
+        {
+            var document = new Documents
+            {
+                Type = "Toka Document",
+                PronaID = tokaId,
+                CreatedData = DateTime.Now,
+                ExpiorationDate = DateTime.Now.AddYears(1)
+            };
+
+            _context.Documents.Add(document);
+            await _context.SaveChangesAsync();
+
+            return document;
+        }
     }
 }

@@ -9,6 +9,7 @@ using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Application.DTO;
+using Application.Features.Prona;
 
 namespace WebUI.Controllers
 {
@@ -37,7 +38,7 @@ namespace WebUI.Controllers
         }
 
         [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Toka>> GetToka(int id)
+        public async Task<ActionResult<Toka>> GetTokaById(int id)
         {
             try
             {
@@ -53,6 +54,30 @@ namespace WebUI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database.");
+            }
+        }
+
+        [HttpPost, Authorize(Policy = "AgentPolicy")]
+        public async Task<ActionResult<Toka>> PostToka([FromForm] TokaCreateDto tokaDto)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var tokaFeature = new TokaFeature(_context);
+                var documentFeature = new DocumentFeature(_context);
+
+                var toka = await tokaFeature.CreateTokaAsync(tokaDto);
+
+                await documentFeature.CreateDocumentForTokaAsync(toka.PronaID);
+
+                await transaction.CommitAsync();
+
+                return CreatedAtAction("GetTokaById", new { id = toka.PronaID }, toka);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
             }
         }
 
@@ -87,54 +112,6 @@ namespace WebUI.Controllers
             }
 
             return NoContent();
-        }
-
-        [HttpPost, Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Toka>> PostToka([FromForm] TokaCreateDto tokaDto)
-        {
-            try
-            {
-                string photoPath = null;
-
-                if (tokaDto.Photo != null)
-                {
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images", "Toka-Img");
-                    Directory.CreateDirectory(uploadsFolder);
-
-                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(tokaDto.Photo.FileName)}";
-                    var filePath = Path.Combine(uploadsFolder, fileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await tokaDto.Photo.CopyToAsync(fileStream);
-                    }
-
-                    photoPath = Path.Combine("Images", "Toka-Img", fileName);
-                }
-
-                var toka = new Toka
-                {
-                    Emri = tokaDto.Emri,
-                    Adresa = tokaDto.Adresa,
-                    Price = tokaDto.Price,
-                    Description = tokaDto.Description,
-                    Status = tokaDto.Status,
-                    Photo = photoPath,
-                    LandType = tokaDto.LandType,
-                    Zona = tokaDto.Zona,
-                    TopografiaTokes = tokaDto.TopografiaTokes,
-                    WaterSource = tokaDto.WaterSource
-                };
-
-                _context.Tokat.Add(toka);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetToka", new { id = toka.PronaID }, toka);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
-            }
         }
 
         [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
