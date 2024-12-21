@@ -38,7 +38,7 @@ namespace WebUI.Controllers
         }
 
         [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Shtepia>> GetShtepia(int id)
+        public async Task<ActionResult<Shtepia>> GetShtepiaById(int id)
         {
             try
             {
