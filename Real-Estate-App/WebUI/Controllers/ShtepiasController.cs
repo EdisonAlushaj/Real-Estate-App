@@ -9,6 +9,7 @@ using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Application.DTO;
+using Application.Features.Prona;
 
 namespace WebUI.Controllers
 {
@@ -23,7 +24,6 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-        // GET: api/Shtepias
         [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Shtepia>>> GetShtepiat()
         {
@@ -37,7 +37,6 @@ namespace WebUI.Controllers
             }
         }
 
-        // GET: api/Shtepias/5
         [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Shtepia>> GetShtepia(int id)
         {
@@ -58,8 +57,30 @@ namespace WebUI.Controllers
             }
         }
 
-        // PUT: api/Shtepias/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost, Authorize(Policy = "AgentPolicy")]
+        public async Task<ActionResult<Shtepia>> PostShtepiat([FromForm] ShtepiaCreateDto shtepiaDto)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var shtepiaFeature = new ShtepiaFeature(_context);
+                var documentFeature = new DocumentFeature(_context);
+
+                var shtepia = await shtepiaFeature.CreateShtepiaAsync(shtepiaDto);
+
+                await documentFeature.CreateDocumentForShtepiaAsync(shtepia.PronaID);
+
+                await transaction.CommitAsync();
+
+                return CreatedAtAction("GetShtepiat", new { id = shtepia.PronaID }, shtepia);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
+            }
+        }
+
         [HttpPut("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> PutShtepia(int id, Shtepia shtepia)
         {
@@ -93,55 +114,6 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        [HttpPost, Authorize(Policy = "AgentPolicy")]
-        public async Task<ActionResult<Shtepia>> PostShtepiat([FromForm] ShtepiaCreateDto shtepiaDto)
-        {
-            try
-            {
-                string photoPath = null;
-
-                if (shtepiaDto.Photo != null)
-                {
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Images", "Shtepia-Img");
-                    Directory.CreateDirectory(uploadsFolder);
-
-                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(shtepiaDto.Photo.FileName)}";
-                    var filePath = Path.Combine(uploadsFolder, fileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await shtepiaDto.Photo.CopyToAsync(fileStream);
-                    }
-
-                    photoPath = Path.Combine("Images", "Shtepia-Img", fileName);
-                }
-
-                var shtepia = new Shtepia
-                {
-                    Emri = shtepiaDto.Emri,
-                    Adresa = shtepiaDto.Adresa,
-                    Price = shtepiaDto.Price,
-                    Description = shtepiaDto.Description,
-                    Status = shtepiaDto.Status,
-                    Photo = photoPath,
-                    size = shtepiaDto.size,
-                    nrFloors = shtepiaDto.nrFloors,
-                    kaGarazhd = shtepiaDto.kaGarazhd,
-                    kaPool = shtepiaDto.kaPool
-                };
-
-                _context.Shtepiat.Add(shtepia);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetShtepiat", new { id = shtepia.PronaID }, shtepia);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
-            }
-        }
-
-        // DELETE: api/Shtepias/5
         [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteShtepia(int id)
         {
