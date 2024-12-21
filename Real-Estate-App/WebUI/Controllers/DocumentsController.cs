@@ -60,7 +60,6 @@ namespace WebUI.Controllers
         {
             try
             {
-                // Check if the PronaID exists
                 var existingProna = await _context.Pronas.FindAsync(document.PronaID);
                 if (existingProna == null)
                 {
@@ -76,7 +75,6 @@ namespace WebUI.Controllers
                     PronaID = document.PronaID
                 };
 
-                // If valid, add the document
                 _context.Documents.Add(doc);
                 await _context.SaveChangesAsync();
 
