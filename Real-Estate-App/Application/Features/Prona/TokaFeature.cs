@@ -44,7 +44,7 @@ namespace Application.Features.Prona
                 Adresa = tokaDto.Adresa,
                 Price = tokaDto.Price,
                 Description = tokaDto.Description,
-                Status = tokaDto.Status,
+                Status = "Available",
                 Photo = photoPath,
                 LandType = tokaDto.LandType,
                 Zona = tokaDto.Zona,

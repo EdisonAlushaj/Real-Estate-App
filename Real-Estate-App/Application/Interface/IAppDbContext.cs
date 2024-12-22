@@ -10,6 +10,7 @@ namespace Application.Interface
 {
     public interface IAppDbContext
     {
+        public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Prona> Pronas { get; set; }
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Shtepia> Shtepiat { get; set; }
