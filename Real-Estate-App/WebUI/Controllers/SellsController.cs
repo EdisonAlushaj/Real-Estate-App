@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Sell_Rent;
+using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +22,7 @@ namespace WebUI.Controllers
         [HttpGet, Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> GetAllSales()
         {
-            var sales = await _context.Set<Sell>()
+            var sales = await _context.Sells
                 .Include(s => s.Users)
                 .Include(s => s.Pronat)
                 .ToListAsync();
@@ -32,7 +33,7 @@ namespace WebUI.Controllers
         [HttpGet("{id}"), Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> GetSaleByUserId(string id)
         {
-            var sale = await _context.Set<Sell>()
+            var sale = await _context.Sells
                 .Include(s => s.Users)
                 .Include(s => s.Pronat)
                 .FirstOrDefaultAsync(s => s.UserID == id);
@@ -46,7 +47,7 @@ namespace WebUI.Controllers
         }
 
         [HttpPost, Authorize(Policy = "UserPolicy")]
-        public async Task<IActionResult> CreateSale(string userId, int pronaId, [FromBody] Sell sale)
+        public async Task<IActionResult> CreateSell(string userId, int pronaId, double koheZgjatja, [FromBody] Sell sale)
         {
             try
             {
@@ -55,41 +56,19 @@ namespace WebUI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var user = await _context.Users.FindAsync(userId);
-                if (user == null)
-                {
-                    return NotFound(new { message = "User not found" });
-                }
+                var sellFeature = new SellFeature(_context);
+                var kontrataFeature = new KontrataFeature(_context);
 
-                var prona = await _context.Pronas.FindAsync(pronaId);
-                if (prona == null)
-                {
-                    return NotFound(new { message = "Property not found" });
-                }
+                var createdSell = await sellFeature.CreateSellAsync(userId, pronaId, sale);
+                var createdKontrata = await kontrataFeature.CreateKontrataAsync(userId, pronaId, koheZgjatja);
 
-                sale.UserID = userId;
-                sale.PronaID = pronaId;
-                sale.Users = user;
-                sale.Pronat = prona;
-
-                _context.Sells.Add(sale);
-
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction(nameof(GetSaleByUserId), new { id = sale.SellID }, sale);
-            }
-            catch (DbUpdateException dbEx)
-            {
-                Console.WriteLine($"Database error: {dbEx.Message}");
-                return StatusCode(500, new { message = "An error occurred while saving to the database." });
+                return CreatedAtAction(nameof(GetSaleByUserId), new { id = createdSell.SellID }, createdSell);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return StatusCode(500, new { message = "An unexpected error occurred. Please try again later." });
+                return StatusCode(500, new { message = ex.Message });
             }
         }
-
 
         [HttpPut("{id}"), Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> UpdateSale(int id, [FromBody] Sell sale)

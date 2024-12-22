@@ -44,7 +44,7 @@ namespace Application.Features.Prona
                 Adresa = apartmentDto.Adresa,
                 Price = apartmentDto.Price,
                 Description = apartmentDto.Description,
-                Status = apartmentDto.Status,
+                Status = "Available",
                 Photo = photoPath,
                 floor = apartmentDto.floor,
                 nrDhomave = apartmentDto.nrDhomave,

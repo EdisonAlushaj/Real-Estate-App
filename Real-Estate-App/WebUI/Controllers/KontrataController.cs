@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Application.Features.Sell_Rent;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -18,13 +19,15 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-
         [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Kontrata>>> GetKontrata()
         {
             try
             {
-                return await _context.Kontrata.ToListAsync();
+                return await _context.Kontrata
+                    .Include(s => s.Users)
+                    .Include(s => s.Pronat)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -32,17 +35,19 @@ namespace WebUI.Controllers
             }
         }
 
-
         [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Kontrata>> GetKontrata(int id)
         {
             try
             {
-                var kontrata = await _context.Kontrata.FindAsync(id);
+                var kontrata = await _context.Kontrata
+                    .Include(s => s.Users)
+                    .Include(s => s.Pronat)
+                    .FirstOrDefaultAsync(s => s.KontrataId == id);
 
                 if (kontrata == null)
                 {
-                    return NotFound();
+                    return NotFound("Sale not found.");
                 }   
 
                 return kontrata;
@@ -108,13 +113,8 @@ namespace WebUI.Controllers
                     return NotFound(new { message = "Property not found" });
                 }
 
-                var kontrat = new Kontrata
-                {
-                    PronaID = kontrataDto.PronaID,
-                    UserID = kontrataDto.UserID,
-                    koheZgjatja = kontrataDto.koheZgjatja,
-                    
-                };
+                var kontrataFeature = new KontrataFeature(_context);
+                var kontrat = await kontrataFeature.CreateKontrataAsync(kontrataDto.UserID, kontrataDto.PronaID, kontrataDto.koheZgjatja);
 
                 _context.Kontrata.Add(kontrat);
                 await _context.SaveChangesAsync();
@@ -126,7 +126,6 @@ namespace WebUI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
             }
         }
-
 
         [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteKontrata(int id)
@@ -151,10 +150,6 @@ namespace WebUI.Controllers
             }
         }
 
-
-
-
-
         private bool KontrataExists(int id)
         {
             try
@@ -166,7 +161,5 @@ namespace WebUI.Controllers
                 return false;
             }
         }
-
-
     }
 }

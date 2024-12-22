@@ -44,7 +44,7 @@ namespace Application.Features.Prona
                 Adresa = shtepiaDto.Adresa,
                 Price = shtepiaDto.Price,
                 Description = shtepiaDto.Description,
-                Status = shtepiaDto.Status,
+                Status = "Available",
                 Photo = photoPath,
                 size = shtepiaDto.size,
                 nrFloors = shtepiaDto.nrFloors,
