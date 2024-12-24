@@ -20,7 +20,7 @@ namespace WebUI.Controllers
         [HttpGet("GetByCategory")]
         public async Task<IActionResult> GetByCategory(string category)
         {
-            IEnumerable<Prona> filteredProperties; // Use IEnumerable<Prona> to avoid conversion issues.
+            IEnumerable<Prona> filteredProperties;
 
             switch (category.ToLower())
             {
@@ -52,18 +52,15 @@ namespace WebUI.Controllers
             string? location, // Optional location parameter
             string? category, // Optional category parameter (e.g., Apartment, Shtepia, Toka)
             double? maxPrice // Optional max price parameter
-)
+        )
         {
-            // Start with a query for all properties
             var query = _context.Pronas.AsQueryable();
 
-            // Filter by location if provided
             if (!string.IsNullOrEmpty(location))
             {
                 query = query.Where(p => p.Adresa.Contains(location));
             }
 
-            // Filter by category if provided
             if (!string.IsNullOrEmpty(category))
             {
                 switch (category.ToLower())
@@ -82,17 +79,46 @@ namespace WebUI.Controllers
                 }
             }
 
-            // Filter by max price if provided
             if (maxPrice.HasValue)
             {
                 query = query.Where(p => p.Price <= maxPrice.Value);
             }
 
-            // Execute the query and retrieve the results
             var filteredProperties = await query.ToListAsync();
-
             return Ok(filteredProperties);
         }
+
+        // New method to get property details by ID
+        [HttpGet("GetPropertyDetails")]
+        public async Task<IActionResult> GetPropertyDetails([FromQuery] int id)
+        {
+            try
+            {
+                // Check if the ID is valid
+                if (id <= 0)
+                {
+                    return BadRequest("Invalid property ID.");
+                }
+
+                // Fetch the property by ID
+                var property = await _context.Pronas
+                    .FirstOrDefaultAsync(p => p.PronaID == id);
+
+                if (property == null)
+                {
+                    return NotFound("Property not found.");
+                }
+
+                return Ok(property);
+            }
+            catch (Exception ex)
+            {
+                // Log exception details for debugging
+                Console.Error.WriteLine($"Error fetching property details: {ex.Message}");
+                return StatusCode(500, "Internal server error while fetching property details.");
+            }
+        }
+
 
     }
 }
