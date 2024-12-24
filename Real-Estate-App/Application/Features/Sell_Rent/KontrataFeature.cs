@@ -17,13 +17,46 @@ namespace Application.Features.Sell_Rent
             _context = context;
         }
 
-        public async Task<Kontrata> CreateKontrataAsync(string userId, int pronaId, double koheZgjatja)
+        public async Task<Kontrata> CreateKontrataAsync(string userId, int pronaId, double koheZgjatja, string type)
         {
             var kontrata = new Kontrata
             {
                 PronaID = pronaId,
                 UserID = userId,
-                koheZgjatja = koheZgjatja
+                koheZgjatja = koheZgjatja,
+                Type = type
+            };
+
+            _context.Kontrata.Add(kontrata);
+            await _context.SaveChangesAsync();
+
+            return kontrata;
+        }
+
+        public async Task<Kontrata> CreateKontrataSellAsync(string userId, int pronaId, double koheZgjatja)
+        {
+            var kontrata = new Kontrata
+            {
+                PronaID = pronaId,
+                UserID = userId,
+                koheZgjatja = koheZgjatja,
+                Type = "Sell Contract"
+            };
+
+            _context.Kontrata.Add(kontrata);
+            await _context.SaveChangesAsync();
+
+            return kontrata;
+        }
+
+        public async Task<Kontrata> CreateKontrataRentAsync(string userId, int pronaId, double koheZgjatja)
+        {
+            var kontrata = new Kontrata
+            {
+                PronaID = pronaId,
+                UserID = userId,
+                koheZgjatja = koheZgjatja,
+                Type = "Rent Contract"
             };
 
             _context.Kontrata.Add(kontrata);

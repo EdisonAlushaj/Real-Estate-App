@@ -12,5 +12,6 @@ namespace Application.DTO
         public int PronaID { get; set; }
         public string UserID { get; set; }
         public double koheZgjatja { get; set; }
+        public string Type { get; set; }
     }
 }

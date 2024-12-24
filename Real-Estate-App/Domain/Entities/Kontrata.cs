@@ -14,5 +14,7 @@ namespace Domain.Entities
         public string UserID {  get; set; }
         public ApplicationUser Users { get; set; }
         public double koheZgjatja { get; set; }
+        public string Type { get; set; }
+
     }
 }

@@ -114,10 +114,7 @@ namespace WebUI.Controllers
                 }
 
                 var kontrataFeature = new KontrataFeature(_context);
-                var kontrat = await kontrataFeature.CreateKontrataAsync(kontrataDto.UserID, kontrataDto.PronaID, kontrataDto.koheZgjatja);
-
-                _context.Kontrata.Add(kontrat);
-                await _context.SaveChangesAsync();
+                var kontrat = await kontrataFeature.CreateKontrataAsync(kontrataDto.UserID, kontrataDto.PronaID, kontrataDto.koheZgjatja, kontrataDto.Type);
 
                 return CreatedAtAction("GetKontrata", new { id = kontrat.KontrataId }, kontrat);
             }

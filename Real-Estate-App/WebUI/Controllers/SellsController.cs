@@ -60,7 +60,7 @@ namespace WebUI.Controllers
                 var kontrataFeature = new KontrataFeature(_context);
 
                 var createdSell = await sellFeature.CreateSellAsync(userId, pronaId, sale);
-                var createdKontrata = await kontrataFeature.CreateKontrataAsync(userId, pronaId, koheZgjatja);
+                var createdKontrata = await kontrataFeature.CreateKontrataSellAsync(userId, pronaId, koheZgjatja);
 
                 return CreatedAtAction(nameof(GetSaleByUserId), new { id = createdSell.SellID }, createdSell);
             }
