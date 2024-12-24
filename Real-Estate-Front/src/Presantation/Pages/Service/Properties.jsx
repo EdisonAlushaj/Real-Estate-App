@@ -1,3 +1,4 @@
+// Properties.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PronaEndPoint } from '../../../Application/Services/endpoints';
@@ -35,14 +36,14 @@ function Properties() {
     const handleSearch = async () => {
         setLoading(true);
         setHasSearched(true); // Kërkimi është bërë
-    
+
         // If no filters are provided, return all properties
         if (!location && !category && !budget) {
             setFilteredProperties(allProperties);
             setLoading(false);
             return;
         }
-    
+
         try {
             // Sending filtered parameters to the backend
             const response = await axios.get(`${PronaEndPoint}/GetFilteredProperties`, {
@@ -52,7 +53,7 @@ function Properties() {
                     maxPrice: budget || undefined, // Optional parameter
                 },
             });
-    
+
             // Update the filtered properties state with the response data
             setFilteredProperties(response.data);
         } catch (error) {
@@ -65,6 +66,10 @@ function Properties() {
     // Funksioni për të kthyer të gjitha pronat
     const handleShowAllProperties = () => {
         setFilteredProperties(allProperties); // Kthehu te të gjitha pronat
+        setHasSearched(false); // Reset the search state
+        setLocation('');
+        setCategory('');
+        setBudget('');
     };
 
     // Funksioni për blerjen e pronës
