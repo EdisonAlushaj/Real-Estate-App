@@ -16,6 +16,7 @@ namespace Domain.Configurations
             builder.HasKey(c => c.KontrataId);
 
             builder.Property(e => e.koheZgjatja).IsRequired();
+            builder.Property(e => e.Type).IsRequired().HasMaxLength(100);
             builder.HasOne(m => m.Users)
                   .WithMany()
                   .HasForeignKey(m => m.UserID)
