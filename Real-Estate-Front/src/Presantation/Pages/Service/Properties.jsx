@@ -4,6 +4,8 @@ import axios from 'axios';
 import { PronaEndPoint } from '../../../Application/Services/endpoints';
 import coverImg from '../../../../public/Image/property-1.png';
 import './Service.css';
+import { useNavigate } from 'react-router-dom';
+
 
 function Properties() {
     const [allProperties, setAllProperties] = useState([]); // Të gjitha pronat
@@ -14,6 +16,7 @@ function Properties() {
     const [loading, setLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false); // Tregon nëse është bërë kërkim
 
+    const navigate = useNavigate();
     // Ngarko të gjitha pronat kur komponenti ngarkohet
     useEffect(() => {
         const fetchAllProperties = async () => {
@@ -63,6 +66,7 @@ function Properties() {
         }
     };
 
+<<<<<<< Updated upstream
     // Funksioni për të kthyer të gjitha pronat
     const handleShowAllProperties = () => {
         setFilteredProperties(allProperties); // Kthehu te të gjitha pronat
@@ -72,11 +76,13 @@ function Properties() {
         setBudget('');
     };
 
+=======
+>>>>>>> Stashed changes
     // Funksioni për blerjen e pronës
     const handleBuyProperty = (propertyId) => {
-        // Ky funksion mund të realizojë veprime si hapja e një forme për blerje ose dërgimi i të dhënave në server
-        alert(`You have selected property with ID: ${propertyId} for purchase.`);
+        navigate(`/app/property/${propertyId}`);
     };
+    
 
     return (
         <>
@@ -198,40 +204,22 @@ function Properties() {
                 </div>
             )}
 
-            {/* Properties List */}
-            <div className="properties-list d-flex flex-column align-items-center" style={{ padding: '3em 0' }}>
+            {/* Properties List (CSS Grid Layout with Left and Right Padding) */}
+            <div className="properties-list" style={{ padding: '3em 5%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2em', justifyItems: 'center' }}>
                 {loading ? (
                     <p>Loading properties...</p>
                 ) : filteredProperties.length > 0 ? (
                     filteredProperties.map((property) => (
-                        <div
-                            key={property.pronaID}
-                            style={{
-                                padding: '1em',
-                                margin: '1em 0',
-                                border: '1px solid #ddd',
-                                borderRadius: '8px',
-                                width: '80%',
-                                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                            }}
-                        >
+                        <div key={property.pronaID} style={{ backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '8px', padding: '1em' }}>
+                            <img
+                                src={property.imageUrl || coverImg}
+                                alt={property.emri}
+                                style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '8px' }}
+                            />
                             <h3>{property.emri}</h3>
                             <p>{property.adresa}</p>
                             <p>{`Price: $${property.price}`}</p>
-                            <p>{property.description}</p>
-                            <button
-                                onClick={() => handleBuyProperty(property.pronaID)}
-                                style={{
-                                    padding: '0.5em 1.5em',
-                                    backgroundColor: '#FF6347',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                Buy Now
-                            </button>
+                            <button onClick={() => handleBuyProperty(property.pronaID)}>Buy Now</button>
                         </div>
                     ))
                 ) : (
@@ -241,5 +229,6 @@ function Properties() {
         </>
     );
 }
+
 
 export default Properties;
