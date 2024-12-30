@@ -57,8 +57,8 @@ function Login() {
       cookieUtils.setTokenCookies(token);
  
       // Set the refresh token in cookies
-      // const refreshToken = response.data.refreshToken;
-      // cookieUtils.setRefreshToken(refreshToken);
+      const refreshToken = response.data.refreshToken;
+      cookieUtils.setRefreshToken(refreshToken); 
  
       if (role === 'Admin') {
         console.log("Navigating to admin dashboard...");
