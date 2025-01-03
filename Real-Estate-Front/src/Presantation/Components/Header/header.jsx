@@ -20,6 +20,10 @@ function Header() {
 
     const token = getToken();
 
+    const logOut = () => {
+        Cookies.clearUserRole();
+    }
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light d-flex justify-content-center" style={{ width: '100%', height: '100px', zIndex: '2', position: 'absolute' }}>
@@ -39,8 +43,11 @@ function Header() {
                             {userRole === 'Admin' && (
                                 <li className="nav-item"><NavLink to="/dashboard" style={{ color: '#19282F', textDecoration: 'none' }}><b>Dashboard</b></NavLink></li>
                             )}
-                            {token === null && (
-                            <li className="nav-item"><NavLink to="/login" style={{ color: '#19282F', textDecoration: 'none' }}><b>Login</b></NavLink></li>
+                            {!token && (
+                                <li className="nav-item"><NavLink to="/login" style={{ color: '#19282F', textDecoration: 'none' }}><b>Log in</b></NavLink></li>
+                            )}
+                            {token && (
+                                <li className="nav-item"><NavLink to="/login" onClick={logOut} style={{ color: '#19282F', textDecoration: 'none' }}><b>Log out</b></NavLink></li>
                             )}
                         </ul>
                     </div>
