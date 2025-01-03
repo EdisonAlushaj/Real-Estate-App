@@ -185,7 +185,7 @@ const TokaCrud = () => {
         <Fragment>
             <ToastContainer position="top-right" autoClose={5000} />
             <div className="d-flex justify-content-between align-items-center">
-                <h2>Lands</h2>
+                <h2>Lands Table</h2>
                 <Button variant="primary" onClick={handleShowAdd}>Add Land</Button>
             </div>
 

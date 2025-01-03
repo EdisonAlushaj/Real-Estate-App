@@ -130,7 +130,7 @@ const ContractsCrud = () =>{
             <Fragment>
                 <ToastContainer position="top-right" autoClose={5000} />
                 <div className="d-flex justify-content-between align-items-center">
-                    <h2>Contracts</h2>
+                    <h2>Contracts Table</h2>
                 </div>
     
                 <Table striped bordered hover className="mt-3">
