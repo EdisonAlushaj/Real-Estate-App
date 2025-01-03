@@ -10,6 +10,7 @@ import LoginLayout from '../Pages/Login/LoginLayout.jsx'
 import Register from '../Pages/Login/register.jsx'
 import Dashboard from '../Pages/Dashboard/dashboard.jsx'
 import PropertyDetails from "../Pages/Service/PropertyDetails.jsx";
+import PrivateRoute from '../../Application/Services/PrivateRoute';
 
 const AppRoutes = () => (
     <Routes>
@@ -27,8 +28,8 @@ const AppRoutes = () => (
         <Route path="/register" element={<LoginLayout />}>
             <Route index element={<Register/>} />
         </Route>
-        <Route path="/dashboard" element={<LoginLayout />}>
-            <Route index element={<Dashboard/>} />
+        <Route element={<PrivateRoute/>}>
+            <Route index path='/dashboard' element={<Dashboard/>} />
         </Route>
     </Routes>
 );

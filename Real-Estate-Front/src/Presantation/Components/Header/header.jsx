@@ -47,7 +47,7 @@ function Header() {
                                 <li className="nav-item"><NavLink to="/login" style={{ color: '#19282F', textDecoration: 'none' }}><b>Log in</b></NavLink></li>
                             )}
                             {token && (
-                                <li className="nav-item"><NavLink to="/" onClick={logOut} style={{ color: '#19282F', textDecoration: 'none' }}><b>Log out</b></NavLink></li>
+                                <li className="nav-item"><NavLink to="/login" onClick={logOut} style={{ color: '#19282F', textDecoration: 'none' }}><b>Log out</b></NavLink></li>
                             )}
                         </ul>
                     </div>
