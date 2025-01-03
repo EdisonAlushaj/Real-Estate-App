@@ -14,3 +14,5 @@ export const ShtepiaEndPoint= 'https://localhost:7140/api/Shtepias';
 export const PronaEndPoint = 'https://localhost:7140/api/Prona';
 
 export const SellEndPoint = 'https://localhost:7140/api/Sells';
+
+export const RentEndPoint = 'https://localhost:7140/api/Rents';

@@ -5,6 +5,7 @@ import ApartmentsCrud from "../../../Application/UseCase/ApartmentCrud";
 import TokaCrud from "../../../Application/UseCase/TokaCrud";
 import ShtepiaCrud from "../../../Application/UseCase/ShtepiaCrud";
 import SellCrud from "../../../Application/UseCase/SellCrud";
+import RentCrud from "../../../Application/UseCase/RentCrud";
 
 const Dashboard = () => {
     const [activeTable, setActiveTable] = useState(null);
@@ -71,6 +72,16 @@ const Dashboard = () => {
                                 <span className="fw-normal">Sale</span>
                             </NavLink>
                         </li>
+                        <li className="sidebar-item">
+                            <NavLink
+                                to="#"
+                                className="sidebar-link"
+                                onClick={() => toggleTable("rent")}
+                            >
+                                <i className="bi bi-tablet-landscape"></i>
+                                <span className="fw-normal">Rent</span>
+                            </NavLink>
+                        </li>
                     </ul>
                     <div className="sidebar-footer">
                         <NavLink to="/app/home" className="sidebar-link">
@@ -87,6 +98,7 @@ const Dashboard = () => {
                             {activeTable === "toka" && <TokaCrud />}
                             {activeTable === "house" && <ShtepiaCrud />}
                             {activeTable === "sale" && <SellCrud />}
+                            {activeTable === "rent" && <RentCrud />}
                         </div>
                     </main>
                 </div>
