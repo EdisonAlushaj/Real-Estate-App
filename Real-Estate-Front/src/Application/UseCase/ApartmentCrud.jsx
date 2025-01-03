@@ -185,7 +185,7 @@ const ApartmentsCrud = () => {
         <Fragment>
             <ToastContainer position="top-right" autoClose={5000} />
             <div className="d-flex justify-content-between align-items-center">
-                <h2>Apartments</h2>
+                <h2>Apartments Table</h2>
                 <Button variant="primary" onClick={handleShowAdd}>Add Apartment</Button>
             </div>
 
