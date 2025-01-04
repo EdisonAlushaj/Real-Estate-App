@@ -70,7 +70,7 @@ const RentCrud = () => {
         setEditRentId(rent.rentId);
     }
 
-   async function update(event) {
+    async function update(event) {
         event.preventDefault();
         try {
             await axios.put(`${RentEndPoint}/${editRentId}`, {
@@ -112,7 +112,7 @@ const RentCrud = () => {
         }
     };
 
-     const handleSave = () => { 
+    const handleSave = () => { 
         const data = {
             rentDate: rentDate,
             rentPrice: parseFloat(rentPrice),
