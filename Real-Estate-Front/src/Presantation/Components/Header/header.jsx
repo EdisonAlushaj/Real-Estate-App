@@ -40,7 +40,7 @@ function Header() {
                             <li className="nav-item"><NavLink to="/app/about" style={{ color: '#19282F', textDecoration: 'none' }}><b>Rreth Nesh</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/property" style={{ color: '#19282F', textDecoration: 'none' }}><b>Properties</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/contact" style={{ color: '#19282F', textDecoration: 'none' }}><b>Kontakti</b></NavLink></li>
-                            {userRole === 'Admin' && (
+                            {(userRole === 'Admin' || userRole === 'Agent') && (
                                 <li className="nav-item"><NavLink to="/dashboard" style={{ color: '#19282F', textDecoration: 'none' }}><b>Dashboard</b></NavLink></li>
                             )}
                             {!token && (
