@@ -38,7 +38,7 @@ namespace Application.Features.Property
             return await _context.Pronas.ToListAsync();
         }
 
-        public async Task<IEnumerable<Prona>> GetFilteredPropertiesAsync(string? location, string? category, double? maxPrice)
+        public async Task<IEnumerable<Prona>> GetFilteredPropertiesAsync(string? location, string? category, double? maxPrice, string? propertyType)
         {
             var query = _context.Pronas.AsQueryable();
 
@@ -68,6 +68,11 @@ namespace Application.Features.Property
             if (maxPrice.HasValue)
             {
                 query = query.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            if (!string.IsNullOrEmpty(propertyType))
+            {
+                query = query.Where(p => p.Type.Equals(propertyType));
             }
 
             return await query.ToListAsync();
