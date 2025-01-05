@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Prona
+namespace Application.Features.Property
 {
     public class TokaFeature
     {
@@ -44,6 +44,7 @@ namespace Application.Features.Prona
                 Adresa = tokaDto.Adresa,
                 Price = tokaDto.Price,
                 Description = tokaDto.Description,
+                Type = tokaDto.Type,
                 Status = "Available",
                 Photo = photoPath,
                 LandType = tokaDto.LandType,

@@ -9,7 +9,7 @@ using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Application.DTO;
-using Application.Features.Prona;
+using Application.Features.Property;
 
 namespace WebUI.Controllers
 {

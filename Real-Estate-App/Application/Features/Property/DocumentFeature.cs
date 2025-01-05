@@ -7,7 +7,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Prona
+namespace Application.Features.Property
 {
     public class DocumentFeature
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Prona
+namespace Application.Features.Property
 {
     public class ShtepiaFeature
     {
@@ -45,6 +45,7 @@ namespace Application.Features.Prona
                 Price = shtepiaDto.Price,
                 Description = shtepiaDto.Description,
                 Status = "Available",
+                Type = shtepiaDto.Type,
                 Photo = photoPath,
                 size = shtepiaDto.size,
                 nrFloors = shtepiaDto.nrFloors,

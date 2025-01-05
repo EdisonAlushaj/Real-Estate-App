@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Prona
+namespace Application.Features.Property
 {
     public class ApartmentFeature
     {
@@ -45,6 +45,7 @@ namespace Application.Features.Prona
                 Price = apartmentDto.Price,
                 Description = apartmentDto.Description,
                 Status = "Available",
+                Type = apartmentDto.Type,
                 Photo = photoPath,
                 floor = apartmentDto.floor,
                 nrDhomave = apartmentDto.nrDhomave,

@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Interface;
+using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,100 +11,57 @@ namespace WebUI.Controllers
     [ApiController]
     public class PronaController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IPronaFeature _pronaFeature;
 
-        public PronaController(AppDbContext context)
+        public PronaController(IPronaFeature pronaFeature)
         {
-            _context = context;
+            _pronaFeature = pronaFeature;
         }
 
         [HttpGet("GetByCategory")]
         public async Task<IActionResult> GetByCategory(string category)
         {
-            IEnumerable<Prona> filteredProperties;
-
-            switch (category.ToLower())
+            try
             {
-                case "house":
-                    filteredProperties = await _context.Pronas.OfType<Shtepia>().ToListAsync();
-                    break;
-                case "land":
-                    filteredProperties = await _context.Pronas.OfType<Toka>().ToListAsync();
-                    break;
-                case "apartment":
-                    filteredProperties = await _context.Pronas.OfType<Apartment>().ToListAsync();
-                    break;
-                default:
-                    return BadRequest("Invalid category. Valid categories are 'Shtepia', 'Toka', or 'Apartment'.");
+                var filteredProperties = await _pronaFeature.GetByCategoryAsync(category);
+                return Ok(filteredProperties);
             }
-
-            return Ok(filteredProperties);
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllProperties()
         {
-            var allProperties = await _context.Pronas.ToListAsync();
+            var allProperties = await _pronaFeature.GetAllPropertiesAsync();
             return Ok(allProperties);
         }
 
         [HttpGet("GetFilteredProperties")]
         public async Task<IActionResult> GetFilteredProperties(
-            string? location, // Optional location parameter
-            string? category, // Optional category parameter (e.g., Apartment, Shtepia, Toka)
-            double? maxPrice // Optional max price parameter
-        )
+            string? location,
+            string? category,
+            double? maxPrice)
         {
-            var query = _context.Pronas.AsQueryable();
-
-            if (!string.IsNullOrEmpty(location))
+            try
             {
-                query = query.Where(p => p.Adresa.Contains(location));
+                var filteredProperties = await _pronaFeature.GetFilteredPropertiesAsync(location, category, maxPrice);
+                return Ok(filteredProperties);
             }
-
-            if (!string.IsNullOrEmpty(category))
+            catch (ArgumentException ex)
             {
-                switch (category.ToLower())
-                {
-                    case "house":
-                        query = query.OfType<Shtepia>();
-                        break;
-                    case "land":
-                        query = query.OfType<Toka>();
-                        break;
-                    case "apartment":
-                        query = query.OfType<Apartment>();
-                        break;
-                    default:
-                        return BadRequest("Invalid category. Valid categories are 'Shtepia', 'Toka', or 'Apartment'.");
-                }
+                return BadRequest(ex.Message);
             }
-
-            if (maxPrice.HasValue)
-            {
-                query = query.Where(p => p.Price <= maxPrice.Value);
-            }
-
-            var filteredProperties = await query.ToListAsync();
-            return Ok(filteredProperties);
         }
 
-        // New method to get property details by ID
         [HttpGet("GetPropertyDetails")]
         public async Task<IActionResult> GetPropertyDetails([FromQuery] int id)
         {
             try
             {
-                // Check if the ID is valid
-                if (id <= 0)
-                {
-                    return BadRequest("Invalid property ID.");
-                }
-
-                // Fetch the property by ID
-                var property = await _context.Pronas
-                    .FirstOrDefaultAsync(p => p.PronaID == id);
-
+                var property = await _pronaFeature.GetPropertyDetailsAsync(id);
                 if (property == null)
                 {
                     return NotFound("Property not found.");
@@ -111,14 +69,15 @@ namespace WebUI.Controllers
 
                 return Ok(property);
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
-                // Log exception details for debugging
                 Console.Error.WriteLine($"Error fetching property details: {ex.Message}");
                 return StatusCode(500, "Internal server error while fetching property details.");
             }
         }
-
-
     }
 }
