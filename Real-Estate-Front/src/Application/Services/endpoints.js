@@ -15,6 +15,7 @@ export const PronaEndPoint = 'https://localhost:7140/api/Prona';
 
 export const SellEndPoint = 'https://localhost:7140/api/Sells';
 
-export const RentEndPoint = 'https://localhost:7140/api/Rents';
-
 export const UsersEndPoint = 'https://localhost:7140/api/Account';
+
+export const SellsEndPoint = 'https://localhost:7140/api/Sells';
+
