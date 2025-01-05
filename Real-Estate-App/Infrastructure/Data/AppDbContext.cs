@@ -1,4 +1,5 @@
-﻿using Domain.Configurations;
+﻿using Application.Interface;
+using Domain.Configurations;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class AppDbContext : IdentityDbContext<ApplicationUser>
+    public class AppDbContext : IdentityDbContext<ApplicationUser>, IAppDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -17,6 +18,8 @@ namespace Infrastructure.Data
         public DbSet<Sell> Sells { get; set; }
         public DbSet<Rent> Rents { get; set; }
         public DbSet<Documents> Documents { get; set; }
+        public DbSet<Kontrata> Kontrata { get; set; }
+        public DbSet<ContactRequest> ContactRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,6 +38,10 @@ namespace Infrastructure.Data
             builder.ApplyConfiguration(new RentConfiguration());
 
             builder.ApplyConfiguration(new DocumentsConfigurations());
+
+            builder.ApplyConfiguration(new kontrataConfigurations());
+
+            builder.ApplyConfiguration(new ContactRequestConfiguration());
         }
     }
 }

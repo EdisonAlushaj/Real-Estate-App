@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Documents>>> GetDocuments()
         {
             try
@@ -34,8 +35,8 @@ namespace WebUI.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Documents>> GetDocuments(int id)
+        [HttpGet("{id}"), Authorize(Policy = "UserPolicy")]
+        public async Task<ActionResult<Documents>> GetDocumentById(int id)
         {
             try
             {
@@ -54,12 +55,11 @@ namespace WebUI.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Policy = "AgentPolicy")]
         public async Task<ActionResult<Documents>> PostDocuments(Documents document)
         {
             try
             {
-                // Check if the PronaID exists
                 var existingProna = await _context.Pronas.FindAsync(document.PronaID);
                 if (existingProna == null)
                 {
@@ -75,7 +75,6 @@ namespace WebUI.Controllers
                     PronaID = document.PronaID
                 };
 
-                // If valid, add the document
                 _context.Documents.Add(doc);
                 await _context.SaveChangesAsync();
 
@@ -87,7 +86,7 @@ namespace WebUI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> PutApartment(int id, Documents document)
         {
             if (id != document.DocumentId)
@@ -120,7 +119,7 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteDocuments(int id)
         {
             try

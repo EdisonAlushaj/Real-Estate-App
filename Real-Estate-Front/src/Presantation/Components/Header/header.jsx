@@ -4,8 +4,25 @@ import { NavLink } from "react-router-dom";
 import Logo from '../../../../public/image/Logo-transparent.png'
 import './Header.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import Cookies from '../../../Application/Services/cookieUtils.jsx';
 
 function Header() {
+
+    const getUserRole = () => {
+        return Cookies.getUserRoleFromCookies();
+    }
+
+    const userRole = getUserRole();
+
+    const getToken = () => {
+        return Cookies.getTokenFromCookies();
+    }
+
+    const token = getToken();
+
+    const logOut = () => {
+        Cookies.clearUserRole();
+    }
 
     return (
         <>
@@ -23,8 +40,15 @@ function Header() {
                             <li className="nav-item"><NavLink to="/app/about" style={{ color: '#19282F', textDecoration: 'none' }}><b>Rreth Nesh</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/property" style={{ color: '#19282F', textDecoration: 'none' }}><b>Properties</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/contact" style={{ color: '#19282F', textDecoration: 'none' }}><b>Kontakti</b></NavLink></li>
-                            <li className="nav-item"><NavLink to="/dashboard" style={{ color: '#19282F', textDecoration: 'none' }}><b>Dashboard</b></NavLink></li>
-                            <li className="nav-item"><NavLink to="/login" style={{ color: '#19282F', textDecoration: 'none' }}><b>Login</b></NavLink></li>
+                            {(userRole === 'Admin' || userRole === 'Agent') && (
+                                <li className="nav-item"><NavLink to="/dashboard" style={{ color: '#19282F', textDecoration: 'none' }}><b>Dashboard</b></NavLink></li>
+                            )}
+                            {!token && (
+                                <li className="nav-item"><NavLink to="/login" style={{ color: '#19282F', textDecoration: 'none' }}><b>Log in</b></NavLink></li>
+                            )}
+                            {token && (
+                                <li className="nav-item"><NavLink to="/login" onClick={logOut} style={{ color: '#19282F', textDecoration: 'none' }}><b>Log out</b></NavLink></li>
+                            )}
                         </ul>
                     </div>
                 </div>

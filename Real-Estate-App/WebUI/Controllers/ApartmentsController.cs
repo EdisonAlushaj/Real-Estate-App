@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
+using Application.DTO;
+using Application.Features.Prona;
 
 namespace WebUI.Controllers
 {
@@ -21,8 +24,7 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-        // GET: api/Apartments
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "UserPolicy")]
         public async Task<ActionResult<IEnumerable<Apartment>>> GetApartments()
         {
             try
@@ -35,9 +37,8 @@ namespace WebUI.Controllers
             }
         }
 
-        // GET: api/Apartments/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Apartment>> GetApartment(int id)
+        [HttpGet("{id}"), Authorize(Policy = "AgentPolicy")]
+        public async Task<ActionResult<Apartment>> GetApartmentById(int id)
         {
             try
             {
@@ -56,8 +57,31 @@ namespace WebUI.Controllers
             }
         }
 
-        // PUT: api/Apartments/5
-        [HttpPut("{id}")]
+        [HttpPost, Authorize(Policy = "AgentPolicy")]
+        public async Task<ActionResult<Apartment>> PostApartment([FromForm] ApartmentCreateDto apartmentDto)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var apartmentFeature = new ApartmentFeature(_context);
+                var documentFeature = new DocumentFeature(_context);
+
+                var apartment = await apartmentFeature.CreateApartmentAsync(apartmentDto);
+
+                await documentFeature.CreateDocumentForApartmentAsync(apartment.PronaID);
+
+                await transaction.CommitAsync();
+
+                return CreatedAtAction("GetApartmentById", new { id = apartment.PronaID }, apartment);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record: " + ex.Message);
+            }
+        }
+
+        [HttpPut("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> PutApartment(int id, Apartment apartment)
         {
             if (id != apartment.PronaID)
@@ -90,25 +114,7 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        // POST: api/Apartments
-        [HttpPost]
-        public async Task<ActionResult<Apartment>> PostApartment(Apartment apartment)
-        {
-            try
-            {
-                _context.Apartments.Add(apartment);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetApartment", new { id = apartment.PronaID }, apartment);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating new record.");
-            }
-        }
-
-        // DELETE: api/Apartments/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteApartment(int id)
         {
             try

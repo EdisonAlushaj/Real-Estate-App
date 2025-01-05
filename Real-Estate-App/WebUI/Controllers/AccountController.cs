@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebUI.Controllers
 {
@@ -28,97 +29,161 @@ namespace WebUI.Controllers
             _loginFeature = loginFeature;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = _userManager.Users.ToList();
-
-            if (!users.Any())
+            try
             {
-                return NotFound("No users found.");
+                var users = _userManager.Users.ToList();
+
+                if (!users.Any())
+                {
+                    return NotFound("No users found.");
+                }
+
+                var userDtos = new List<object>();
+                foreach (var user in users)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+                    userDtos.Add(new
+                    {
+                        user.Id,
+                        user.UserName,
+                        user.Email,
+                        Roles = roles
+                    });
+                }
+
+                return Ok(userDtos);
             }
-
-            // Transform the users into a DTO if needed
-            var userDtos = users.Select(user => new
+            catch (Exception ex)
             {
-                user.Id,
-                user.UserName,
-                user.Email
-            }).ToList();
-
-            return Ok(userDtos);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while fetching users", error = ex.Message });
+            }
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var user = new ApplicationUser
+            try
             {
-                UserName = model.Username,
-                Email = model.Email
-            };
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser
+                {
+                    UserName = model.Username,
+                    Email = model.Email
+                };
 
-            if (result.Succeeded)
-            {
-                // Optionally assign the user to a role
-                // await _userManager.AddToRoleAsync(user, "User");
-                return Ok(new { message = "User registered successfully" });
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    return Ok(new { message = "User registered successfully" });
+                }
+
+                return BadRequest(result.Errors);
             }
-
-            return BadRequest(result.Errors);
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred during registration", error = ex.Message });
+            }
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login loginDTO)
         {
-            var result = await _loginFeature.AuthenticateUser(loginDTO);
-
-            if (!result.IsSuccess)
+            try
             {
-                return Unauthorized(new { Message = result.ErrorMessage });
-            }
+                var result = await _loginFeature.AuthenticateUser(loginDTO);
 
-            return Ok(new { Token = result.Token });
-        }
-
-        [HttpPost("add-role")]
-        public async Task<IActionResult> AddRole([FromBody] string role)
-        {
-            if (!await _roleManager.RoleExistsAsync(role))
-            {
-                var result = await _roleManager.CreateAsync(new IdentityRole(role));
-                if (result.Succeeded)
+                if (!result.IsSuccess)
                 {
-                    return Ok(new { message = "Role added successfully" });
+                    return Unauthorized(new { message = result.ErrorMessage });
                 }
 
-                return BadRequest(result.Errors);
+                return Ok(new { token = result.Token });
             }
-
-            return BadRequest("Role already exists");
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred during login", error = ex.Message });
+            }
         }
 
-        [HttpPost("assign-role")]
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            try
+            {
+                if (Request.Cookies.ContainsKey("refreshToken"))
+                {
+                    Response.Cookies.Delete("refreshToken");
+                }
+
+                return Ok(new { message = "User logged out successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred during logout", error = ex.Message });
+            }
+        }
+
+        [HttpPost("add-role"), Authorize(Policy = "AdminPolicy")]
+        public async Task<IActionResult> AddRole([FromBody] string role)
+        {
+            try
+            {
+                if (!await _roleManager.RoleExistsAsync(role))
+                {
+                    var result = await _roleManager.CreateAsync(new IdentityRole(role));
+                    if (result.Succeeded)
+                    {
+                        return Ok(new { message = "Role added successfully" });
+                    }
+
+                    return BadRequest(result.Errors);
+                }
+
+                return BadRequest("Role already exists");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while adding the role", error = ex.Message });
+            }
+        }
+
+        [HttpPost("assign-role"), Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleDto model)
         {
-            var user = await _userManager.FindByNameAsync(model.Username);
-            if (user == null)
+            try
             {
-                return BadRequest("User not found");
-            }
+                var user = await _userManager.FindByNameAsync(model.Username);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
 
-            var result = await _userManager.AddToRoleAsync(user, model.Role);
-            if (result.Succeeded)
+                var currentRoles = await _userManager.GetRolesAsync(user);
+
+                var removeRolesResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                if (!removeRolesResult.Succeeded)
+                {
+                    return BadRequest(new { message = "Failed to remove user's current roles", errors = removeRolesResult.Errors });
+                }
+
+                var addRoleResult = await _userManager.AddToRoleAsync(user, model.Role);
+                if (addRoleResult.Succeeded)
+                {
+                    return Ok(new { message = "Role updated successfully" });
+                }
+
+                return BadRequest(new { message = "Failed to assign the new role", errors = addRoleResult.Errors });
+            }
+            catch (Exception ex)
             {
-                return Ok(new { message = "Role assigned successfully" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while assigning the role", error = ex.Message });
             }
-
-            return BadRequest(result.Errors);
         }
     }
 }

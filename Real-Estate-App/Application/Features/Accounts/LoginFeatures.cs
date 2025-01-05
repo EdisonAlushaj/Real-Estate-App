@@ -2,6 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Domain.Entities;
 using Application.DTO;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Http;
+using Azure;
 
 namespace Application.Features.Accounts
 {
@@ -35,7 +38,10 @@ namespace Application.Features.Accounts
             }
 
             var token = _tokenHelper.GenerateTokenAsync(user);
-            
+
+            var refreshToken = _tokenHelper.GenerateRefreshToken();
+            _tokenHelper.SetRefreshToken(user, refreshToken);
+
             return LoginResultDTO.Success(await token);
         }
     }

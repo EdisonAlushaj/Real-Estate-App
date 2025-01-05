@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ShtepiaEndPoint } from '../Services/endpoints';
+import Cookies from '../Services/cookieUtils.jsx';
 
 const ShtepiaCrud = () => {
     const [show, setShow] = useState(false);
@@ -42,12 +43,20 @@ const ShtepiaCrud = () => {
 
     const [data, setData] = useState([]);
 
+    const getToken = () => {
+        return Cookies.getTokenFromCookies();
+    }
+
     useEffect(() => {
         getData();
     }, []);
 
     const getData = () => {
-        axios.get(ShtepiaEndPoint)
+        axios.get(ShtepiaEndPoint, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+            },
+        })
             .then((response) => {
                 console.log(response);
                 setData(response.data);
@@ -85,6 +94,10 @@ const ShtepiaCrud = () => {
                 nrFloors: editNrFloors,
                 kaGarazhd: editKaGarazhd,
                 kaPool: editKaPool
+            }, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
             });
             toast.success('House updated successfully');
             handleClose();
@@ -97,7 +110,11 @@ const ShtepiaCrud = () => {
 
     const handelDelete = (id) => {
         if (window.confirm("Are you sure to delete this house?")) {
-            axios.delete(`${ShtepiaEndPoint}/${id}`)
+            axios.delete(`${ShtepiaEndPoint}/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                },
+            })
                 .then((result) => {
                     if (result.status === 200) {
                         toast.success('House has been deleted');
@@ -123,7 +140,11 @@ const ShtepiaCrud = () => {
             kaPool
         };
 
-        axios.post(ShtepiaEndPoint, data)
+        axios.post(ShtepiaEndPoint, data, {
+            headers: {
+                Authorization: `Bearer ${getToken()}`,
+            },
+        })
             .then(() => {
                 getData();
                 clear();
@@ -163,7 +184,7 @@ const ShtepiaCrud = () => {
         <Fragment>
             <ToastContainer position="top-right" autoClose={5000} />
             <div className="d-flex justify-content-between align-items-center">
-                <h2>House</h2>
+                <h2>Houses Table</h2>
                 <Button variant="primary" onClick={handleShowAdd}>Add House</Button>
             </div>
 

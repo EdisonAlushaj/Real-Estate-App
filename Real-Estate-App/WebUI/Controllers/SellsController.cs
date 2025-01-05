@@ -1,5 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Sell_Rent;
+using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +19,10 @@ namespace WebUI.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> GetAllSales()
         {
-            var sales = await _context.Set<Sell>()
+            var sales = await _context.Sells
                 .Include(s => s.Users)
                 .Include(s => s.Pronat)
                 .ToListAsync();
@@ -28,13 +30,13 @@ namespace WebUI.Controllers
             return Ok(sales);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetSaleById(int id)
+        [HttpGet("{id}"), Authorize(Policy = "UserPolicy")]
+        public async Task<IActionResult> GetSaleByUserId(string id)
         {
-            var sale = await _context.Set<Sell>()
+            var sale = await _context.Sells
                 .Include(s => s.Users)
                 .Include(s => s.Pronat)
-                .FirstOrDefaultAsync(s => s.SellID == id);
+                .FirstOrDefaultAsync(s => s.UserID == id);
 
             if (sale == null)
             {
@@ -44,62 +46,31 @@ namespace WebUI.Controllers
             return Ok(sale);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateSale(string userId, int pronaId, [FromBody] Sell sale)
+        [HttpPost, Authorize(Policy = "UserPolicy")]
+        public async Task<IActionResult> CreateSell(string userId, int pronaId, double koheZgjatja, [FromBody] Sell sale)
         {
             try
             {
-                // Check if the model state is valid
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
 
-                // Find the user by userId
-                var user = await _context.Users.FindAsync(userId);
-                if (user == null)
-                {
-                    return NotFound(new { message = "User not found" });
-                }
+                var sellFeature = new SellFeature(_context);
+                var kontrataFeature = new KontrataFeature(_context);
 
-                // Find the property (Prona) by pronaId
-                var prona = await _context.Pronas.FindAsync(pronaId);
-                if (prona == null)
-                {
-                    return NotFound(new { message = "Property not found" });
-                }
+                var createdSell = await sellFeature.CreateSellAsync(userId, pronaId, sale);
+                var createdKontrata = await kontrataFeature.CreateKontrataSellAsync(userId, pronaId, koheZgjatja);
 
-                // Assign user and property to the sale
-                sale.UserID = userId;
-                sale.PronaID = pronaId;
-                sale.Users = user;  // Linking user
-                sale.Pronat = prona; // Linking property
-
-                // Add the sale to the context
-                _context.Sells.Add(sale);
-
-                // Save changes to the database
-                await _context.SaveChangesAsync();
-
-                // Return a Created response with the newly created sale
-                return CreatedAtAction(nameof(GetSaleById), new { id = sale.SellID }, sale);
-            }
-            catch (DbUpdateException dbEx)
-            {
-                // Handle database update exceptions
-                Console.WriteLine($"Database error: {dbEx.Message}");
-                return StatusCode(500, new { message = "An error occurred while saving to the database." });
+                return CreatedAtAction(nameof(GetSaleByUserId), new { id = createdSell.SellID }, createdSell);
             }
             catch (Exception ex)
             {
-                // Handle other general exceptions
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                return StatusCode(500, new { message = "An unexpected error occurred. Please try again later." });
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
-
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> UpdateSale(int id, [FromBody] Sell sale)
         {
             if (id != sale.SellID)
@@ -131,7 +102,7 @@ namespace WebUI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> DeleteSale(int id)
         {
             var sale = await _context.Set<Sell>().FindAsync(id);

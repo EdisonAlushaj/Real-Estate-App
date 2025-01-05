@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Domain.csproj": {}
+    "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Domain.csproj": {
+    "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\Elez Kadrijaj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Elez Kadrijaj\\Desktop\\Real-Estate-App\\Real-Estate-App\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\ediso\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ediso\\OneDrive\\Desktop\\Dizajni i Sistemit të Softuerit\\Real-Estate-App\\Real-Estate-App\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Elez Kadrijaj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ediso\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -81,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
