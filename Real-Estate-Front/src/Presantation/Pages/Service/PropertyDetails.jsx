@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import cookieUtils from '../../../Application/Services/cookieUtils'; // Import cookieUtils
 import { PronaEndPoint } from '../../../Application/Services/endpoints';
 import coverImg from '../../../../public/Image/property-1.png';
-import Header from '../../Components/Header/Header'; // Import Header
-import Footer from '../../Components/Footer/footer'; // Import Footer
+import Header from '../../Components/Header/Header';
+import Footer from '../../Components/Footer/footer';
 
 function PropertyDetails() {
-    const { id } = useParams(); // Get the property ID from the URL
-    const navigate = useNavigate(); // Use useNavigate hook
+    const { id } = useParams(); // ID-ja e pronës nga parametri i URL-së
+    const navigate = useNavigate();
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-    });
 
-    // Fetch property details when the component mounts
+    // Merr detajet e pronës
     useEffect(() => {
         const fetchPropertyDetails = async () => {
             try {
@@ -35,36 +30,44 @@ function PropertyDetails() {
         fetchPropertyDetails();
     }, [id]);
 
-    // Handle form input change
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    // Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert('Your inquiry has been submitted!');
-    };
-
-    // Delete property method
-    const handleDelete = async () => {
+    // Funksioni për blerjen e pronës
+    const handleBuyProperty = async () => {
+        const userId = cookieUtils.getUserIdFromCookies(); // Merrni userId nga cookies
+        const token = cookieUtils.getTokenFromCookies(); // Merrni token-in nga cookies
+        const duration = 12; // Koha e zgjedhjes në muaj
+    
+        if (!token || !userId) {
+            alert('User is not authenticated. Please log in.');
+            return;
+        }
+    
         try {
-            await axios.delete(`${PronaEndPoint}/DeleteProperty`, { params: { id } });
-            alert('Property deleted successfully!');
-            navigate('/'); // Use navigate to redirect to home after deletion
+            const response = await axios.post(
+                `https://localhost:7140/api/Sells`,
+                {
+                    userId,
+                    pronaId: id,
+                    koheZgjatja: duration,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            alert('Property purchased successfully!');
+            navigate('/my-properties'); // Navigo te faqja e pronave të blera
         } catch (error) {
-            console.error('Error deleting property:', error);
-            alert('There was an error deleting the property. Please try again later.');
+            console.error('Error purchasing property:', error);
+            alert(`Error: ${error.response?.data || error.message}`);
         }
     };
+    
 
-    // If loading, show loading message
     if (loading) {
         return <p>Loading property details...</p>;
     }
 
-    // If property not found
     if (!property) {
         return <p>Property not found.</p>;
     }
@@ -72,7 +75,7 @@ function PropertyDetails() {
     return (
         <div>
             <Header />
-            <div style={{ padding: '6em 0 0', backgroundColor: '#f4f4f9' }}> {/* Add padding-top to create space */}
+            <div style={{ padding: '6em 0 0', backgroundColor: '#f4f4f9' }}>
                 <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2em' }}>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '3em', justifyContent: 'space-between' }}>
                         <div style={{ flex: 1 }}>
@@ -98,6 +101,21 @@ function PropertyDetails() {
                                 <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>Rooms: {property.rooms}</p>
                                 <p style={{ fontSize: '1.2em', fontWeight: 'bold' }}>Type: {property.type}</p>
                             </div>
+                            <button
+                                style={{
+                                    marginTop: '2em',
+                                    padding: '0.8em 2em',
+                                    fontSize: '1.1em',
+                                    color: '#fff',
+                                    backgroundColor: '#007bff',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                }}
+                                onClick={handleBuyProperty}
+                            >
+                                Buy Property
+                            </button>
                         </div>
                     </div>
                 </div>

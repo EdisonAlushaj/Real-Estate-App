@@ -15,6 +15,7 @@ export const PronaEndPoint = 'https://localhost:7140/api/Prona';
 
 
 
+<<<<<<< Updated upstream
 
 
 
@@ -38,3 +39,8 @@ export const PronaEndPoint = 'https://localhost:7140/api/Prona';
 
 
 
+=======
+export const UsersEndPoint = 'https://localhost:7140/api/Account';
+
+export const SellsEndPoint = 'https://localhost:7140/api/Sells';
+>>>>>>> Stashed changes
