@@ -66,7 +66,6 @@ function Properties() {
         }
     };
 
-<<<<<<< Updated upstream
     // Funksioni për të kthyer të gjitha pronat
     const handleShowAllProperties = () => {
         setFilteredProperties(allProperties); // Kthehu te të gjitha pronat
@@ -76,8 +75,6 @@ function Properties() {
         setBudget('');
     };
 
-=======
->>>>>>> Stashed changes
     // Funksioni për blerjen e pronës
     const handleBuyProperty = (propertyId) => {
         navigate(`/app/property/${propertyId}`);
