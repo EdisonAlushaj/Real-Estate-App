@@ -13,6 +13,7 @@ function Properties() {
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
     const [budget, setBudget] = useState('');
+    const [propertyType, setPropertyType] = useState('');
     const [loading, setLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false); // Tregon nëse është bërë kërkim
 
@@ -41,7 +42,7 @@ function Properties() {
         setHasSearched(true); // Kërkimi është bërë
 
         // If no filters are provided, return all properties
-        if (!location && !category && !budget) {
+        if (!location && !category && !budget && !propertyType) {
             setFilteredProperties(allProperties);
             setLoading(false);
             return;
@@ -54,6 +55,7 @@ function Properties() {
                     location,
                     category,
                     maxPrice: budget || undefined, // Optional parameter
+                    propertyType,
                 },
             });
 
@@ -73,6 +75,7 @@ function Properties() {
         setLocation('');
         setCategory('');
         setBudget('');
+        setPropertyType('');
     };
 
     // Funksioni për blerjen e pronës
@@ -80,7 +83,6 @@ function Properties() {
         navigate(`/app/property/${propertyId}`);
     };
     
-
     return (
         <>
             {/* Cover Section */}
@@ -148,10 +150,26 @@ function Properties() {
                             backgroundColor: '#fff',
                         }}
                     >
-                        <option value="">Property Type</option>
+                        <option value="" disabled>Category</option>
                         <option value="apartment">Apartment</option>
                         <option value="house">House</option>
                         <option value="land">Land</option>
+                    </select>
+                    <select
+                        value={propertyType}
+                        onChange={(e) => setPropertyType(e.target.value)}
+                        style={{
+                            flex: 1,
+                            padding: '0.5em',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            outline: 'none',
+                            backgroundColor: '#fff',
+                        }}
+                    >
+                        <option value="" disabled>Property Type</option>
+                        <option value="sale">Sale</option>
+                        <option value="rent">Rent</option>
                     </select>
                     <input
                         type="number"

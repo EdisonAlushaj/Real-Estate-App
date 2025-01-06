@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import { PronaEndPoint } from '../../../Application/Services/endpoints';
 import coverImg from '../../../../public/Image/property-1.png';
-import Header from '../../Components/Header/Header'; // Import Header
+import Header from '../../Components/Header/header'; // Import Header
 import Footer from '../../Components/Footer/footer'; // Import Footer
 
 function PropertyDetails() {
