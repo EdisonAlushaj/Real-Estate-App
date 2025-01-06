@@ -3,6 +3,8 @@ import axios from 'axios';
  
 const cookieUtils = {
 
+ 
+
   setUserRoleInCookies: (role) => {
     Cookies.set('userRole', role, { expires: 1 });
   },
@@ -15,7 +17,10 @@ const cookieUtils = {
   setTokenCookies: (token) => {
     Cookies.set('token', token, { expires: 1 });
   },
+
+ 
   
+
   getUserIdFromCookies: () => {
     return Cookies.get('userId');
   },
@@ -28,6 +33,12 @@ const cookieUtils = {
   getTokenFromCookies: () => {
     return Cookies.get('token');
   },
+
+ 
+  setRefreshToken: (refreshToken) => {
+    Cookies.set('refreshToken', refreshToken, { expires: 1 }); // set the refresh token with an expiration of 7 days
+ 
+=======
 
   setRefreshToken: (refreshToken) => {
     Cookies.set('refreshToken', refreshToken, { expires: 1 }); // set the refresh token with an expiration of 7 days
@@ -47,10 +58,17 @@ const cookieUtils = {
       }
     };
 
+ 
+    // Set an interval to refresh the token every 5 minutes
+    setInterval(refreshRefreshToken, 5 * 60 * 1000); // 5 minutes interval
+  },
+
+
     // Set an interval to refresh the token every 5 minutes
     setInterval(refreshRefreshToken, 5 * 60 * 1000); // 5 minutes interval
   },
   
+
   clearUserRole: () => {
     Cookies.remove('userRole');
     Cookies.remove('userId');
