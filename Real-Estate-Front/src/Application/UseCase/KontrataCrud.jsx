@@ -19,17 +19,6 @@ const ContractsCrud = () =>{
     const handleCloseAdd = () => setShowAdd(false);
     const handleShowAdd = () => setShowAdd(true);
 
-    const [kontrataID, setKontrataID] = useState('');
-    const [pronaID, setPronaID] = useState('');
-    const [userID, setUserID] = useState('');
-    const [koheZgjatja, setKoheZgjatja] = useState('');
-    const [type, setType] = useState('');
-
-    const [editKontrataID, setEditKontrataId] = useState('');
-    const [editPronaID, setEditPronaId] = useState('');
-    const [editUserID, setEditUserId] = useState('');
-    const [editKoheZgjatja, setEditKoheZgjatja] = useState('');
-    const [editType, setEditType] = useState('');
 
     const [data, setData] = useState([]);
 
@@ -61,38 +50,7 @@ const ContractsCrud = () =>{
         }
     };
 
-    async function editKontrata(kontrata) {
-        handleShow();
-        setEditPronaId(kontrata.pronaID);
-        setEditUserId(kontrata.userID)
-        setEditKoheZgjatja(kontrata.koheZgjatja);
-        setEditType(kontrata.type);
 
-    }
-
-    async function update(event) {
-        event.preventDefault();
-        try {
-            await axios.put(`${KontrataEndPoint}/${editKontrataID}`, {
-                pronaID: editPronaID,
-                userID: editUserID,
-                kontrataID: editKontrataID,
-                koheZgjatja: editKoheZgjatja,
-                type: editType,
-                
-            }, {
-                headers: {
-                    Authorization: `Bearer ${getToken()}`,
-                },
-            });
-            toast.success('Toka updated successfully');
-            handleClose();
-            getData();
-            clear();
-        } catch (error) {
-            console.error("Error updating apartment:", error);
-        }
-    }
 
     const handelDelete = (id) => {
         if (window.confirm("Are you sure to delete this Contract?")) {
@@ -111,19 +69,6 @@ const ContractsCrud = () =>{
                     toast.error(error.message);
                 });
         }
-    };
-    const clear = () => {
-        setPronaId('');
-        setUserId('');
-        setKoheZgjatja('');
-        setType('');
-        
-        setEditPronaId('');
-        setEditUserId('');
-        setEditKoheZgjatja('');
-        setEditType('');
-
-        setEditKontrataId('');
     };
 
         return (
@@ -146,51 +91,19 @@ const ContractsCrud = () =>{
                     </thead>
                     <tbody>
                         {data.map((kontrata) => (
-                            <tr key={kontrata.kontrataID}>
-                                <td>{kontrata.kontrataID}</td>
-                                <td>{kontrata.pronaID}</td>
-                                <td>{kontrata.userID}</td>
+                            <tr key={kontrata.kontrataId}>
+                                <td>{kontrata.kontrataId}</td>
                                 <td>{kontrata.koheZgjatja}</td>
                                 <td>{kontrata.type}</td>
+                                <td>{kontrata.pronaID}</td>
+                                <td>{kontrata.userID}</td>
                                 <td>
-                                    <Button variant="warning" onClick={() => editKontrata(kontrata)}>Edit</Button>{' '}
-                                    <Button variant="danger" onClick={() => handelDelete(kontrata.kontrataID)}>Delete</Button>
+                                    <Button variant="danger" onClick={() => handelDelete(kontrata.kontrataId)}>Delete</Button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
-    
-            
-    
-                {/* Edit Apartment Modal */}
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Edit Apartment</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                    <Row>
-                            <Col>
-                                <input type="number" placeholder="Kohezgjatja" className="form-control" value={koheZgjatja} onChange={(e) => setEditKoheZgjatja(e.target.value)} />
-                            </Col>
-                            <Col>
-                                <input type="text" placeholder="Type" className="form-control" value={type} onChange={(e) => setEditType(e.target.value)} />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <input type="number" placeholder="PronaID" className="form-control" value={pronaID} onChange={(e) => setEditPronaID(e.target.value)} />
-                            </Col>
-                            <Col>
-                                <input type="number" placeholder="UserId" className="form-control" value={userID} onChange={(e) => setEditUserID(e.target.value)} />
-                            </Col>
-                        </Row>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>Close</Button>
-                        <Button variant="primary" onClick={update}>Update</Button>
-                    </Modal.Footer>
-                </Modal>
             </Fragment>
         );
     };

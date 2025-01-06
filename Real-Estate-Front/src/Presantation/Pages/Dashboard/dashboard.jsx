@@ -4,6 +4,10 @@ import "./dashboard.css";
 import ApartmentsCrud from "../../../Application/UseCase/ApartmentCrud";
 import TokaCrud from "../../../Application/UseCase/TokaCrud";
 import ShtepiaCrud from "../../../Application/UseCase/ShtepiaCrud";
+import ContractsCrud from "../../../Application/UseCase/KontrataCrud";
+import DocumentsCrud from "../../../Application/UseCase/DocumentCrud";
+import ContactRequestCrud from "../../../Application/UseCase/ContactRequestCrud";
+
 
 const Dashboard = () => {
     const [activeTable, setActiveTable] = useState(null);
@@ -60,6 +64,36 @@ const Dashboard = () => {
                                 <span className="fw-normal">Tokat</span>
                             </NavLink>
                         </li>
+                        <li className="sidebar-item">
+                            <NavLink
+                                to="#"
+                                className="sidebar-link"
+                                onClick={() => toggleTable("kontrata")}
+                            >
+                                <i className="bi bi-tablet-landscape"></i>
+                                <span className="fw-normal">kontratat</span>
+                            </NavLink>
+                        </li>
+                        <li className="sidebar-item">
+                            <NavLink
+                                to="#"
+                                className="sidebar-link"
+                                onClick={() => toggleTable("dokumenti")}
+                            >
+                                <i className="bi bi-tablet-landscape"></i>
+                                <span className="fw-normal">Documents</span>
+                            </NavLink>
+                        </li>
+                        <li className="sidebar-item">
+                            <NavLink
+                                to="#"
+                                className="sidebar-link"
+                                onClick={() => toggleTable("contactRequest")}
+                            >
+                                <i className="bi bi-tablet-landscape"></i>
+                                <span className="fw-normal">ContactRequests</span>
+                            </NavLink>
+                        </li>
                     </ul>
                     <div className="sidebar-footer">
                         <NavLink to="/app/home" className="sidebar-link">
@@ -76,6 +110,9 @@ const Dashboard = () => {
                             {activeTable === "apartment" && <ApartmentsCrud />}
                             {activeTable === "toka" && <TokaCrud />}
                             {activeTable === "house" && <ShtepiaCrud />}
+                            {activeTable === "kontrata" && <ContractsCrud />}
+                            {activeTable === "dokumenti" && <DocumentsCrud />}
+                            {activeTable === "contactRequest" && <ContactRequestCrud />}
                         </div>
                     </main>
                 </div>

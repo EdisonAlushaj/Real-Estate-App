@@ -18,16 +18,6 @@ const DocumentsCrud = () => {
     const handleShow = () => setShow(true);
     const handleCloseAdd = () => setShowAdd(false);
     const handleShowAdd = () => setShowAdd(true);
-    
-    const [documentId, setDocumentId] = useState('');
-    const [type, setType] = useState('');
-    const [createdData, setCreatedData] = useState('');
-    const [expiorationDate, setExpiorationDate] = useState('');
-
-    const [editDocumentId, setEditDocumentId] = useState('');
-    const [editType, setEditType] = useState('');
-    const [editCreatedData, setEditCreatedData] = useState('');
-    const [editExpiorationDate, setEditExpiorationDate] = useState('');
 
     const [data, setData] = useState([]);
 
@@ -39,20 +29,25 @@ const DocumentsCrud = () => {
             getData();
         }, []);
 
-    const getData = () => {
-        axios.get(DocumentEndPoint, {
-            headers: {
-                Authorization: `Bearer ${getToken()}`,
-            },
-        })
-            .then((response) => {
-                console.log(response);
-                setData(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };   
+        const getData = async () => {
+            try {
+                const response = await axios.get(DocumentEndPoint, {
+                    headers: {
+                        Authorization: `Bearer ${getToken()}`,
+                    },
+                });
+        
+                console.log("Response:", response); // Shiko në konsolë të dhënat që merr
+                // Sigurohuni që të keni të dhënat e duhura në response.data
+                // Nëse backend-i kthen një array të kontratave, kjo mund të jetë OK
+                if (response && response.data) {
+                    setData(response.data); // Vendos të dhënat në state
+                }
+            } catch (error) {
+                console.log("Error:", error);
+                toast.error("There was an error fetching the data.");
+            }
+        };  
 
     const handelDelete = (id) => {
         if (window.confirm("Are you sure to delete this Document?")) {
@@ -73,24 +68,11 @@ const DocumentsCrud = () => {
         }
     };
 
-    const clear = () => {
-        setType('');
-        setCreatedData('');
-        setExpiorationDate('');
-        
-        setEditType('');
-        setEditCreatedData('');
-        setEditExpiorationDate('');
-
-        setEditDocumentId('');
-    };
-
     return (
         <Fragment>
             <ToastContainer position="top-right" autoClose={5000} />
             <div className="d-flex justify-content-between align-items-center">
-                <h2>Contracts</h2>
-                <Button variant="primary" onClick={handleShowAdd}>Add Contract</Button>
+                <h2>Documents</h2>
             </div>
 
             <Table striped bordered hover className="mt-3">
@@ -100,6 +82,7 @@ const DocumentsCrud = () => {
                         <th>Type</th>
                         <th>CreatedData</th>
                         <th>ExpiorationDate</th>
+                        <th>PronaId</th>
                         
                     </tr>
                 </thead>
@@ -110,38 +93,14 @@ const DocumentsCrud = () => {
                             <td>{document.type}</td>
                             <td>{document.createdData}</td>
                             <td>{document.expiorationDate}</td>
+                            <td>{document.pronaID}</td>
                             <td>
                                 <Button variant="danger" onClick={() => handelDelete(document.documentId)}>Delete</Button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
-            </Table>
-
-            <Modal show={showAdd} onHide={handleCloseAdd}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add Document</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Row>
-                        <Col>
-                            <input type="text" placeholder="Type" className="form-control" value={type} onChange={(e) => setType(e.target.value)} />
-                        </Col>
-                        <Col>
-                            <input type="text" placeholder="CreatedData" className="form-control" value={createdData} onChange={(e) => setCreatedData(e.target.value)} />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <input type="number" placeholder="ExpiorationDate" className="form-control" value={expiorationDate} onChange={(e) => setExpiorationDate(e.target.value)} />
-                        </Col>
-                    </Row>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseAdd}>Close</Button>
-                    <Button variant="primary" onClick={handleSave}>Save</Button>
-                </Modal.Footer>
-            </Modal>    
+            </Table>   
         </Fragment>
     );
 };
