@@ -30,6 +30,9 @@ namespace Application.Features.Sell_Rent
             if (prona.Status != "Available")
                 throw new Exception("Property is not Available.");
 
+            if (prona.Type != "Sell")
+                throw new Exception("Property is not for Sale, it is for Rent.");
+
             sell.UserID = userId;
             sell.PronaID = pronaId;
             sell.Users = user;

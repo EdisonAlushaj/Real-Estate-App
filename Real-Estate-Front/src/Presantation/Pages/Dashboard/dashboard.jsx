@@ -7,6 +7,7 @@ import ShtepiaCrud from "../../../Application/UseCase/ShtepiaCrud";
 import SellCrud from "../../../Application/UseCase/SellCrud";
 import RentCrud from "../../../Application/UseCase/RentCrud";
 import UserCrud from "../../../Application/UseCase/UserCrud";
+import Cookies from '../../../Application/Services/cookieUtils.jsx';
 
 const Dashboard = () => {
     const [activeTable, setActiveTable] = useState(null);
@@ -19,6 +20,12 @@ const Dashboard = () => {
     const toggleTable = (table) => {
         setActiveTable((prevTable) => (prevTable === table ? null : table));
     };
+
+    const getUserRole = () => {
+        return Cookies.getUserRoleFromCookies();
+    }
+
+    const userRole = getUserRole();
 
     return (
         <>
@@ -110,7 +117,7 @@ const Dashboard = () => {
                             {activeTable === "house" && <ShtepiaCrud />}
                             {activeTable === "sale" && <SellCrud />}
                             {activeTable === "rent" && <RentCrud />}
-                            {activeTable === "user" && <UserCrud />}
+                            {activeTable === "user" && userRole === 'Admin' && <UserCrud />}
                         </div>
                     </main>
                 </div>

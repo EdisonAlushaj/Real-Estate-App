@@ -4,7 +4,8 @@ import axios from 'axios';
 import cookieUtils from '../../../Application/Services/cookieUtils'; // Import cookieUtils
 import { PronaEndPoint } from '../../../Application/Services/endpoints';
 import coverImg from '../../../../public/Image/property-1.png';
-import Header from '../../Components/Header/Header';
+
+import Header from '../../Components/Header/header';
 import Footer from '../../Components/Footer/footer';
 
 function PropertyDetails() {

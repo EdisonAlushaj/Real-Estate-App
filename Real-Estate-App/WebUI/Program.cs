@@ -9,6 +9,8 @@ using System.Text;
 using Domain.Entities;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Application.Features.Property;
+using Application.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +78,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<TokenHelper>();
 builder.Services.AddScoped<LoginFeatures>();
+builder.Services.AddScoped<IPronaFeature, PronaFeature>();
+builder.Services.AddScoped<IAppDbContext, AppDbContext>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
