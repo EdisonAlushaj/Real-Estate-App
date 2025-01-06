@@ -43,11 +43,12 @@ namespace WebUI.Controllers
         public async Task<IActionResult> GetFilteredProperties(
             string? location,
             string? category,
-            double? maxPrice)
+            double? maxPrice,
+            string? propertyType)
         {
             try
             {
-                var filteredProperties = await _pronaFeature.GetFilteredPropertiesAsync(location, category, maxPrice);
+                var filteredProperties = await _pronaFeature.GetFilteredPropertiesAsync(location, category, maxPrice, propertyType);
                 return Ok(filteredProperties);
             }
             catch (ArgumentException ex)
