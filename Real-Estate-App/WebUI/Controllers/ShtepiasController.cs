@@ -116,7 +116,7 @@ namespace WebUI.Controllers
 
         [HttpDelete("{id}"), Authorize(Policy = "AgentPolicy")]
         public async Task<IActionResult> DeleteShtepia(int id)
-        {
+         {
             try
             {
                 var shtepia = await _context.Shtepiat.FindAsync(id);

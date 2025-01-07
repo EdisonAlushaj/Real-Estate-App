@@ -61,7 +61,6 @@ namespace WebUI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while fetching users", error = ex.Message });
             }
         }
-
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
@@ -69,6 +68,15 @@ namespace WebUI.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
+
+                // Check for duplicate username or email
+                var existingUser = await _userManager.FindByNameAsync(model.Username);
+                if (existingUser != null)
+                    return BadRequest(new { message = "Username is already taken." });
+
+                var existingEmail = await _userManager.FindByEmailAsync(model.Email);
+                if (existingEmail != null)
+                    return BadRequest(new { message = "Email is already registered." });
 
                 var user = new ApplicationUser
                 {
@@ -87,9 +95,17 @@ namespace WebUI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred during registration", error = ex.Message });
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Inner Exception: {ex.InnerException?.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    message = "An error occurred during registration",
+                    error = ex.Message,
+                    innerException = ex.InnerException?.Message
+                });
             }
         }
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login loginDTO)
