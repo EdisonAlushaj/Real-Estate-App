@@ -58,7 +58,7 @@ namespace WebUI.Controllers
             var kontrataFeature = new KontrataFeature(_context);
 
             var createdRent = await rentFeature.CreateRentAsync(userId, pronaId, rent);
-            var createdKontrata = await kontrataFeature.CreateKontrataRentAsync(userId, pronaId, koheZgjatja);
+            var createdKontrata = await kontrataFeature.CreateKontrataRentAsync(userId, pronaId);
 
             return CreatedAtAction(nameof(GetRentByUserId), new { id = createdRent.RentId }, createdRent);
         }

@@ -17,13 +17,12 @@ namespace Application.Features.Sell_Rent
             _context = context;
         }
 
-        public async Task<Kontrata> CreateKontrataAsync(string userId, int pronaId, double koheZgjatja, string type)
+        public async Task<Kontrata> CreateKontrataAsync(string userId, int pronaId,  string type)
         {
             var kontrata = new Kontrata
             {
                 PronaID = pronaId,
                 UserID = userId,
-                koheZgjatja = koheZgjatja,
                 Type = type
             };
 
@@ -33,13 +32,12 @@ namespace Application.Features.Sell_Rent
             return kontrata;
         }
 
-        public async Task<Kontrata> CreateKontrataSellAsync(string userId, int pronaId, double koheZgjatja)
+        public async Task<Kontrata> CreateKontrataSellAsync(string userId, int pronaId)
         {
             var kontrata = new Kontrata
             {
                 PronaID = pronaId,
                 UserID = userId,
-                koheZgjatja = koheZgjatja,
                 Type = "Sell Contract"
             };
 
@@ -49,13 +47,12 @@ namespace Application.Features.Sell_Rent
             return kontrata;
         }
 
-        public async Task<Kontrata> CreateKontrataRentAsync(string userId, int pronaId, double koheZgjatja)
+        public async Task<Kontrata> CreateKontrataRentAsync(string userId, int pronaId)
         {
             var kontrata = new Kontrata
             {
                 PronaID = pronaId,
                 UserID = userId,
-                koheZgjatja = koheZgjatja,
                 Type = "Rent Contract"
             };
 

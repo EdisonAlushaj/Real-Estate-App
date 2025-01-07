@@ -46,29 +46,39 @@ namespace WebUI.Controllers
             return Ok(sale);
         }
 
-        [HttpPost, Authorize(Policy = "UserPolicy")]
-        public async Task<IActionResult> CreateSell(string userId, int pronaId, double koheZgjatja, [FromBody] Sell sale)
+        [HttpPost]
+        public async Task<IActionResult> CreateSell(string userId, int pronaId, [FromBody] Sell sale)
         {
             try
             {
+                if (string.IsNullOrEmpty(userId) || pronaId <= 0)
+                {
+                    return BadRequest("Invalid userId or pronaId.");
+                }
+
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
 
+                // Log the received data
+                Console.WriteLine($"CreateSell called with: userId={userId}, pronaId={pronaId}, sale={sale}");
+
                 var sellFeature = new SellFeature(_context);
                 var kontrataFeature = new KontrataFeature(_context);
 
                 var createdSell = await sellFeature.CreateSellAsync(userId, pronaId, sale);
-                var createdKontrata = await kontrataFeature.CreateKontrataSellAsync(userId, pronaId, koheZgjatja);
+                var createdKontrata = await kontrataFeature.CreateKontrataSellAsync(userId, pronaId);
 
                 return CreatedAtAction(nameof(GetSaleByUserId), new { id = createdSell.SellID }, createdSell);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error in CreateSell: {ex.Message}");
                 return StatusCode(500, new { message = ex.Message });
             }
         }
+
 
         [HttpPut("{id}"), Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> UpdateSale(int id, [FromBody] Sell sale)
