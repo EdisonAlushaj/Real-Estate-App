@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { RentEndPoint } from '../Services/endpoints';
+
 import Cookies from '../Services/cookieUtils.jsx';
 
 const RentCrud = () => {
