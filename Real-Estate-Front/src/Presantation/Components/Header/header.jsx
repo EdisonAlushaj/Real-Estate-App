@@ -40,15 +40,25 @@ function Header() {
                             <li className="nav-item"><NavLink to="/app/about" style={{ color: '#19282F', textDecoration: 'none' }}><b>Rreth Nesh</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/property" style={{ color: '#19282F', textDecoration: 'none' }}><b>Properties</b></NavLink></li>
                             <li className="nav-item"><NavLink to="/app/contact" style={{ color: '#19282F', textDecoration: 'none' }}><b>Kontakti</b></NavLink></li>
-                            {(userRole === 'Admin' || userRole === 'Agent') && (
-                                <li className="nav-item"><NavLink to="/dashboard" style={{ color: '#19282F', textDecoration: 'none' }}><b>Dashboard</b></NavLink></li>
-                            )}
                             {!token && (
                                 <li className="nav-item"><NavLink to="/login" style={{ color: '#19282F', textDecoration: 'none' }}><b>Log in</b></NavLink></li>
                             )}
-                            {token && (
-                                <li className="nav-item"><NavLink to="/login" onClick={logOut} style={{ color: '#19282F', textDecoration: 'none' }}><b>Log out</b></NavLink></li>
-                            )}
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: '#19282F', textDecoration: 'none' }}>
+                                    <b>Menu</b>
+                                </a>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    {(userRole === 'Admin' || userRole === 'Agent') && (
+                                        <li><NavLink className="dropdown-item" to="/dashboard"><b>Dashboard</b></NavLink></li>
+                                    )}
+                                    {token && (
+                                        <>
+                                            <li><NavLink className="dropdown-item" to="/login" onClick={logOut}><b>Log out</b></NavLink></li>
+                                            <li><NavLink className="dropdown-item" to="/app/usersummary"><b>User Summary</b></NavLink></li>
+                                        </>
+                                    )}
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
