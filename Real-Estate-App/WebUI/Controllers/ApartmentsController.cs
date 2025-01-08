@@ -127,7 +127,7 @@ namespace WebUI.Controllers
 
                 _context.Apartments.Remove(apartment);
  
-                                await _context.SaveChangesAsync();
+                 await _context.SaveChangesAsync();
 
                 return Ok(await _context.Apartments.ToListAsync());
             }

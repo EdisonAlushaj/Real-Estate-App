@@ -30,20 +30,22 @@ namespace WebUI.Controllers
             return Ok(sales);
         }
 
-        [HttpGet("{id}"), Authorize(Policy = "UserPolicy")]
+        [HttpGet("{id}")]
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> GetRentByUserId(string id)
         {
-            var rent = await _context.Set<Rent>()
+            var rents = await _context.Rents
                 .Include(s => s.Users)
                 .Include(s => s.Pronat)
-                .FirstOrDefaultAsync(s => s.UserID == id);
+                .Where(s => s.UserID == id)
+                .ToListAsync();
 
-            if (rent == null)
+            if (rents == null || !rents.Any())
             {
-                return NotFound("Rent not found.");
+                return NotFound("No rent found for the given user.");
             }
 
-            return Ok(rent);
+            return Ok(rents);
         }
 
         [HttpPost, Authorize(Policy = "UserPolicy")]

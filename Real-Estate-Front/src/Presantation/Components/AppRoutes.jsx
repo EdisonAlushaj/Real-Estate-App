@@ -11,6 +11,7 @@ import Register from '../Pages/Login/register.jsx'
 import Dashboard from '../Pages/Dashboard/dashboard.jsx'
 import PropertyDetails from "../Pages/Service/PropertyDetails.jsx";
 import PrivateRoute from '../../Application/Services/PrivateRoute';
+import UserSummary from '../Pages/UserSummary/UserSummary.jsx'
 
 const AppRoutes = () => (
     <Routes>
@@ -18,6 +19,7 @@ const AppRoutes = () => (
         <Route path="/app" element={<MainLayout />}>
             <Route path="home" element={<Home />} />
             <Route path="about" element={<About />} />
+            <Route path="usersummary" element={<UserSummary />} />
             <Route path="contact" element={<Contact />} />
             <Route path="property" element={<Property />} />
             <Route path="property/:id" element={<PropertyDetails />} />

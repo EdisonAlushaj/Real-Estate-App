@@ -30,20 +30,22 @@ namespace WebUI.Controllers
             return Ok(sales);
         }
 
-        [HttpGet("{id}"), Authorize(Policy = "UserPolicy")]
+        [HttpGet("{id}")]
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> GetSaleByUserId(string id)
         {
-            var sale = await _context.Sells
+            var sells = await _context.Sells
                 .Include(s => s.Users)
                 .Include(s => s.Pronat)
-                .FirstOrDefaultAsync(s => s.UserID == id);
+                .Where(s => s.UserID == id)
+                .ToListAsync();
 
-            if (sale == null)
+            if (sells == null || !sells.Any())
             {
-                return NotFound("Sale not found.");
+                return NotFound("No sells found for the given user.");
             }
 
-            return Ok(sale);
+            return Ok(sells);
         }
 
         [HttpPost]
