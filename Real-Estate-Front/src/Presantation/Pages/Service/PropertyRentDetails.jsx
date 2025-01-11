@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import cookieUtils from '../../../Application/Services/cookieUtils'; // Import cookieUtils
-import { PronaEndPoint, SellEndPoint } from '../../../Application/Services/endpoints';
+import { PronaEndPoint, RentEndPoint } from '../../../Application/Services/endpoints';
 import coverImg from '../../../../public/Image/property-1.png';
 
 import Header from '../../Components/Header/header';
@@ -10,14 +10,13 @@ import Footer from '../../Components/Footer/footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Import CSS për Toast
 
-function PropertyDetails() {
+function PropertyRentDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [saleDate, setSaleDate] = useState('');
-    const [salePrice, setSalePrice] = useState('');
-    const [commission, setCommission] = useState('');
+    const [bookingDate, setBookingDate] = useState('');
+    const [koheZgjatja, setKoheZgjatja] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [showForm, setShowForm] = useState(false);
 
@@ -26,8 +25,6 @@ function PropertyDetails() {
             try {
                 const response = await axios.get(`${PronaEndPoint}/GetPropertyDetails`, { params: { id } });
                 setProperty(response.data);
-                // Set the sale price to be the same as the property price once it's fetched
-                setSalePrice(response.data.price); // Automatically setting the sale price
             } catch (error) {
                 console.error('Error fetching property details:', error);
                 alert('There was an error fetching property details. Please try again later.');
@@ -39,34 +36,31 @@ function PropertyDetails() {
         fetchPropertyDetails();
     }, [id]);
 
-    const handleBuyProperty = async () => {
-        const token = cookieUtils.getTokenFromCookies();
+    const handleRentProperty = async () => {
+        const token = cookieUtils.getTokenFromCookies(); // Fetch token from cookies or localStorage
         const userId = cookieUtils.getUserIdFromCookies();
-        const saleData = {
+        const rentData = {
             userId: userId,
             pronaId: id,
-            saleDate: saleDate,
-            salePrice: salePrice,
-            commission: commission,
+            koheZgjatja: koheZgjatja,
+            bookingDate: bookingDate,
             paymentMethod: paymentMethod
         };
-
-        const url = `https://localhost:7140/api/Sells?userId=${saleData.userId}&pronaId=${saleData.pronaId}&saleDate=${saleData.saleDate}&salePrice=${saleData.salePrice}&commission=${saleData.commission}&paymentMethod=${saleData.paymentMethod}`;
-
+        const url = `${RentEndPoint}?userId=${rentData.userId}&pronaId=${rentData.pronaId}&rentDuration=${rentData.koheZgjatja}&rentDate=${rentData.bookingDate}&paymentMethod=${rentData.paymentMethod}`;
         try {
             const response = await axios.post(url, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`, // Add Authorization header
                 },
             });
-            console.log('Sale created successfully:', response.data);
-            toast.success('Property purchase successful!');  // Toast success message
+            console.log('Rental created successfully:', response.data);
+            toast.success('Property rental successful!');
             setTimeout(() => {
                 navigate('/app/property');
-            }, 1000); // Adding a 1-second delay to ensure the toast is visible
+            }, 1000);
         } catch (error) {
-            console.error('Error creating sale:', error.response?.data || error.message);
-            toast.error('Error purchasing property. Please try again later.');  // Toast error message
+            console.error('Error creating rental:', error.response?.data || error.message);
+            toast.error('Error renting property. Please try again later.');
         }
     };
 
@@ -126,29 +120,22 @@ function PropertyDetails() {
                                 }}
                                 onClick={() => setShowForm(true)}
                             >
-                                Buy Property
+                                Rent Property
                             </button>
 
                             {showForm && (
                                 <div style={{ marginTop: '2em' }}>
                                     <input
                                         type="date"
-                                        value={saleDate}
-                                        onChange={(e) => setSaleDate(e.target.value)}
+                                        value={bookingDate}
+                                        onChange={(e) => setBookingDate(e.target.value)}
                                         style={{ marginBottom: '1em', padding: '0.5em', width: '100%' }}
                                     />
                                     <input
                                         type="number"
-                                        value={salePrice}
-                                        onChange={(e) => setSalePrice(e.target.value)}  // You can still update the sale price manually if needed
-                                        placeholder="Sale Price"
-                                        style={{ marginBottom: '1em', padding: '0.5em', width: '100%' }}
-                                    />
-                                    <input
-                                        type="number"
-                                        value={commission}
-                                        onChange={(e) => setCommission(e.target.value)}
-                                        placeholder="Commission"
+                                        value={koheZgjatja}
+                                        onChange={(e) => setKoheZgjatja(e.target.value)}
+                                        placeholder="Duration (in months)"
                                         style={{ marginBottom: '1em', padding: '0.5em', width: '100%' }}
                                     />
                                     <select
@@ -160,7 +147,7 @@ function PropertyDetails() {
                                         <option value="cash">Cash</option>
                                     </select>
                                     <button
-                                        onClick={handleBuyProperty}
+                                        onClick={handleRentProperty}
                                         style={{
                                             padding: '0.8em 2em',
                                             fontSize: '1.1em',
@@ -171,7 +158,7 @@ function PropertyDetails() {
                                             cursor: 'pointer',
                                         }}
                                     >
-                                        Confirm Purchase
+                                        Confirm Rental
                                     </button>
                                 </div>
                             )}
@@ -184,4 +171,4 @@ function PropertyDetails() {
     );
 }
 
-export default PropertyDetails;
+export default PropertyRentDetails;
