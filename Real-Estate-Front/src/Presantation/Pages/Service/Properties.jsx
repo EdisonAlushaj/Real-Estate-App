@@ -80,9 +80,13 @@ function Properties() {
 
     // Funksioni për blerjen e pronës
     const handleBuyProperty = (propertyId) => {
-        navigate(`/app/property/${propertyId}`);
+        navigate(`/app/property1/${propertyId}`);
     };
-    
+    const handleRentProperty = (propertyId) => {
+
+        navigate(`/app/property2/${propertyId}`);
+    };
+
     return (
         <>
             {/* Cover Section */}
