@@ -10,6 +10,7 @@ import LoginLayout from '../Pages/Login/LoginLayout.jsx'
 import Register from '../Pages/Login/register.jsx'
 import Dashboard from '../Pages/Dashboard/dashboard.jsx'
 import PropertyDetails from "../Pages/Service/PropertyDetails.jsx";
+import PropertyRentDetails from "../Pages/Service/PropertyRentDetails.jsx";
 import PrivateRoute from '../../Application/Services/PrivateRoute';
 
 const AppRoutes = () => (
@@ -20,7 +21,8 @@ const AppRoutes = () => (
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="property" element={<Property />} />
-            <Route path="property/:id" element={<PropertyDetails />} />
+            <Route path="property1/:id" element={<PropertyDetails />} />
+            <Route path="property2/:id" element={<PropertyRentDetails />} />
         </Route>
         <Route path="/login" element={<LoginLayout />}>
             <Route index element={<Login />} />
