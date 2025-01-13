@@ -50,18 +50,29 @@ namespace WebUI.Controllers
         }
 
         [HttpPost, Authorize(Policy = "UserPolicy")]
+<<<<<<< Updated upstream
         public async Task<IActionResult> CreateSell([FromQuery] string userId,[FromQuery] int pronaId,[FromQuery] DateTime saleDate,
              [FromQuery] double salePrice,[FromQuery] double commission,[FromQuery] string paymentMethod)
         {
             try
             {
                 // Validate query parameters
+=======
+        public async Task<IActionResult> CreateSell([FromQuery] string userId, [FromQuery] int pronaId, [FromQuery] DateTime saleDate,
+             [FromQuery] double salePrice, [FromQuery] double commission, [FromQuery] string paymentMethod)
+        {
+            try
+            {
+>>>>>>> Stashed changes
                 if (string.IsNullOrEmpty(userId) || pronaId <= 0)
                 {
                     return BadRequest("Invalid userId or pronaId.");
                 }
 
+<<<<<<< Updated upstream
                 // Construct the Sell object from query parameters
+=======
+>>>>>>> Stashed changes
                 var sale = new Sell
                 {
                     SaleDate = saleDate,
@@ -72,9 +83,14 @@ namespace WebUI.Controllers
                     PronaID = pronaId  // Ensure PronaID is set
                 };
 
+<<<<<<< Updated upstream
                 // Manually set the related entities (Users and Pronat) if necessary
                 var user = await _context.Users.FindAsync(userId);  // Get the user by userId
                 var property = await _context.Pronas.FindAsync(pronaId);  // Get the property by pronaId
+=======
+                var user = await _context.Users.FindAsync(userId);
+                var property = await _context.Pronas.FindAsync(pronaId);
+>>>>>>> Stashed changes
 
                 if (user == null || property == null)
                 {
@@ -112,7 +128,10 @@ namespace WebUI.Controllers
 
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         [HttpPut("{id}"), Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> UpdateSale(int id, [FromBody] Sell sale)
         {
