@@ -15,7 +15,6 @@ namespace Domain.Configurations
         {
             builder.HasKey(c => c.RentId);
             builder.Property(e => e.BookingDate).IsRequired().HasDefaultValueSql("GETDATE()");
-            builder.Property(e => e.Status).IsRequired();
             builder.Property(e => e.PaymentMethod).IsRequired().HasMaxLength(100);
 
             builder.HasOne(m => m.Users)
