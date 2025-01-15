@@ -18,7 +18,11 @@ namespace WebUI.Controllers
             _pronaFeature = pronaFeature;
         }
 
+<<<<<<< Updated upstream
         [HttpGet("GetByCategory")]
+=======
+        [HttpGet("GetByCategory") , Authorize(Policy = "UserPolicy")]
+>>>>>>> Stashed changes
         public async Task<IActionResult> GetByCategory(string category)
         {
             try
@@ -39,7 +43,11 @@ namespace WebUI.Controllers
             return Ok(allProperties);
         }
 
+<<<<<<< Updated upstream
         [HttpGet("GetFilteredProperties")]
+=======
+        [HttpGet("GetFilteredProperties") , Authorize(Policy = "UserPolicy")]
+>>>>>>> Stashed changes
         public async Task<IActionResult> GetFilteredProperties(
             string? location,
             string? category,
@@ -57,7 +65,11 @@ namespace WebUI.Controllers
             }
         }
 
+<<<<<<< Updated upstream
         [HttpGet("GetPropertyDetails")]
+=======
+        [HttpGet("GetPropertyDetails") , Authorize(Policy = "UserPolicy")]
+>>>>>>> Stashed changes
         public async Task<IActionResult> GetPropertyDetails([FromQuery] int id)
         {
             try

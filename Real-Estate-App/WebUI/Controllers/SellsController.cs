@@ -51,7 +51,7 @@ namespace WebUI.Controllers
 
         [HttpPost, Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> CreateSell([FromQuery] string userId,[FromQuery] int pronaId,[FromQuery] DateTime saleDate,
-             [FromQuery] double salePrice,[FromQuery] double commission,[FromQuery] string paymentMethod)
+             [FromQuery] double salePrice,[FromQuery] string paymentMethod)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace WebUI.Controllers
                 {
                     SaleDate = saleDate,
                     SalePrice = salePrice,
-                    Commision = commission,
+                    Commision = 0.10 * salePrice,
                     PaymentMethod = paymentMethod,
                     UserID = userId,  // Ensure UserID is set
                     PronaID = pronaId  // Ensure PronaID is set
