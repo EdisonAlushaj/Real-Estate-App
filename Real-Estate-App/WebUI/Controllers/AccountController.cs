@@ -69,7 +69,6 @@ namespace WebUI.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                // Check for duplicate username or email
                 var existingUser = await _userManager.FindByNameAsync(model.Username);
                 if (existingUser != null)
                     return BadRequest(new { message = "Username is already taken." });
