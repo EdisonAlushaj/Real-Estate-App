@@ -6,26 +6,25 @@ import coverImg from '../../../../public/Image/property-1.png';
 import './Service.css';
 import { useNavigate } from 'react-router-dom';
 
-
 function Properties() {
-    const [allProperties, setAllProperties] = useState([]); // Të gjitha pronat
-    const [filteredProperties, setFilteredProperties] = useState([]); // Pronat e filtruar
+    const [allProperties, setAllProperties] = useState([]);
+    const [filteredProperties, setFilteredProperties] = useState([]); 
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
     const [budget, setBudget] = useState('');
     const [propertyType, setPropertyType] = useState('');
     const [loading, setLoading] = useState(false);
-    const [hasSearched, setHasSearched] = useState(false); // Tregon nëse është bërë kërkim
+    const [hasSearched, setHasSearched] = useState(false); 
 
     const navigate = useNavigate();
-    // Ngarko të gjitha pronat kur komponenti ngarkohet
+    
     useEffect(() => {
         const fetchAllProperties = async () => {
             setLoading(true);
             try {
                 const response = await axios.get(`${PronaEndPoint}/GetAll`);
                 setAllProperties(response.data);
-                setFilteredProperties(response.data); // Fillimisht, të gjitha pronat janë të shfaqura
+                setFilteredProperties(response.data);
             } catch (error) {
                 console.error('Error fetching properties:', error);
             } finally {
@@ -36,12 +35,10 @@ function Properties() {
         fetchAllProperties();
     }, []);
 
-    // Funksioni për të bërë filtrimin e pronave
     const handleSearch = async () => {
         setLoading(true);
-        setHasSearched(true); // Kërkimi është bërë
+        setHasSearched(true);
 
-        // If no filters are provided, return all properties
         if (!location && !category && !budget && !propertyType) {
             setFilteredProperties(allProperties);
             setLoading(false);
@@ -49,17 +46,15 @@ function Properties() {
         }
 
         try {
-            // Sending filtered parameters to the backend
             const response = await axios.get(`${PronaEndPoint}/GetFilteredProperties`, {
                 params: {
                     location,
                     category,
-                    maxPrice: budget || undefined, // Optional parameter
+                    maxPrice: budget || undefined,
                     propertyType,
                 },
             });
 
-            // Update the filtered properties state with the response data
             setFilteredProperties(response.data);
         } catch (error) {
             console.error('Error filtering properties:', error);
@@ -68,17 +63,15 @@ function Properties() {
         }
     };
 
-    // Funksioni për të kthyer të gjitha pronat
     const handleShowAllProperties = () => {
-        setFilteredProperties(allProperties); // Kthehu te të gjitha pronat
-        setHasSearched(false); // Reset the search state
+        setFilteredProperties(allProperties);
+        setHasSearched(false);
         setLocation('');
         setCategory('');
         setBudget('');
         setPropertyType('');
     };
 
-    // Funksioni për blerjen e pronës
     const handleBuyProperty = (propertyId) => {
         navigate(`/app/property1/${propertyId}`);
     };
@@ -89,7 +82,6 @@ function Properties() {
 
     return (
         <>
-            {/* Cover Section */}
             <div className="d-flex flex-column align-items-center justify-content-center" style={{ zIndex: '1', position: 'relative' }}>
                 <div className="position-relative" style={{ width: '100%', height: '40em' }}>
                     <div className="triangle-overlay-1"></div>
@@ -118,7 +110,6 @@ function Properties() {
                 </div>
             </div>
 
-            {/* Search Bar */}
             <div className="search-bar d-flex justify-content-center" style={{ padding: '2em', backgroundColor: '#fff' }}>
                 <div
                     className="search-form d-flex align-items-center gap-3"
@@ -172,7 +163,7 @@ function Properties() {
                         }}
                     >
                         <option value="" disabled>Property Type</option>
-                        <option value="sale">Sale</option>
+                        <option value="sell">Sale</option>
                         <option value="rent">Rent</option>
                     </select>
                     <input
@@ -204,7 +195,6 @@ function Properties() {
                 </div>
             </div>
 
-            {/* Show All Properties Button (only after search) */}
             {hasSearched && (
                 <div className="d-flex justify-content-center" style={{ marginTop: '1em' }}>
                     <button
@@ -223,23 +213,24 @@ function Properties() {
                 </div>
             )}
 
-            {/* Properties List (CSS Grid Layout with Left and Right Padding) */}
             <div className="properties-list" style={{ padding: '3em 5%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2em', justifyItems: 'center' }}>
                 {loading ? (
                     <p>Loading properties...</p>
                 ) : filteredProperties.length > 0 ? (
                     filteredProperties.map((property) => (
-                        <div key={property.pronaID} style={{ backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '8px', padding: '1em' }}>
-                            <img
-                                src={property.imageUrl || coverImg}
-                                alt={property.emri}
-                                style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '8px' }}
-                            />
-                            <h3>{property.emri}</h3>
-                            <p>{property.adresa}</p>
-                            <p>{`Price: $${property.price}`}</p>
-                            <button onClick={() => handleBuyProperty(property.pronaID)}>Buy Now</button>
-                        </div>
+                        property.status === "Available" && (
+                            <div key={property.pronaID} style={{ backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '8px', padding: '1em' }}>
+                                <img
+                                    src={property.photo || coverImg}
+                                    alt={property.emri}
+                                    style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '8px' }}
+                                />
+                                <h3>{property.emri}</h3>
+                                <p>{property.adresa}</p>
+                                <p>{`Price: $${property.price}`}</p>
+                                <button onClick={() => handleBuyProperty(property.pronaID)}>Buy Now</button>
+                            </div>
+                        )
                     ))
                 ) : (
                     <p>No properties found. Try different filters.</p>
@@ -248,6 +239,5 @@ function Properties() {
         </>
     );
 }
-
 
 export default Properties;
