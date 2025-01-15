@@ -1,4 +1,3 @@
-// Properties.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { PronaEndPoint } from '../../../Application/Services/endpoints';

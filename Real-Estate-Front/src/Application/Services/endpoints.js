@@ -20,3 +20,5 @@ export const UsersEndPoint = 'https://localhost:7140/api/Account';
 export const SellsEndPoint = 'https://localhost:7140/api/Sells';
 
 export const RentEndPoint = 'https://localhost:7140/api/Rents';
+
+export const ContactRequestEndPoint = 'https://localhost:7140/api/ContactRequest';
