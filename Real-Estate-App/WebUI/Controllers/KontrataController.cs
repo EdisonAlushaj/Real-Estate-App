@@ -146,7 +146,6 @@ namespace WebUI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting data.");
             }
         }
-
         private bool KontrataExists(int id)
         {
             try

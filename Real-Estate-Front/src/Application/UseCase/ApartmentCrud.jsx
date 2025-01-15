@@ -25,6 +25,7 @@ const ApartmentsCrud = () => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
+    const [type, setType] = useState('');
     const [photo, setPhoto] = useState('');
     const [floor, setFloor] = useState('');
     const [nrDhomave, setNrDhomave] = useState('');
@@ -36,6 +37,7 @@ const ApartmentsCrud = () => {
     const [editPrice, setEditPrice] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editStatus, setEditStatus] = useState('');
+    const [editType, setEditType] = useState('');
     const [editPhoto, setEditPhoto] = useState('');
     const [editFloor, setEditFloor] = useState('');
     const [editNrDhomave, setEditNrDhomave] = useState('');
@@ -74,6 +76,7 @@ const ApartmentsCrud = () => {
         setEditPrice(apartment.price);
         setEditDescription(apartment.description);
         setEditStatus(apartment.status);
+        setEditType(apartment.type);
         setEditPhoto(apartment.photo);
         setEditFloor(apartment.floor);
         setEditNrDhomave(apartment.nrDhomave);
@@ -84,6 +87,18 @@ const ApartmentsCrud = () => {
     async function update(event) {
         event.preventDefault();
         try {
+            let photoBase64 = editPhoto;
+
+            // Convert file to base64 if it's a File object
+            if (editPhoto instanceof File) {
+                const reader = new FileReader();
+                reader.readAsDataURL(editPhoto);
+                photoBase64 = await new Promise((resolve, reject) => {
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                });
+            }
+
             await axios.put(`${ApartmentEndPoint}/${editId}`, {
                 pronaID: editId,
                 emri: editEmri,
@@ -91,58 +106,44 @@ const ApartmentsCrud = () => {
                 price: editPrice,
                 description: editDescription,
                 status: editStatus,
-                photo: editPhoto,
+                type: editType,
+                photo: photoBase64, // Send base64 string
                 floor: editFloor,
                 nrDhomave: editNrDhomave,
                 kaAnshensor: editKaAnshensor,
             }, {
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${getToken()}`,
                 },
             });
+
             toast.success('Apartment updated successfully');
             handleClose();
             getData();
             clear();
         } catch (error) {
             console.error("Error updating apartment:", error);
+            toast.error('Error updating apartment');
         }
     }
-    
-    const handelDelete = (id) => {
-        if (window.confirm("Are you sure to delete this Apartment?")) {
-            axios.delete(`${ApartmentEndPoint}/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${getToken()}`,
-                },
-            })
-                .then((result) => {
-                    if (result.status === 200) {
-                        toast.success('Apartment has been deleted');
-                        getData();
-                    }
-                })
-                .catch((error) => {
-                    toast.error(error.message);
-                });
-        }
-    };
 
     const handleSave = () => {
-        const data = {
-            emri,
-            adresa,
-            price,
-            description,
-            status,
-            photo,
-            floor,
-            nrDhomave,
-            kaAnshensor,
-        };
+        const formData = new FormData();
+        formData.append('emri', emri);
+        formData.append('adresa', adresa);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('status', status);
+        formData.append('type', type);
+        formData.append('photo', photo);
+        formData.append('floor', floor);
+        formData.append('nrDhomave', nrDhomave);
+        formData.append('kaAnshensor', kaAnshensor);
 
-        axios.post(ApartmentEndPoint, data, {
+        axios.post(ApartmentEndPoint, formData, {
             headers: {
+                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${getToken()}`,
             },
         })
@@ -163,6 +164,7 @@ const ApartmentsCrud = () => {
         setPrice('');
         setDescription('');
         setStatus('');
+        setType('');
         setPhoto('');
         setFloor('');
         setNrDhomave('');
@@ -173,6 +175,7 @@ const ApartmentsCrud = () => {
         setEditPrice('');
         setEditDescription('');
         setEditStatus('');
+        setEditType('');
         setEditPhoto('');
         setEditFloor('');
         setEditNrDhomave('');
@@ -195,6 +198,7 @@ const ApartmentsCrud = () => {
                         <th>ID</th>
                         <th>Name</th>
                         <th>Address</th>
+                        <th>Type</th>
                         <th>Price</th>
                         <th>Floor</th>
                         <th>Rooms</th>
@@ -208,13 +212,13 @@ const ApartmentsCrud = () => {
                             <td>{apartment.pronaID}</td>
                             <td>{apartment.emri}</td>
                             <td>{apartment.adresa}</td>
+                            <td>{apartment.type}</td>
                             <td>{apartment.price}</td>
                             <td>{apartment.floor}</td>
                             <td>{apartment.nrDhomave}</td>
                             <td>{apartment.kaAnshensor ? "Yes" : "No"}</td>
                             <td>
                                 <Button variant="warning" onClick={() => editFitnesEquipment(apartment)}>Edit</Button>{' '}
-                                <Button variant="danger" onClick={() => handelDelete(apartment.pronaID)}>Delete</Button>
                             </td>
                         </tr>
                     ))}
@@ -240,6 +244,18 @@ const ApartmentsCrud = () => {
                             <input type="number" placeholder="Price" className="form-control" value={price} onChange={(e) => setPrice(e.target.value)} />
                         </Col>
                         <Col>
+                            <input type="text" placeholder="Description" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
+                                <option value="" disabled>Select Type</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Sell">Sell</option>
+                            </select>
+                        </Col>
+                        <Col>
                             <input type="number" placeholder="Floor" className="form-control" value={floor} onChange={(e) => setFloor(e.target.value)} />
                         </Col>
                     </Row>
@@ -250,6 +266,11 @@ const ApartmentsCrud = () => {
                         <Col>
                             <input type="checkbox" checked={kaAnshensor} onChange={(e) => setKaAnshensor(e.target.checked)} />
                             Has Elevator
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="file" className="form-control" onChange={(e) => setPhoto(e.target.files[0])} />
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -278,6 +299,18 @@ const ApartmentsCrud = () => {
                             <input type="number" placeholder="Price" className="form-control" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} />
                         </Col>
                         <Col>
+                            <input type="text" placeholder="Description" className="form-control" value={editDescription} onChange={(e) => setEditDescription(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <select className="form-control" value={editType} onChange={(e) => setEditType(e.target.value)}>
+                                <option value="" disabled>Select Type</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Sell">Sell</option>
+                            </select>
+                        </Col>
+                        <Col>
                             <input type="number" placeholder="Floor" className="form-control" value={editFloor} onChange={(e) => setEditFloor(e.target.value)} />
                         </Col>
                     </Row>
@@ -288,6 +321,11 @@ const ApartmentsCrud = () => {
                         <Col>
                             <input type="checkbox" checked={editKaAnshensor} onChange={(e) => setEditKaAnshensor(e.target.checked)} />
                             Has Elevator
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="file" className="form-control" onChange={(e) => setEditPhoto(e.target.files[0])} />
                         </Col>
                     </Row>
                 </Modal.Body>

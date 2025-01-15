@@ -25,6 +25,8 @@ const ShtepiaCrud = () => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
+    const [type, setType] = useState('');
+    const [photo, setPhoto] = useState('');
     const [size, setSize] = useState('');
     const [nrFloors, setNrFloors] = useState('');
     const [kaGarazhd, setKaGarazhd] = useState(false);
@@ -36,6 +38,8 @@ const ShtepiaCrud = () => {
     const [editPrice, setEditPrice] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editStatus, setEditStatus] = useState('');
+    const [editType, setEditType] = useState('');
+    const [editPhoto, setEditPhoto] = useState('');
     const [editSize, setEditSize] = useState('');
     const [editNrFloors, setEditNrFloors] = useState('');
     const [editKaGarazhd, setEditKaGarazhd] = useState(false);
@@ -73,6 +77,8 @@ const ShtepiaCrud = () => {
         setEditPrice(toka.price);
         setEditDescription(toka.description);
         setEditStatus(toka.status);
+        setEditType(toka.type);
+        setEditPhoto(toka.photo);
         setEditSize(toka.size);
         setEditNrFloors(toka.nrFloors);
         setEditKaGarazhd(toka.kaGarazhd);
@@ -83,6 +89,18 @@ const ShtepiaCrud = () => {
     async function update(event) {
         event.preventDefault();
         try {
+            let photoBase64 = editPhoto;
+
+            // Convert file to base64 if it's a File object
+            if (editPhoto instanceof File) {
+                const reader = new FileReader();
+                reader.readAsDataURL(editPhoto);
+                photoBase64 = await new Promise((resolve, reject) => {
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                });
+            }
+
             await axios.put(`${ShtepiaEndPoint}/${editId}`, {
                 pronaID: editId,
                 emri: editEmri,
@@ -90,21 +108,26 @@ const ShtepiaCrud = () => {
                 price: editPrice,
                 description: editDescription,
                 status: editStatus,
+                type: editType,
+                photo: photoBase64, // Send base64 string
                 size: editSize,
                 nrFloors: editNrFloors,
                 kaGarazhd: editKaGarazhd,
                 kaPool: editKaPool
             }, {
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${getToken()}`,
                 },
             });
+
             toast.success('House updated successfully');
             handleClose();
             getData();
             clear();
         } catch (error) {
-            console.error("Error updating land:", error);
+            console.error("Error updating house:", error);
+            toast.error('Error updating house');
         }
     }
 
@@ -128,27 +151,29 @@ const ShtepiaCrud = () => {
     };
 
     const handleSave = () => {
-        const data = {
-            emri,
-            adresa,
-            price,
-            description,
-            status,
-            size,
-            nrFloors,
-            kaGarazhd,
-            kaPool
-        };
+        const formData = new FormData();
+        formData.append('emri', emri);
+        formData.append('adresa', adresa);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('status', status);
+        formData.append('type', type);
+        formData.append('photo', photo);
+        formData.append('size', size);
+        formData.append('nrFloors', nrFloors);
+        formData.append('kaGarazhd', kaGarazhd);
+        formData.append('kaPool', kaPool);
 
-        axios.post(ShtepiaEndPoint, data, {
+        axios.post(ShtepiaEndPoint, formData, {
             headers: {
+                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${getToken()}`,
             },
         })
             .then(() => {
                 getData();
                 clear();
-                toast.success('House has been added.');
+                toast.success('Shtepia has been added.');
                 handleCloseAdd();
             })
             .catch((error) => {
@@ -162,6 +187,8 @@ const ShtepiaCrud = () => {
         setPrice();
         setDescription('');
         setStatus('');
+        setType('');
+        setPhoto('');
         setSize();
         setNrFloors();
         setKaGarazhd(false);
@@ -172,6 +199,8 @@ const ShtepiaCrud = () => {
         setEditPrice();
         setEditDescription('');
         setEditStatus('');
+        setEditType('');
+        setEditPhoto('');
         setEditSize();
         setEditNrFloors();
         setEditKaGarazhd(false);
@@ -197,6 +226,7 @@ const ShtepiaCrud = () => {
                         <th>Price</th>
                         <th>Description</th>
                         <th>Status</th>
+                        <th>Type</th>
                         <th>Size</th>
                         <th>Nr Floors</th>
                         <th>Garage</th>
@@ -212,20 +242,19 @@ const ShtepiaCrud = () => {
                             <td>{house.price}</td>
                             <td>{house.description}</td>
                             <td>{house.status}</td>
+                            <td>{house.type}</td>
                             <td>{house.size}</td>
                             <td>{house.nrFloors}</td>
                             <td>{house.kaGarazhd ? "Yes" : "No"}</td>
                             <td>{house.kaPool ? "Yes" : "No"}</td>
                             <td>
                                 <Button variant="warning" onClick={() => editHouse(house)}>Edit</Button>{' '}
-                                <Button variant="danger" onClick={() => handelDelete(house.pronaID)}>Delete</Button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </Table>
 
-            {/* Add Land Modal */}
             <Modal show={showAdd} onHide={handleCloseAdd}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add House</Modal.Title>
@@ -249,23 +278,34 @@ const ShtepiaCrud = () => {
                     </Row>
                     <Row>
                         <Col>
+                            <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
+                                <option value="" disabled>Select Type</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Sell">Sell</option>
+                            </select>
+                        </Col>
+                        <Col>
                             <input type="number" placeholder="Size" className="form-control" value={size} onChange={(e) => setSize(e.target.value)} />
-                        </Col>
-                        <Col>
-                            <input type="number" placeholder="Nr Floors" className="form-control" value={nrFloors} onChange={(e) => setNrFloors(e.target.value)} />
-                        </Col>
-                        <Col>
-                            <input type="text" placeholder="Status" className="form-control" value={status} onChange={(e) => setStatus(e.target.value)} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
+                            <input type="number" placeholder="Floors" className="form-control" value={nrFloors} onChange={(e) => setNrFloors(e.target.value)} />
+                        </Col>
+                        <Col>
                             <input type="checkbox" checked={kaGarazhd} onChange={(e) => setKaGarazhd(e.target.checked)} />
                             Has Garage
                         </Col>
+                    </Row>
+                    <Row>
                         <Col>
                             <input type="checkbox" checked={kaPool} onChange={(e) => setKaPool(e.target.checked)} />
                             Has Pool
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="file" className="form-control" onChange={(e) => setPhoto(e.target.files[0])} />
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -299,23 +339,34 @@ const ShtepiaCrud = () => {
                     </Row>
                     <Row>
                         <Col>
+                            <select className="form-control" value={editType} onChange={(e) => setEditType(e.target.value)}>
+                                <option value="" disabled>Select Type</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Sell">Sell</option>
+                            </select>
+                        </Col>
+                        <Col>
                             <input type="number" placeholder="Size" className="form-control" value={editSize} onChange={(e) => setEditSize(e.target.value)} />
-                        </Col>
-                        <Col>
-                            <input type="number" placeholder="Nr Floors" className="form-control" value={editNrFloors} onChange={(e) => setEditNrFloors(e.target.value)} />
-                        </Col>
-                        <Col>
-                            <input type="text" placeholder="Status" className="form-control" value={editStatus} onChange={(e) => setEditStatus(e.target.value)} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
+                            <input type="number" placeholder="Nr Floors" className="form-control" value={editNrFloors} onChange={(e) => setEditNrFloors(e.target.value)} />
+                        </Col>
+                        <Col>
                             <input type="checkbox" checked={editKaGarazhd} onChange={(e) => setEditKaGarazhd(e.target.checked)} />
                             Has Garage
                         </Col>
+                    </Row>
+                    <Row>
                         <Col>
                             <input type="checkbox" checked={editKaPool} onChange={(e) => setEditKaPool(e.target.checked)} />
                             Has Pool
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="file" className="form-control" onChange={(e) => setEditPhoto(e.target.files[0])} />
                         </Col>
                     </Row>
                 </Modal.Body>

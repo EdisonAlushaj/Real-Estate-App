@@ -10,7 +10,6 @@ namespace Domain.Entities
     {
         public int RentId { get; set; } 
         public DateTime BookingDate { get; set; }
-        public string Status { get; set; }
         public string PaymentMethod { get; set; }
 
         public string UserID { get; set; }

@@ -86,7 +86,7 @@ function UserSummary() {
                     saleData.map((sells) => (
                         <div key={sells.sellID} style={{ backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '8px', padding: '1em' }}>
                             <img
-                                src={sells.imageUrl || coverImg}
+                                src={sells.photo || coverImg}
                                 style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '8px' }}
                             />
                             <h3>{sells.pronat.emri}</h3>

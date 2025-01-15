@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 namespace WebUI.Controllers
+
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -49,20 +49,50 @@ namespace WebUI.Controllers
         }
 
         [HttpPost, Authorize(Policy = "UserPolicy")]
-        public async Task<IActionResult> CreateSale(string userId, int pronaId, double koheZgjatja, [FromBody] Rent rent)
+        public async Task<IActionResult> CreateSale([FromQuery] string userId, [FromQuery] int pronaId, [FromQuery] double koheZgjatja, [FromQuery] DateTime bookingDate, [FromQuery] string paymentMethod)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (string.IsNullOrEmpty(userId) || pronaId <= 0)
+                {
+                    return BadRequest("Invalid userId or pronaId.");
+                }
+
+                var rent = new Rent
+                {
+                    BookingDate = bookingDate,
+                    PaymentMethod = paymentMethod,
+                    UserID = userId,
+                    PronaID = pronaId
+                };
+
+                var user = await _context.Users.FindAsync(userId);
+                var property = await _context.Pronas.FindAsync(pronaId);
+
+                if (user == null || property == null)
+                {
+                    return BadRequest("User or Property not found.");
+                }
+
+                rent.Users = user;
+                rent.Pronat = property;
+
+                if (!TryValidateModel(rent))
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var rentFeature = new RentFeature(_context);
+                var kontrataFeature = new KontrataFeature(_context);
+                var createdRent = await rentFeature.CreateRentAsync(userId, pronaId, rent);
+                var createdKontrata = await kontrataFeature.CreateKontrataRentAsync(userId, pronaId);
+
+                return CreatedAtAction(nameof(GetRentByUserId), new { id = createdRent.RentId }, createdRent);
             }
-
-            var rentFeature = new RentFeature(_context);
-            var kontrataFeature = new KontrataFeature(_context);
-
-            var createdRent = await rentFeature.CreateRentAsync(userId, pronaId, rent);
-            var createdKontrata = await kontrataFeature.CreateKontrataRentAsync(userId, pronaId);
-
-            return CreatedAtAction(nameof(GetRentByUserId), new { id = createdRent.RentId }, createdRent);
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id}"), Authorize(Policy = "UserPolicy")]
@@ -84,13 +114,13 @@ namespace WebUI.Controllers
             {
                 await _context.SaveChangesAsync();
             }
+
             catch (DbUpdateConcurrencyException)
             {
                 if (!RentExists(id))
                 {
                     return NotFound("Rent not found.");
                 }
-
                 throw;
             }
 
@@ -108,8 +138,8 @@ namespace WebUI.Controllers
             }
 
             _context.Set<Rent>().Remove(rent);
-            await _context.SaveChangesAsync();
 
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
