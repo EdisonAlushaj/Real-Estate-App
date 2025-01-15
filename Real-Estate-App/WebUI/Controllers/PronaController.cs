@@ -1,6 +1,7 @@
 ﻿using Application.Interface;
 using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace WebUI.Controllers
             _pronaFeature = pronaFeature;
         }
 
-        [HttpGet("GetByCategory")]
+        [HttpGet("GetByCategory") , Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> GetByCategory(string category)
         {
             try
@@ -39,7 +40,7 @@ namespace WebUI.Controllers
             return Ok(allProperties);
         }
 
-        [HttpGet("GetFilteredProperties")]
+        [HttpGet("GetFilteredProperties") , Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> GetFilteredProperties(
             string? location,
             string? category,
@@ -57,7 +58,7 @@ namespace WebUI.Controllers
             }
         }
 
-        [HttpGet("GetPropertyDetails")]
+        [HttpGet("GetPropertyDetails") , Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> GetPropertyDetails([FromQuery] int id)
         {
             try
