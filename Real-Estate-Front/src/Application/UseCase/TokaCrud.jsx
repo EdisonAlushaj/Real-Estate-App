@@ -25,6 +25,8 @@ const TokaCrud = () => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
+    const [type, setType] = useState('');
+    const [photo, setPhoto] = useState('');
     const [landType, setLandType] = useState('');
     const [zona, setZona] = useState('');
     const [topografiaTokes, setTopografiaTokes] = useState('');
@@ -36,13 +38,15 @@ const TokaCrud = () => {
     const [editPrice, setEditPrice] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editStatus, setEditStatus] = useState('');
+    const [editType, setEditType] = useState('');
+    const [editPhoto, setEditPhoto] = useState('');
     const [editLandType, setEditLandType] = useState('');
     const [editZona, setEditZona] = useState('');
     const [editTopografiaTokes, setEditTopografiaTokes] = useState('');
     const [editWaterSource, setEditWaterSource] = useState(false);
 
     const [data, setData] = useState([]);
-    
+
     const getToken = () => {
         return Cookies.getTokenFromCookies();
     }
@@ -74,6 +78,8 @@ const TokaCrud = () => {
         setEditPrice(toka.price);
         setEditDescription(toka.description);
         setEditStatus(toka.status);
+        setEditType(toka.type);
+        setEditPhoto(toka.photo);
         setEditLandType(toka.landType);
         setEditZona(toka.zona);
         setEditTopografiaTokes(toka.topografiaTokes);
@@ -84,6 +90,18 @@ const TokaCrud = () => {
     async function update(event) {
         event.preventDefault();
         try {
+            let photoBase64 = editPhoto;
+
+            // Convert file to base64 if it's a File object
+            if (editPhoto instanceof File) {
+                const reader = new FileReader();
+                reader.readAsDataURL(editPhoto);
+                photoBase64 = await new Promise((resolve, reject) => {
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                });
+            }
+
             await axios.put(`${TokaEndPoint}/${editId}`, {
                 pronaID: editId,
                 emri: editEmri,
@@ -91,21 +109,26 @@ const TokaCrud = () => {
                 price: editPrice,
                 description: editDescription,
                 status: editStatus,
+                type: editType,
+                photo: photoBase64, // Send base64 string
                 landType: editLandType,
                 zona: editZona,
                 topografiaTokes: editTopografiaTokes,
                 waterSource: editWaterSource
             }, {
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${getToken()}`,
                 },
             });
+
             toast.success('Toka updated successfully');
             handleClose();
             getData();
             clear();
         } catch (error) {
-            console.error("Error updating apartment:", error);
+            console.error("Error updating Toka:", error);
+            toast.error('Error updating Toka');
         }
     }
 
@@ -129,27 +152,29 @@ const TokaCrud = () => {
     };
 
     const handleSave = () => {
-        const data = {
-            emri,
-            adresa,
-            price,
-            description,
-            status,
-            landType,
-            zona,
-            topografiaTokes,
-            waterSource
-        };
+        const formData = new FormData();
+        formData.append('emri', emri);
+        formData.append('adresa', adresa);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('status', status);
+        formData.append('type', type);
+        formData.append('photo', photo);
+        formData.append('landType', landType);
+        formData.append('zona', zona);
+        formData.append('topografiaTokes', topografiaTokes);
+        formData.append('waterSource', waterSource);
 
-        axios.post(TokaEndPoint, data, {
+        axios.post(TokaEndPoint, formData, {
             headers: {
+                'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${getToken()}`,
             },
         })
             .then(() => {
                 getData();
                 clear();
-                toast.success('Apartment has been added.');
+                toast.success('Toka has been added.');
                 handleCloseAdd();
             })
             .catch((error) => {
@@ -218,8 +243,7 @@ const TokaCrud = () => {
                             <td>{toka.topografiaTokes}</td>
                             <td>{toka.waterSource ? "Yes" : "No"}</td>
                             <td>
-                            <Button variant="warning" onClick={() => editToka(toka)}>Edit</Button>{' '}
-                            <Button variant="danger" onClick={() => handelDelete(toka.pronaID)}>Delete</Button>
+                                <Button variant="warning" onClick={() => editToka(toka)}>Edit</Button>{' '}
                             </td>
                         </tr>
                     ))}
@@ -250,19 +274,33 @@ const TokaCrud = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <input type="text" placeholder="Land Type" className="form-control" value={landType} onChange={(e) => setLandType(e.target.value)} />
+                            <select className="form-control" value={type} onChange={(e) => setType(e.target.value)}>
+                                <option value="" disabled>Select Type</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Sell">Sell</option>
+                            </select>
                         </Col>
                         <Col>
-                            <input type="text" placeholder="Zona" className="form-control" value={zona} onChange={(e) => setZona(e.target.value)} />
+                            <input type="text" placeholder="Land Type" className="form-control" value={landType} onChange={(e) => setLandType(e.target.value)} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <input type="text" placeholder="Topografia Tokes" className="form-control" value={topografiaTokes} onChange={(e) => setTopografiaTokes(e.target.value)} />
+                            <input type="text" placeholder="Zone" className="form-control" value={zona} onChange={(e) => setZona(e.target.value)} />
                         </Col>
                         <Col>
+                            <input type="text" placeholder="Topography" className="form-control" value={topografiaTokes} onChange={(e) => setTopografiaTokes(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
                             <input type="checkbox" checked={waterSource} onChange={(e) => setWaterSource(e.target.checked)} />
-                            Has WaterSource
+                            Has Water Source
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="file" className="form-control" onChange={(e) => setPhoto(e.target.files[0])} />
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -278,7 +316,7 @@ const TokaCrud = () => {
                     <Modal.Title>Edit Land</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <Row>
+                    <Row>
                         <Col>
                             <input type="text" placeholder="Name" className="form-control" value={editEmri} onChange={(e) => setEditEmri(e.target.value)} />
                         </Col>
@@ -296,19 +334,33 @@ const TokaCrud = () => {
                     </Row>
                     <Row>
                         <Col>
-                            <input type="text" placeholder="Land Type" className="form-control" value={editLandType} onChange={(e) => setEditLandType(e.target.value)} />
+                            <select className="form-control" value={editType} onChange={(e) => setEditType(e.target.value)}>
+                                <option value="" disabled>Select Type</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Sell">Sell</option>
+                            </select>
                         </Col>
                         <Col>
-                            <input type="text" placeholder="Zona" className="form-control" value={editZona} onChange={(e) => setEditZona(e.target.value)} />
+                            <input type="text" placeholder="Land Type" className="form-control" value={editLandType} onChange={(e) => setEditLandType(e.target.value)} />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
+                            <input type="text" placeholder="Zona" className="form-control" value={editZona} onChange={(e) => setEditZona(e.target.value)} />
+                        </Col>
+                        <Col>
                             <input type="text" placeholder="Topografia Tokes" className="form-control" value={editTopografiaTokes} onChange={(e) => setEditTopografiaTokes(e.target.value)} />
                         </Col>
+                    </Row>
+                    <Row>
                         <Col>
                             <input type="checkbox" checked={editWaterSource} onChange={(e) => setEditWaterSource(e.target.checked)} />
                             Has WaterSource
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <input type="file" className="form-control" onChange={(e) => setEditPhoto(e.target.files[0])} />
                         </Col>
                     </Row>
                 </Modal.Body>
