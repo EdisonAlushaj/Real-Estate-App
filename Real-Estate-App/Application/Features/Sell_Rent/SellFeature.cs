@@ -39,6 +39,8 @@ namespace Application.Features.Sell_Rent
             sell.Pronat = prona;
 
             prona.Status = "Unavailable";
+            var commissionRate = 0.10; 
+            sell.Commision = prona.Price * commissionRate;
 
             _context.Sells.Add(sell);
             await _context.SaveChangesAsync();

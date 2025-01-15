@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import cookieUtils from '../../../Application/Services/cookieUtils'; // Import cookieUtils
+import cookieUtils from '../../../Application/Services/cookieUtils';
 import { PronaEndPoint, SellEndPoint } from '../../../Application/Services/endpoints';
 import coverImg from '../../../../public/Image/property-1.png';
-
-import Header from '../../Components/Header/header';
+import Header from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/footer';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';  // Import CSS për Toast
+import 'react-toastify/dist/ReactToastify.css';  
 
 function PropertyDetails() {
     const { id } = useParams();
@@ -17,25 +16,28 @@ function PropertyDetails() {
     const [loading, setLoading] = useState(true);
     const [saleDate, setSaleDate] = useState('');
     const [salePrice, setSalePrice] = useState('');
-    const [commission, setCommission] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         const fetchPropertyDetails = async () => {
+            const token = cookieUtils.getTokenFromCookies(); // Fetch the JWT token from cookies
             try {
-                const response = await axios.get(`${PronaEndPoint}/GetPropertyDetails`, { params: { id } });
+                const response = await axios.get(`${PronaEndPoint}/GetPropertyDetails`, {
+                    params: { id },
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Add Authorization header
+                    },
+                });
                 setProperty(response.data);
-                // Set the sale price to be the same as the property price once it's fetched
-                setSalePrice(response.data.price); // Automatically setting the sale price
+                setSalePrice(response.data.price); // Automatically set the sale price
             } catch (error) {
                 console.error('Error fetching property details:', error);
-                alert('There was an error fetching property details. Please try again later.');
+                toast.error('Error fetching property details. Please try again later.');
             } finally {
                 setLoading(false);
             }
         };
-
         fetchPropertyDetails();
     }, [id]);
 
@@ -47,11 +49,10 @@ function PropertyDetails() {
             pronaId: id,
             saleDate: saleDate,
             salePrice: salePrice,
-            commission: commission,
             paymentMethod: paymentMethod
         };
 
-        const url = `https://localhost:7140/api/Sells?userId=${saleData.userId}&pronaId=${saleData.pronaId}&saleDate=${saleData.saleDate}&salePrice=${saleData.salePrice}&commission=${saleData.commission}&paymentMethod=${saleData.paymentMethod}`;
+        const url = `https://localhost:7140/api/Sells?userId=${saleData.userId}&pronaId=${saleData.pronaId}&saleDate=${saleData.saleDate}&salePrice=${saleData.salePrice}&paymentMethod=${saleData.paymentMethod}`;
 
         try {
             const response = await axios.post(url, {}, {
@@ -142,13 +143,6 @@ function PropertyDetails() {
                                         value={salePrice}
                                         onChange={(e) => setSalePrice(e.target.value)}  // You can still update the sale price manually if needed
                                         placeholder="Sale Price"
-                                        style={{ marginBottom: '1em', padding: '0.5em', width: '100%' }}
-                                    />
-                                    <input
-                                        type="number"
-                                        value={commission}
-                                        onChange={(e) => setCommission(e.target.value)}
-                                        placeholder="Commission"
                                         style={{ marginBottom: '1em', padding: '0.5em', width: '100%' }}
                                     />
                                     <select

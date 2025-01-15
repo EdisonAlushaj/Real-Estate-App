@@ -19,7 +19,8 @@ namespace WebUI.Controllers
             _pronaFeature = pronaFeature;
         }
 
-        [HttpGet("GetByCategory") , Authorize(Policy = "AdminPolicy")]
+        [HttpGet("GetByCategory") , Authorize(Policy = "UserPolicy")]
+
         public async Task<IActionResult> GetByCategory(string category)
         {
             try
@@ -40,7 +41,8 @@ namespace WebUI.Controllers
             return Ok(allProperties);
         }
 
-        [HttpGet("GetFilteredProperties") , Authorize(Policy = "AdminPolicy")]
+        [HttpGet("GetFilteredProperties") , Authorize(Policy = "UserPolicy")]
+
         public async Task<IActionResult> GetFilteredProperties(
             string? location,
             string? category,
@@ -58,7 +60,7 @@ namespace WebUI.Controllers
             }
         }
 
-        [HttpGet("GetPropertyDetails") , Authorize(Policy = "AdminPolicy")]
+        [HttpGet("GetPropertyDetails") , Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> GetPropertyDetails([FromQuery] int id)
         {
             try
