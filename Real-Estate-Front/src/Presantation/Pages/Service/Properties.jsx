@@ -7,16 +7,16 @@ import { useNavigate } from 'react-router-dom';
 
 function Properties() {
     const [allProperties, setAllProperties] = useState([]);
-    const [filteredProperties, setFilteredProperties] = useState([]); 
+    const [filteredProperties, setFilteredProperties] = useState([]);
     const [location, setLocation] = useState('');
     const [category, setCategory] = useState('');
     const [budget, setBudget] = useState('');
     const [propertyType, setPropertyType] = useState('');
     const [loading, setLoading] = useState(false);
-    const [hasSearched, setHasSearched] = useState(false); 
+    const [hasSearched, setHasSearched] = useState(false);
 
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         const fetchAllProperties = async () => {
             setLoading(true);
@@ -227,7 +227,12 @@ function Properties() {
                                 <h3>{property.emri}</h3>
                                 <p>{property.adresa}</p>
                                 <p>{`Price: $${property.price}`}</p>
-                                <button onClick={() => handleBuyProperty(property.pronaID)}>Buy Now</button>
+                                {property.type === 'Sell' && (
+                                    <button onClick={() => handleBuyProperty(property.pronaID)}>Buy Now</button>
+                                )}
+                                {property.type === 'Rent' && (
+                                    <button onClick={() => handleRentProperty(property.pronaID)}>Rent Now</button>
+                                )}
                             </div>
                         )
                     ))

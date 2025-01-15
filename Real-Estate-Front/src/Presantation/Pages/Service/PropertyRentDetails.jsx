@@ -4,8 +4,7 @@ import axios from 'axios';
 import cookieUtils from '../../../Application/Services/cookieUtils'; // Import cookieUtils
 import { PronaEndPoint, RentEndPoint } from '../../../Application/Services/endpoints';
 import coverImg from '../../../../public/Image/property-1.png';
-
-import Header from '../../Components/Header/header';
+import Header from '../../Components/Header/Header';
 import Footer from '../../Components/Footer/footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';  // Import CSS për Toast
@@ -22,22 +21,28 @@ function PropertyRentDetails() {
 
     useEffect(() => {
         const fetchPropertyDetails = async () => {
+            const token = cookieUtils.getTokenFromCookies(); // Fetch the JWT token from cookies
             try {
-                const response = await axios.get(`${PronaEndPoint}/GetPropertyDetails`, { params: { id } });
+                const response = await axios.get(`${PronaEndPoint}/GetPropertyDetails`, {
+                    params: { id },
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Add Authorization header
+                    },
+                });
                 setProperty(response.data);
+                setSalePrice(response.data.price); // Automatically set the sale price
             } catch (error) {
                 console.error('Error fetching property details:', error);
-                alert('There was an error fetching property details. Please try again later.');
+                toast.error('Error fetching property details. Please try again later.');
             } finally {
                 setLoading(false);
             }
         };
-
         fetchPropertyDetails();
     }, [id]);
 
     const handleRentProperty = async () => {
-        const token = cookieUtils.getTokenFromCookies(); // Fetch token from cookies or localStorage
+        const token = cookieUtils.getTokenFromCookies(); 
         const userId = cookieUtils.getUserIdFromCookies();
         const rentData = {
             userId: userId,
@@ -50,7 +55,7 @@ function PropertyRentDetails() {
         try {
             const response = await axios.post(url, {}, {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Add Authorization header
+                    Authorization: `Bearer ${token}`, 
                 },
             });
             console.log('Rental created successfully:', response.data);
@@ -166,7 +171,7 @@ function PropertyRentDetails() {
                     </div>
                 </div>
             </div>
-            <Footer />
+            
         </div>
     );
 }
