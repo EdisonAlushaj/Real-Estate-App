@@ -21,16 +21,16 @@ function PropertyDetails() {
 
     useEffect(() => {
         const fetchPropertyDetails = async () => {
-            const token = cookieUtils.getTokenFromCookies(); // Fetch the JWT token from cookies
+            const token = cookieUtils.getTokenFromCookies(); 
             try {
                 const response = await axios.get(`${PronaEndPoint}/GetPropertyDetails`, {
                     params: { id },
                     headers: {
-                        Authorization: `Bearer ${token}`, // Add Authorization header
+                        Authorization: `Bearer ${token}`, 
                     },
                 });
                 setProperty(response.data);
-                setSalePrice(response.data.price); // Automatically set the sale price
+                setSalePrice(response.data.price); 
             } catch (error) {
                 console.error('Error fetching property details:', error);
                 toast.error('Error fetching property details. Please try again later.');
@@ -57,17 +57,17 @@ function PropertyDetails() {
         try {
             const response = await axios.post(url, {}, {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Add Authorization header
+                    Authorization: `Bearer ${token}`,
                 },
             });
             console.log('Sale created successfully:', response.data);
-            toast.success('Property purchase successful!');  // Toast success message
+            toast.success('Property purchase successful!'); 
             setTimeout(() => {
                 navigate('/app/property');
-            }, 1000); // Adding a 1-second delay to ensure the toast is visible
+            }, 1000);
         } catch (error) {
             console.error('Error creating sale:', error.response?.data || error.message);
-            toast.error('Error purchasing property. Please try again later.');  // Toast error message
+            toast.error('Error purchasing property. Please try again later.');
         }
     };
 
@@ -139,9 +139,8 @@ function PropertyDetails() {
                                         style={{ marginBottom: '1em', padding: '0.5em', width: '100%' }}
                                     />
                                     <input
-                                        type="number"
+                                        type="text"
                                         value={salePrice}
-                                        onChange={(e) => setSalePrice(e.target.value)}  // You can still update the sale price manually if needed
                                         placeholder="Sale Price"
                                         style={{ marginBottom: '1em', padding: '0.5em', width: '100%' }}
                                     />
