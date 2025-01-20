@@ -77,7 +77,7 @@ function Contact() {
                             left: 0,
                             width: '100%',
                             height: '100%',
-                            backgroundColor: 'rgba(211, 236, 167, 0.3)', // #D3ECA7 with 40% opacity
+                            backgroundColor: 'rgba(71, 105, 76, 0.3)', // #D3ECA7 with 40% opacity
                             zIndex: 1
                         }}></div>
                     </div>
@@ -107,60 +107,71 @@ function Contact() {
                 </div>
             </div>
 
-            <Col md={4} className='rounded p-4 bg-light' style={{ fontFamily: 'Forum, sans-serif', border: '1px solid #b07256' }}>
-                    <h2 className='d-flex justify-content-center'><b>Write us a message</b></h2>
-                    {submitSuccess && <p className="text-success">Thank you! Your message has been submitted successfully.</p>}
-                    <Form className='d-flex justify-content-center align-items-center flex-column rounded p-4 ' noValidate validated={validated} onSubmit={handleSubmit} style={{ fontFamily: 'Forum, sans-serif', border: '1px solid #b07256' }}>
-                        <Form.Group controlId="formName" className='w-100'>
-                            <Form.Label><b>Name</b></Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="name"
-                                placeholder="Enter your name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Please provide a valid name.
-                            </Form.Control.Feedback>
-                        </Form.Group>
+            <Container fluid className="d-flex justify-content-center">
+    <Row className="w-100">
+        <Col className="rounded p-4 bg-light mx-auto" style={{ fontFamily: 'Forum, sans-serif', border: '1px solid #b07256', maxWidth: '100%' }}>
+            <h2 className="text-center"><b>Write us a message</b></h2>
+            {submitSuccess && <p className="text-success text-center">Thank you! Your message has been submitted successfully.</p>}
+            <Form 
+                className="d-flex flex-column rounded p-4 mx-auto" 
+                noValidate 
+                validated={validated} 
+                onSubmit={handleSubmit} 
+                style={{ fontFamily: 'Forum, sans-serif', border: '1px solid #b07256', maxWidth: '100%' }}
+            >
+                <Form.Group controlId="formName" className="w-100">
+                    <Form.Label><b>Name</b></Form.Label>
+                    <Form.Control
+                        type="text"
+                        name="name"
+                        placeholder="Enter your name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please provide a valid name.
+                    </Form.Control.Feedback>
+                </Form.Group>
 
-                        <Form.Group controlId="formEmail" className='w-100'>
-                            <Form.Label><b>Email address</b></Form.Label>
-                            <Form.Control
-                                type="email"
-                                name="email"
-                                placeholder="Enter your email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Please provide a valid email.
-                            </Form.Control.Feedback>
-                        </Form.Group>
+                <Form.Group controlId="formEmail" className="w-100">
+                    <Form.Label><b>Email address</b></Form.Label>
+                    <Form.Control
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please provide a valid email.
+                    </Form.Control.Feedback>
+                </Form.Group>
 
-                        <Form.Group controlId="formMessage" className='w-100'>
-                            <Form.Label><b>Message</b></Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={3}
-                                name="message"
-                                value={formData.message}
-                                onChange={handleChange}
-                                required
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Please provide a message.
-                            </Form.Control.Feedback>
-                        </Form.Group>
+                <Form.Group controlId="formMessage" className="w-100">
+                    <Form.Label><b>Message</b></Form.Label>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Please provide a message.
+                    </Form.Control.Feedback>
+                </Form.Group>
 
-                        <Button className="border-0 mt-2 w-50" style={{ backgroundColor: '#b07256' }} type="submit">
-                            Submit
-                        </Button>
-                    </Form>
-                </Col>
+                <Button className="border-0 mt-3 w-100" style={{ backgroundColor: '#b07256' }} type="submit">
+                    Submit
+                </Button>
+            </Form>
+        </Col>
+    </Row>
+</Container>
+
 
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d331.91460463472765!2d20.323176877850752!3d42.65667998983095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1352fd8d17918801%3A0x9ee38a6256f54ba0!2sDevolli%20Corporation!5e1!3m2!1sen!2s!4v1724185215596!5m2!1sen!2s"
                 width="100%"
