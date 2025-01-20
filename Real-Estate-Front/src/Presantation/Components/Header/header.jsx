@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import AppRoutes from "../../Components/AppRoutes";
 import { NavLink } from "react-router-dom";
-import Logo from '../../../../public/image/Logo-transparent.png'
+import Logo from '../../../../public/image/logo1.png'
 import './Header.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Cookies from '../../../Application/Services/cookieUtils.jsx';
