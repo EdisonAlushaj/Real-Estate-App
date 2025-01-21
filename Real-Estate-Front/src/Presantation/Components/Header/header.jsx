@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import AppRoutes from "../../Components/AppRoutes";
+import logoGrande from '../../../../public/image/grande-2.png';
 import { NavLink } from "react-router-dom";
 import Logo from '../../../../public/image/Logo-transparent.png'
 import './Header.css'
@@ -29,7 +30,7 @@ function Header() {
             <nav className="navbar navbar-expand-lg navbar-light d-flex justify-content-center" style={{ width: '100%', height: '100px', zIndex: '2', position: 'absolute' }}>
                 <div className="div1 container-fluid d-flex" style={{ width: '75%', justifyContent: 'space-evenly', alignItems: 'center' }}>
                     <NavLink className="navbar-brand" to="/app/home" style={{}}>
-                        <img src={Logo} alt="Logo" style={{ width: '3.5em', height: '3.5em' }} />
+                        <img src={logoGrande} alt="Logo" style={{ width: '3.5em', height: '3.5em' }} />
                     </NavLink>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
